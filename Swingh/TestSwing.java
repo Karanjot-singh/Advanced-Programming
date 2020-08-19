@@ -12,16 +12,16 @@ public class TestSwing {
     }
 }
 
-class SwingTest extends JFrame implements ActionListener{
-    JLabel label,label2;
-    JTextField text1,text2,text3;
+class SwingTest extends JFrame implements ActionListener {
+    JLabel label, label2;
+    JTextField text1, text2, text3;
     JButton button1, button2;
-    JRadioButton rbtn1 , rbtn2;
+    JRadioButton rbtn1, rbtn2;
     JCheckBox cbox1;
 
-    SwingTest(){
-        label= new JLabel("First number ");
-        label2= new JLabel();
+    SwingTest() {
+        label = new JLabel("First number ");
+        label2 = new JLabel();
         label2.setText("Second number");
 
         text1 = new JTextField(20);
@@ -38,7 +38,7 @@ class SwingTest extends JFrame implements ActionListener{
         rbtn2 = new JRadioButton("NO");
 
         //to add single select constraint
-        ButtonGroup buttonGroup= new ButtonGroup();
+        ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(rbtn1);
         buttonGroup.add(rbtn2);
 
@@ -46,7 +46,7 @@ class SwingTest extends JFrame implements ActionListener{
         rbtn2.addActionListener(this);
 
         cbox1 = new JCheckBox();
-        cbox1.addActionListener();
+//        cbox1.addActionListener();
 
         //Action listener anonymousclass
 //        button.addActionListener(new ActionListener() {
@@ -72,7 +72,6 @@ class SwingTest extends JFrame implements ActionListener{
         add(rbtn2);
 
 
-
         setTitle("demo");
 
         // change layout for stack
@@ -82,13 +81,12 @@ class SwingTest extends JFrame implements ActionListener{
         setLayout(f);
 
         // IMPT for
-        setSize(380,400);
-        setVisible (true);
+        setSize(380, 400);
+        setVisible(true);
         //to stop the application
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
