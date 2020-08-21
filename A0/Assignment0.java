@@ -2,14 +2,13 @@ package A0;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 class Patient {
 
     String name, tower;
@@ -24,6 +23,103 @@ class Patient {
         this.age=age;
     }
 }
+class SwingApp extends JFrame implements ItemListener {
+    JLabel label, label2,label3;
+    JTextArea resultA,resultB,resultC,resultD;
+    JFormattedTextField text1;
+    JTextField text2;
+    JCheckBox boxA , boxB, boxC, boxD;
+    DateFormat dateFormat = new SimpleDateFormat("dd MMM YYYY");
+    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+    SwingApp() {
+        label = new JLabel("Assignment 0" );
+        label2 = new JLabel();
+        label2.setText("Enter the Date");
+        label3 = new JLabel("Check the Towers");
+        resultA = new JTextArea("A:");
+        resultB = new JTextArea("B:");
+        resultC = new JTextArea("C:");
+        resultD = new JTextArea("D:");
+
+
+        text1 = new JFormattedTextField(dateFormat);
+        text2 = new JTextField(20);
+
+        //checkbox
+        boxA = new JCheckBox("A");
+        boxB = new JCheckBox("B");
+        boxC = new JCheckBox("C");
+        boxD = new JCheckBox("D");
+
+        boxA.addItemListener(this);
+        boxB.addItemListener(this);
+        boxC.addItemListener(this);
+        boxD.addItemListener(this);
+
+        //Add
+//            add(label);
+        add(label2);
+        add(text2);
+        add(label3);
+        add(boxA);
+        add(boxB);
+        add(boxC);
+        add(boxD);
+        add(resultA);
+        add(resultB);
+        add(resultC);
+        add(resultD);
+
+        setTitle("Karanjot Singh");
+        FlowLayout f = new FlowLayout();
+        setLayout(f);
+        // IMPT
+        setSize(600, 700);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        String strD = (text2.getText());
+        Date enterDate = new Date();
+        try {
+            Date inputDate =df.parse(strD);
+            System.out.println(inputDate);
+            enterDate=inputDate;
+        } catch (ParseException en) {
+            en.printStackTrace();
+            resultA.setText("Please Enter Valid Date!");
+        }
+        if(e.getSource()==boxA){
+            if (e.getStateChange()==1)
+                resultA.setText(Assignment0.getCases(enterDate,"A"));
+            else
+                resultA.setText("A:");
+        }
+        if(e.getSource()==boxB){
+            if (e.getStateChange()==1)
+                resultB.setText(Assignment0.getCases(enterDate,"B"));
+            else
+                resultB.setText("B:");
+        }
+
+        if(e.getSource()==boxC){
+            if (e.getStateChange()==1)
+                resultC.setText(Assignment0.getCases(enterDate,"C"));
+            else
+                resultC.setText("C:");
+        }
+        if(e.getSource()==boxD){
+            if (e.getStateChange()==1)
+                resultD.setText(Assignment0.getCases(enterDate,"D"));
+            else
+                resultD.setText("D:");
+        }
+    }
+}
 public class Assignment0 {
     static Patient list[] = new Patient[20];
 
@@ -34,18 +130,16 @@ public class Assignment0 {
         for(Patient p : list){
             if(p.tower==selectedTower){
                 //active cases
-             if(inputDate.after(p.startDate) && inputDate.before(p.endDate) ){
-                 activeCases++;
-                 txt=txt+"Name: "+p.name+" Age: "+p.age+" Tower: "+p.tower+" Recovery Date: "+f.format(p.endDate);
+                if((inputDate.compareTo(p.startDate)>=0) && (inputDate.compareTo(p.endDate)<=0) ){
+                    activeCases++;
+                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nTower: "+p.tower+"\nRecovery Date: "+f.format(p.endDate)+"\n";
 
-             }
-             if(inputDate.after(p.endDate)){
+                }
+                if(inputDate.compareTo(p.endDate)>=0){
                     recoveredCases++;
-                    txt=txt+"Name: "+p.name+" Age: "+p.age+" Tower: "+p.tower+" Recovery Date: "+f.format(p.endDate);
+                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nTower: "+p.tower+"\nRecovery Date: "+f.format(p.endDate)+"\n";
 
-             }
-                txt=txt+"\n";
-
+                }
             }
         }
         String newTxt ="Active Cases: "+(activeCases+"")+"\nRecovered Cases: "+(recoveredCases+"")+"\n"+txt;
@@ -161,115 +255,4 @@ public class Assignment0 {
         SwingApp app = new SwingApp();
     }
 
-}
-
-class SwingApp extends JFrame implements ItemListener {
-    JLabel label, label2,label3;
-    JTextArea resultA,resultB,resultC,resultD;
-    JFormattedTextField text1;
-    JTextField text2;
-    JButton button1;
-    JCheckBox boxA , boxB, boxC, boxD;
-    DateFormat dateFormat = new SimpleDateFormat("dd MMM YYYY");
-    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-    SwingApp() {
-        label = new JLabel("Assignment 0" );
-        label2 = new JLabel();
-        label2.setText("Enter the Date");
-        label3 = new JLabel("Check the Towers");
-        resultA = new JTextArea("A:");
-        resultB = new JTextArea("B:");
-        resultC = new JTextArea("C:");
-        resultD = new JTextArea("D:");
-
-
-        text1 = new JFormattedTextField(dateFormat);
-        text2 = new JTextField(20);
-        //BUTTON
-        button1 = new JButton("Enter");
-//            button1.addActionListener(this);
-
-        //start
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-            }
-        });
-        //end
-
-        //checkbox
-        boxA = new JCheckBox("A");
-        boxB = new JCheckBox("B");
-        boxC = new JCheckBox("C");
-        boxD = new JCheckBox("D");
-
-        boxA.addItemListener(this);
-        boxB.addItemListener(this);
-        boxC.addItemListener(this);
-        boxD.addItemListener(this);
-
-        //Add
-//            add(label);
-        add(label2);
-        add(text2);
-        add(button1);
-        add(label3);
-        add(boxA);
-        add(boxB);
-        add(boxC);
-        add(boxD);
-        add(resultA);
-        add(resultB);
-        add(resultC);
-        add(resultD);
-
-        setTitle("Karanjot Singh");
-        FlowLayout f = new FlowLayout();
-        setLayout(f);
-        // IMPT
-        setSize(600, 700);
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        String strD = (text2.getText());
-        Date enterDate = new Date();
-        try {
-            Date inputDate =df.parse(strD);
-            System.out.println(inputDate);
-            enterDate=inputDate;
-        } catch (ParseException en) {
-            en.printStackTrace();
-            resultA.setText("Please Enter Valid Date!");
-        }
-        if(e.getSource()==boxA){
-            if (e.getStateChange()==1)
-                resultA.setText(Assignment0.getCases(enterDate,"A"));
-            else
-                resultA.setText("A:");
-        }
-        if(e.getSource()==boxB){
-            if (e.getStateChange()==1)
-                resultB.setText(Assignment0.getCases(enterDate,"A"));
-            else
-                resultB.setText("B:");
-        }
-
-        if(e.getSource()==boxC){
-            if (e.getStateChange()==1)
-                resultC.setText(Assignment0.getCases(enterDate,"C"));
-            else
-                resultC.setText("C:");
-        }
-        if(e.getSource()==boxD){
-            if (e.getStateChange()==1)
-                resultD.setText(Assignment0.getCases(enterDate,"D"));
-            else
-                resultD.setText("D:");
-        }
-    }
 }
