@@ -26,6 +26,32 @@ class Patient {
 }
 public class Assignment0 {
     static Patient list[] = new Patient[20];
+
+    static String getCases(Date inputDate, String selectedTower){
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+        int activeCases=0, recoveredCases=0;
+        String txt="";
+        for(Patient p : list){
+            if(p.tower==selectedTower){
+                //active cases
+             if(inputDate.after(p.startDate) && inputDate.before(p.endDate) ){
+                 activeCases++;
+                 txt=txt+"Name: "+p.name+" Age: "+p.age+" Tower: "+p.tower+" Recovery Date: "+f.format(p.endDate);
+
+             }
+             if(inputDate.after(p.endDate)){
+                    recoveredCases++;
+                    txt=txt+"Name: "+p.name+" Age: "+p.age+" Tower: "+p.tower+" Recovery Date: "+f.format(p.endDate);
+
+             }
+                txt=txt+"\n";
+
+            }
+        }
+        String newTxt ="Active Cases: "+(activeCases+"")+"\nRecovered Cases: "+(recoveredCases+"")+"\n"+txt;
+        return newTxt;
+
+    }
     public static void main(String args[]){
         Date dateStart, dateEnd;
         Patient p1;
@@ -138,7 +164,8 @@ public class Assignment0 {
 }
 
 class SwingApp extends JFrame implements ItemListener {
-    JLabel label, label2,label3,resultA,resultB,resultC,resultD;
+    JLabel label, label2,label3;
+    JTextArea resultA,resultB,resultC,resultD;
     JFormattedTextField text1;
     JTextField text2;
     JButton button1;
@@ -151,10 +178,10 @@ class SwingApp extends JFrame implements ItemListener {
         label2 = new JLabel();
         label2.setText("Enter the Date");
         label3 = new JLabel("Check the Towers");
-        resultA = new JLabel("A:");
-        resultB = new JLabel("B:");
-        resultC = new JLabel("C:");
-        resultD = new JLabel("D:");
+        resultA = new JTextArea("A:");
+        resultB = new JTextArea("B:");
+        resultC = new JTextArea("C:");
+        resultD = new JTextArea("D:");
 
 
         text1 = new JFormattedTextField(dateFormat);
@@ -167,15 +194,6 @@ class SwingApp extends JFrame implements ItemListener {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-//                String strD = (text1.getText());
-//                try {
-//                    Date inputDate =df.parse(strD);
-//                    System.out.println(inputDate);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                int b = Integer.parseInt(text2.getText());
-//                text3.setText((a+b) +"");
             }
         });
         //end
@@ -210,7 +228,7 @@ class SwingApp extends JFrame implements ItemListener {
         FlowLayout f = new FlowLayout();
         setLayout(f);
         // IMPT
-        setSize(380, 400);
+        setSize(600, 700);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -221,14 +239,20 @@ class SwingApp extends JFrame implements ItemListener {
 
         if(e.getSource()==boxA){
             if (e.getStateChange()==1) {
-                resultA.setText("geeksforgeeks  selected");
                 String strD = (text2.getText());
+                Date enterDate = new Date();
                 try {
                     Date inputDate =df.parse(strD);
                     System.out.println(inputDate);
+                    enterDate=inputDate;
                 } catch (ParseException en) {
                     en.printStackTrace();
+                    resultA.setText("Please Enter Valid Date!");
+
                 }
+                resultA.setText(Assignment0.getCases(enterDate,"A"));
+
+
             }
             else
                 resultA.setText("geeksforgeeks  not selected");
