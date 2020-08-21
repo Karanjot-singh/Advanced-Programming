@@ -100,6 +100,11 @@ class SwingApp extends JFrame implements ItemListener {
         } catch (ParseException en) {
             en.printStackTrace();
             resultA.setText("Please Enter Valid Date!");
+            resultB.setText("Please Enter Valid Date!");
+            resultC.setText("Please Enter Valid Date!");
+            resultD.setText("Please Enter Valid Date!");
+
+
         }
         if(e.getSource()==boxA){
             if (e.getStateChange()==1)
@@ -140,12 +145,12 @@ public class Assignment0 {
                 //active cases
                 if((inputDate.compareTo(p.startDate)>=0) && (inputDate.compareTo(p.endDate)<0) ){
                     activeCases++;
-                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nRecovery Date: "+f.format(p.endDate)+" s "+f.format(p.startDate)+"\n\n";
+                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nRecovery Date: "+f.format(p.endDate)+"  \n\n";
 
                 }
                 if(inputDate.compareTo(p.endDate)>=0){
                     recoveredCases++;
-                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nRecovery Date: "+f.format(p.endDate)+" s "+f.format(p.startDate)+"\n\n";
+                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nRecovery Date: "+f.format(p.endDate)+"  \n\n";
 
                 }
             }
