@@ -35,7 +35,7 @@ class SwingApp extends JFrame implements ItemListener {
     SwingApp() {
         label = new JLabel("Assignment 0" );
         label2 = new JLabel();
-        label2.setText("Enter the Date");
+        label2.setText("Enter the Date (D/M/Y)");
         label3 = new JLabel("Check the Towers");
         resultA = new JTextArea("A:");
         resultB = new JTextArea("B:");
@@ -44,7 +44,7 @@ class SwingApp extends JFrame implements ItemListener {
 
 
         text1 = new JFormattedTextField(dateFormat);
-        text2 = new JTextField(20);
+        text2 = new JTextField(10);
 
         //checkbox
         boxA = new JCheckBox("A");
@@ -58,24 +58,34 @@ class SwingApp extends JFrame implements ItemListener {
         boxD.addItemListener(this);
 
         //Add
-//            add(label);
+        JPanel p0 = new JPanel();
+        add(label);
+        add(p0);
+
+        JPanel p00 = new JPanel();
         add(label2);
         add(text2);
-        add(label3);
-        add(boxA);
-        add(boxB);
-        add(boxC);
-        add(boxD);
-        add(resultA);
-        add(resultB);
-        add(resultC);
-        add(resultD);
+        add(p00);
+
+        JPanel p1 = new JPanel();
+        p1.add(label3);
+        p1.add(boxA);
+        p1.add(boxB);
+        p1.add(boxC);
+        p1.add(boxD);
+        add(p1);
+        JPanel p = new JPanel();
+        p.add(resultA);
+        p.add(resultB);
+        p.add(resultC);
+        p.add(resultD);
+        add(p);
 
         setTitle("Karanjot Singh");
         FlowLayout f = new FlowLayout();
         setLayout(f);
         // IMPT
-        setSize(600, 700);
+        setSize(400, 500);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -87,7 +97,6 @@ class SwingApp extends JFrame implements ItemListener {
         Date enterDate = new Date();
         try {
             Date inputDate =df.parse(strD);
-            System.out.println(inputDate);
             enterDate=inputDate;
         } catch (ParseException en) {
             en.printStackTrace();
@@ -132,17 +141,17 @@ public class Assignment0 {
                 //active cases
                 if((inputDate.compareTo(p.startDate)>=0) && (inputDate.compareTo(p.endDate)<=0) ){
                     activeCases++;
-                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nTower: "+p.tower+"\nRecovery Date: "+f.format(p.endDate)+"\n";
+                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nRecovery Date: "+f.format(p.endDate)+" s "+f.format(p.startDate)+"\n\n";
 
                 }
                 if(inputDate.compareTo(p.endDate)>=0){
                     recoveredCases++;
-                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nTower: "+p.tower+"\nRecovery Date: "+f.format(p.endDate)+"\n";
+                    txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nRecovery Date: "+f.format(p.endDate)+" s "+f.format(p.startDate)+"\n\n";
 
                 }
             }
         }
-        String newTxt ="Active Cases: "+(activeCases+"")+"\nRecovered Cases: "+(recoveredCases+"")+"\n"+txt;
+        String newTxt ="Tower " + selectedTower +"\n\n"+"Active Cases: "+(activeCases+"")+"\nRecovered Cases: "+(recoveredCases+"")+"\n\n"+txt;
         return newTxt;
 
     }
