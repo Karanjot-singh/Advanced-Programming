@@ -236,46 +236,40 @@ class SwingApp extends JFrame implements ItemListener {
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-
+        String strD = (text2.getText());
+        Date enterDate = new Date();
+        try {
+            Date inputDate =df.parse(strD);
+            System.out.println(inputDate);
+            enterDate=inputDate;
+        } catch (ParseException en) {
+            en.printStackTrace();
+            resultA.setText("Please Enter Valid Date!");
+        }
         if(e.getSource()==boxA){
-            if (e.getStateChange()==1) {
-                String strD = (text2.getText());
-                Date enterDate = new Date();
-                try {
-                    Date inputDate =df.parse(strD);
-                    System.out.println(inputDate);
-                    enterDate=inputDate;
-                } catch (ParseException en) {
-                    en.printStackTrace();
-                    resultA.setText("Please Enter Valid Date!");
-
-                }
+            if (e.getStateChange()==1)
                 resultA.setText(Assignment0.getCases(enterDate,"A"));
-
-
-            }
             else
-                resultA.setText("geeksforgeeks  not selected");
+                resultA.setText("A:");
         }
         if(e.getSource()==boxB){
-//                if (e.getStateChange() == 1)
-//                    l.setText("geeksforgeeks  selected");
-//                else
-//                    l.setText("geeksforgeeks  not selected");
+            if (e.getStateChange()==1)
+                resultB.setText(Assignment0.getCases(enterDate,"A"));
+            else
+                resultB.setText("B:");
         }
+
         if(e.getSource()==boxC){
-//                if (e.getStateChange() == 1)
-//                    l.setText("geeksforgeeks  selected");
-//                else
-//                    l.setText("geeksforgeeks  not selected");
+            if (e.getStateChange()==1)
+                resultC.setText(Assignment0.getCases(enterDate,"C"));
+            else
+                resultC.setText("C:");
         }
         if(e.getSource()==boxD){
-//                if (e.getStateChange() == 1)
-//                    l.setText("geeksforgeeks  selected");
-//                else
-//                    l.setText("geeksforgeeks  not selected");
+            if (e.getStateChange()==1)
+                resultD.setText(Assignment0.getCases(enterDate,"D"));
+            else
+                resultD.setText("D:");
         }
-
-
     }
 }
