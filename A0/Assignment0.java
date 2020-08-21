@@ -33,7 +33,7 @@ class SwingApp extends JFrame implements ItemListener {
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
     SwingApp() {
-        label = new JLabel("Assignment 0" );
+        label = new JLabel("* Assignment 0 *");
         label2 = new JLabel();
         label2.setText("Enter the Date (D/M/Y)");
         label3 = new JLabel("Check the Towers");
@@ -58,17 +58,15 @@ class SwingApp extends JFrame implements ItemListener {
         boxD.addItemListener(this);
 
         //Add
+        JPanel h = new JPanel();
+        h.add(label);
+        add(h);
         JPanel p0 = new JPanel();
-        add(label);
+        p0.add(label2);
+        p0.add(text2);
         add(p0);
-
-        JPanel p00 = new JPanel();
-        add(label2);
-        add(text2);
-        add(p00);
-
+        add(label3);
         JPanel p1 = new JPanel();
-        p1.add(label3);
         p1.add(boxA);
         p1.add(boxB);
         p1.add(boxC);
@@ -85,6 +83,7 @@ class SwingApp extends JFrame implements ItemListener {
         FlowLayout f = new FlowLayout();
         setLayout(f);
         // IMPT
+        p1.setBackground(Color.DARK_GRAY);
         setSize(400, 500);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -139,7 +138,7 @@ public class Assignment0 {
         for(Patient p : list){
             if(p.tower==selectedTower){
                 //active cases
-                if((inputDate.compareTo(p.startDate)>=0) && (inputDate.compareTo(p.endDate)<=0) ){
+                if((inputDate.compareTo(p.startDate)>=0) && (inputDate.compareTo(p.endDate)<0) ){
                     activeCases++;
                     txt=txt+"Name: "+p.name+"\nAge: "+p.age+"\nRecovery Date: "+f.format(p.endDate)+" s "+f.format(p.startDate)+"\n\n";
 
@@ -163,8 +162,6 @@ public class Assignment0 {
         dateEnd = new Date(120,3,22);
         p1 = new Patient("Flora","A",dateStart,dateEnd,6);
         list[0]=p1;
-        //month 0 WRONG HOMOGENISE DATE FORMAT
-        System.out.println(p1.startDate.toString());
 
         dateStart = new Date(120,3,1);
         dateEnd = new Date(120,3,22);
