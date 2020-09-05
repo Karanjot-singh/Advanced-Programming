@@ -21,8 +21,30 @@ public class Assignment {
 		System.out.println(" ");
 		HealthInstitute institute = new HealthInstitute(inputName ,inputOxygen, inputNumberBeds, inputTemp);
 		instituteRecord.add(institute);
+		onboardPatients();
 		institute.display();
 		method9(inputName);
+		
+	}
+	private static void onboardPatients() {
+		for(Patient p1 : patientRecord) {
+			if(p1.getHealthInstitute()==null)
+			{
+				for(HealthInstitute i : instituteRecord) {
+					if(i.getStatus()=="OPEN" && p1.getOxygenLevel()>=i.getOxygenCriteria() && p1.getBodyTemperature()<=i.getTemperatureCriteria())
+					{	System.out.println("Enter the number of Recovery days for the patient: ");
+						int inputDays = sc.nextInt();					
+						p1.setRecoverydays(inputDays);
+						p1.setHealthInstitute(i.getName());
+						i.setNumberBeds(i.getNumberBeds()-1);
+						if (i.getNumberBeds()==0)
+							i.setStatus("CLOSED");
+						
+					}
+			}
+				
+			}
+		}
 		
 	}
 	public static void method2() {
@@ -46,7 +68,13 @@ public class Assignment {
 			System.out.println(p1.getId()+ " "+ p1.getName());
 		}
 	}
-	
+	public static void method5() {
+	System.out.println("The following Institutes are Open : ");
+	for(HealthInstitute p1 : instituteRecord) {
+		if(p1.getStatus()=="OPEN")
+		System.out.println(p1.getName());
+	}
+	}
 	public static void method8() {
 		for(Patient p1 : patientRecord) {
 			System.out.println(p1.getId()+ " "+ p1.getName());
@@ -83,13 +111,13 @@ public class Assignment {
     			  method1();
     		    break;
     		  case 2:
-    		    System.out.println("Tuesday");
+    			  method2();
     		    break;
     		  case 3:
-    		    System.out.println("Wednesday");
+    			  method3();
     		    break;
     		  case 4:
-    		    System.out.println("Thursday");
+    			  method4();
     		    break;
     		  case 5:
     		    System.out.println("Friday");
@@ -117,10 +145,10 @@ public class Assignment {
 }
  class HealthInstitute{
 
-	String name;
-	int oxygenCriteria, numberBeds;
-	float temperatureCriteria;
-	String status;
+	private String name;
+	private int oxygenCriteria, numberBeds;
+	private float temperatureCriteria;
+	private String status;
 	
 	public HealthInstitute(String name, int oxygenCriteria, int numberBeds, float temperatureCriteria) {
 		this.name = name;
