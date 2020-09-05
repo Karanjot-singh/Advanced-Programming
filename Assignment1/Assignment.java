@@ -29,7 +29,8 @@ public class Assignment {
 	private static void onboardPatients() {
 		for(Patient p1 : patientRecord) {
 			if(p1.getHealthInstitute()==null)
-			{
+			{	
+//				System.out.println("Null check passed");
 				for(HealthInstitute i : instituteRecord) {
 					if(i.getStatus()=="OPEN" && p1.getOxygenLevel()>=i.getOxygenCriteria() && p1.getBodyTemperature()<=i.getTemperatureCriteria())
 					{	System.out.println("Enter the number of Recovery days for the patient: ");
@@ -56,6 +57,7 @@ public class Assignment {
 	public static void method3() {
 		System.out.println("The accounts of the following Institutes were deleted: ");
 		for(HealthInstitute p1 : instituteRecord) {
+			if(p1.getStatus()=="CLOSED")
 			System.out.println(p1.getName());
 		}
 		instituteRecord.clear();
@@ -75,6 +77,27 @@ public class Assignment {
 		System.out.println(p1.getName());
 	}
 	}
+	
+	public static void method6() {
+		System.out.println("Enter the name of the Institute : ");
+		String inputName = sc.next();
+		for(HealthInstitute p1 : instituteRecord) {
+			if(p1.getName()==inputName) {
+				System.out.println(p1.getName());
+				p1.display();
+				break;
+			}
+		}
+	}
+	
+	public static void method7() {
+		System.out.println("Enter the ID of the patient : ");
+		int inputId = sc.nextInt();
+		Patient p1 = patientRecord.get(inputId);
+		p1.display();
+		
+	}
+	
 	public static void method8() {
 		for(Patient p1 : patientRecord) {
 			System.out.println(p1.getId()+ " "+ p1.getName());
@@ -210,6 +233,16 @@ public class Assignment {
 		this.age=age;
 		this.bodyTemperature=bodyTemperature;
 		this.oxygenLevel=oxygenLevel;
+	}
+	public void display() {
+		System.out.println("ID: " + this.getId()+"\n"+
+				"Body Temperature: " + this.getBodyTemperature() + "\n"+
+				"Oxygen Level: " + this.getOxygenLevel()+ "\n");
+		if(this.getHealthInstitute()==null)
+			System.out.println("Admission Status: Not Admitted" + "\n");
+		else
+			System.out.println("Admission Status: Admitted" + "\n" +"Institution Admitted to :"+ this.getHealthInstitute()+"\n");
+		
 	}
 	//setters
 	public void setHealthInstitute(String healthInstitute) {
