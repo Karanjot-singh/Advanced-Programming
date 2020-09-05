@@ -38,6 +38,7 @@ public class Assignment {
 						int inputDays = sc.nextInt();					
 						p1.setRecoverydays(inputDays);
 						p1.setHealthInstitute(i.getName());
+						i.patients.add(p1);
 						i.setNumberBeds(i.getNumberBeds()-1);
 						if (i.getNumberBeds()==0)
 							i.setStatus("CLOSED");						
@@ -66,17 +67,20 @@ public class Assignment {
 	}
 	public static void method2() {
 		System.out.println("The data of the following patients was deleted: ");
-		method8();
-		patientRecord.clear();
+		for (int i=0; i< patientRecord.size();i++){
+			if(patientRecord.get(i).getHealthInstitute()=="NA")
+			System.out.println(patientRecord.get(i).getName());
+			patientRecord.add(new Patient());
+		}
 		
 	}
 	public static void method3() {
 		System.out.println("The accounts of the following Institutes were deleted: ");
-		for(HealthInstitute p1 : instituteRecord) {
-			if(p1.getStatus()=="CLOSED")
-			System.out.println(p1.getName());
+		for (int i=0; i< instituteRecord.size();i++){
+			if(instituteRecord.get(i).getStatus()=="CLOSED")
+			System.out.println(instituteRecord.get(i).getName());
+			instituteRecord.add(new HealthInstitute());
 		}
-		instituteRecord.clear();
 	}
 	
 	public static void method4() {
@@ -99,7 +103,7 @@ public class Assignment {
 		String inputName = sc.next();
 		for(HealthInstitute p1 : instituteRecord) {
 			System.out.println(p1.getName());
-			if(p1.getName()==inputName) {
+			if(p1.getName().equals(inputName)) {
 				System.out.println("Body temperature criteria <= " + p1.getTemperatureCriteria()+"\n"+
 						"Oxygen level criteria >= " + p1.getOxygenCriteria() + "\n"+
 						"Number of available beds: " + p1.getNumberBeds()+ "\n"+
@@ -124,9 +128,9 @@ public class Assignment {
 	}
 	public static void method9(String instituteName) {
 		System.out.println("Patient Details:");
-		for(Patient p : patientRecord) {
-			String name = p.getHealthInstitute();
-			if(name == instituteName) {
+		for(HealthInstitute p1 : instituteRecord) {
+			if( p1.getName().equals(instituteName)) {
+				for(Patient p : p1.patients)
 				System.out.println("Patient Name: "+p.getName()+"\n"+"Days to recover: "+p.getRecoverydays());
 			}
 		}
@@ -195,12 +199,12 @@ public class Assignment {
 	
 }
  class HealthInstitute{
-
 	private String name;
 	private int oxygenCriteria, numberBeds;
 	private float temperatureCriteria;
 	private String status;
-	
+	ArrayList <Patient> patients = new ArrayList<Patient>();
+	HealthInstitute(){}
 	public HealthInstitute(String name, int oxygenCriteria, int numberBeds, float temperatureCriteria) {
 		this.name = name;
 		this.oxygenCriteria = oxygenCriteria;
@@ -252,7 +256,9 @@ public class Assignment {
 	private float bodyTemperature;
 	private int id,recoverydays;
 	private String healthInstitute="NA";
-	
+	Patient(){
+		
+	}
 	Patient(String name , int age, int oxygenLevel , float bodyTemperature){
 		// id s start at 0
 		this.id=Patient.number;
