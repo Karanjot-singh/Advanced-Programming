@@ -17,6 +17,19 @@ public class Assignment {
 		HealthInstitute institute = new HealthInstitute(inputName ,inputOxygen, inputNumberBeds, inputTemp);
 		instituteRecord.add(institute);
 		institute.display();
+		method9(inputName);
+		
+	}
+	
+	
+	public static void method9(String instituteName) {
+		System.out.println("Patient Details:");
+		for(Patient p : patientRecord) {
+			String name = p.getHealthInstitute();
+			if(name == instituteName) {
+				System.out.println("Patient Name: "+p.getName()+"\n"+"Days to recover: "+p.getRecoverydays());
+			}
+		}
 		
 	}
     public static void main(String args[]){
