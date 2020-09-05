@@ -4,17 +4,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Assignment {
+
+	static Scanner sc = new Scanner(System.in);
+	static ArrayList <HealthInstitute> instituteRecord = new ArrayList<HealthInstitute>();
+	static ArrayList <Patient> patientRecord = new ArrayList<Patient>();
+	
+	public static void method1() {
+		String inputName = sc.next();
+		float inputTemp =sc.nextFloat();
+		int inputOxygen = sc.nextInt();
+		int inputNumberBeds = sc.nextInt();
+		HealthInstitute institute = new HealthInstitute(inputName ,inputOxygen, inputNumberBeds, inputTemp);
+		instituteRecord.add(institute);
+		institute.display();
+		
+	}
     public static void main(String args[]){
-    	Scanner sc = new Scanner(System.in);
     	int numberPatients = sc.nextInt();
-    	ArrayList <Patient> patientRecord = new ArrayList<Patient>();
-//    	Patient[] patientRecord = new Patient[numberPatients];
     	for (int i =0; i<numberPatients; i++) {
     		String inputName = sc.next();
     		float inputTemp =sc.nextFloat();
     		int inputOxygen = sc.nextInt();
-    		int inputAge = sc.nextInt();
-    		Patient p = new Patient(inputName,inputAge,inputOxygen,inputTemp);
+    		int inputbeds = sc.nextInt();
+    		Patient p = new Patient(inputName,inputOxygen,inputbeds,inputTemp);
     		patientRecord.add(p);    		
     	}
     	int loopFlag=1;
@@ -59,13 +71,63 @@ public class Assignment {
         
     }
 }
+ class HealthInstitute{
+
+	String name;
+	int oxygenCriteria, numberBeds;
+	float temperatureCriteria;
+	String status;
+	
+	public HealthInstitute(String name, int oxygenCriteria, int numberBeds, float temperatureCriteria) {
+		this.name = name;
+		this.oxygenCriteria = oxygenCriteria;
+		this.numberBeds = numberBeds;
+		this.temperatureCriteria = temperatureCriteria;
+	}
+	public void display() {
+		System.out.println("Body temperature criteria <= " + this.temperatureCriteria+"\n"+
+				"Oxygen level criteria >= " + this.oxygenCriteria + "\n"+
+				"Number of available beds: " + this.numberBeds+ "\n"+
+				"Admission Status: "+ this.status+ "\n");
+		
+	}
+
+	public void setNumberBeds(int numberBeds) {
+		this.numberBeds = numberBeds;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public int getOxygenCriteria() {
+		return oxygenCriteria;
+	}
+
+	public int getNumberBeds() {
+		return numberBeds;
+	}
+
+	public float getTemperatureCriteria() {
+		return temperatureCriteria;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+}
 
  class Patient{
 	private static int number=0;
 	private String name;
 	private int age, oxygenLevel;
 	private float bodyTemperature;
-	private int id;
+	private int id,recoverydays;
 	private String healthInstitute=null;
 	
 	Patient(String name , int age, int oxygenLevel , float bodyTemperature){
@@ -81,7 +143,15 @@ public class Assignment {
 	public void setHealthInstitute(String healthInstitute) {
 		this.healthInstitute = healthInstitute;
 	}
+
+	public void setRecoverydays(int recoverydays) {
+		this.recoverydays = recoverydays;
+	}
 	//getters
+
+	public int getRecoverydays() {
+		return recoverydays;
+	}
 	public String getName() {
 		return name;
 	}
