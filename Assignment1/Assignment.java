@@ -10,10 +10,15 @@ public class Assignment {
 	static ArrayList <Patient> patientRecord = new ArrayList<Patient>();
 	
 	public static void method1() {
+		System.out.println("Enter the name of the Institute:");
 		String inputName = sc.next();
+		System.out.println("Enter the body temperature criteria:");
 		float inputTemp =sc.nextFloat();
+		System.out.println("Enter the oxygen criteria:");
 		int inputOxygen = sc.nextInt();
+		System.out.println("Enter the number of beds:");
 		int inputNumberBeds = sc.nextInt();
+		System.out.println(" ");
 		HealthInstitute institute = new HealthInstitute(inputName ,inputOxygen, inputNumberBeds, inputTemp);
 		instituteRecord.add(institute);
 		institute.display();
@@ -50,7 +55,7 @@ public class Assignment {
     			  loopFlag=0;
     			  break;    			
     		  case 1:
-    		    System.out.println("Monday");
+    			  method1();
     		    break;
     		  case 2:
     		    System.out.println("Tuesday");
@@ -77,7 +82,9 @@ public class Assignment {
       		    }
       		    break;
     		  case 9:
-      		    System.out.println("Sunday");
+    			  System.out.println("Enter the name of the Institute:");
+    			  String inputName = sc.next();
+    			  method9(inputName);
       		    break;
     		}
     	}
