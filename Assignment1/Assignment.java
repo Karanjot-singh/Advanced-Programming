@@ -22,10 +22,10 @@ public class Assignment {
 		if(inputNumberBeds>0)
 			institute.setStatus("OPEN");			
 		instituteRecord.add(institute);
-		onboardPatients(institute);
 		System.out.println("");
 		System.out.println(institute.getName());
 		institute.display();
+		onboardPatients(institute);
 		method9(inputName);
 		
 	}
@@ -50,7 +50,6 @@ public class Assignment {
 //			System.out.println(p1.getHealthInstitute());
 			if(p1.getHealthInstitute()=="NA")
 			{	
-				System.out.println("check"+p1.getName());
 					if(i.getStatus()=="OPEN" && p1.getBodyTemperature()<=i.getTemperatureCriteria() )
 					{	System.out.println("Enter the number of Recovery days for the patient: ");
 						int inputDays = sc.nextInt();					
@@ -70,7 +69,7 @@ public class Assignment {
 		for (int i=0; i< patientRecord.size();i++){
 			if(patientRecord.get(i).getHealthInstitute()=="NA")
 			System.out.println(patientRecord.get(i).getName());
-			patientRecord.add(new Patient());
+			patientRecord.remove(i);
 		}
 		
 	}
@@ -79,7 +78,7 @@ public class Assignment {
 		for (int i=0; i< instituteRecord.size();i++){
 			if(instituteRecord.get(i).getStatus()=="CLOSED")
 			System.out.println(instituteRecord.get(i).getName());
-			instituteRecord.add(new HealthInstitute());
+			instituteRecord.remove(i);
 		}
 	}
 	
