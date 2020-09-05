@@ -18,35 +18,51 @@ public class Assignment {
 		int inputOxygen = sc.nextInt();
 		System.out.println("Enter the number of beds:");
 		int inputNumberBeds = sc.nextInt();
-		System.out.println(" ");
 		HealthInstitute institute = new HealthInstitute(inputName ,inputOxygen, inputNumberBeds, inputTemp);
+		if(inputNumberBeds>0)
+			institute.setStatus("OPEN");			
 		instituteRecord.add(institute);
-		onboardPatients();
+		onboardPatients(institute);
+		System.out.println("");
+		System.out.println(institute.getName());
 		institute.display();
 		method9(inputName);
 		
 	}
-	private static void onboardPatients() {
+	private static void onboardPatients(HealthInstitute i) {
 		for(Patient p1 : patientRecord) {
-			if(p1.getHealthInstitute()==null)
+//			System.out.println(p1.getHealthInstitute());
+			if(p1.getHealthInstitute()=="NA")
+			{	if(i.getStatus()=="OPEN" && p1.getOxygenLevel()>=i.getOxygenCriteria() )
+					{	System.out.println("Enter the number of Recovery days for the patient ID "+ p1.getId()+" :");
+						int inputDays = sc.nextInt();					
+						p1.setRecoverydays(inputDays);
+						p1.setHealthInstitute(i.getName());
+						i.setNumberBeds(i.getNumberBeds()-1);
+						if (i.getNumberBeds()==0)
+							i.setStatus("CLOSED");						
+					}
+				
+			}
+		}
+		for(Patient p1 : patientRecord) {
+//			System.out.println(p1.getHealthInstitute());
+			if(p1.getHealthInstitute()=="NA")
 			{	
-//				System.out.println("Null check passed");
-				for(HealthInstitute i : instituteRecord) {
-					if(i.getStatus()=="OPEN" && p1.getOxygenLevel()>=i.getOxygenCriteria() && p1.getBodyTemperature()<=i.getTemperatureCriteria())
+				System.out.println("check"+p1.getName());
+					if(i.getStatus()=="OPEN" && p1.getBodyTemperature()<=i.getTemperatureCriteria() )
 					{	System.out.println("Enter the number of Recovery days for the patient: ");
 						int inputDays = sc.nextInt();					
 						p1.setRecoverydays(inputDays);
 						p1.setHealthInstitute(i.getName());
 						i.setNumberBeds(i.getNumberBeds()-1);
 						if (i.getNumberBeds()==0)
-							i.setStatus("CLOSED");
-						
+							i.setStatus("CLOSED");						
 					}
-			}
 				
 			}
 		}
-		
+//		
 	}
 	public static void method2() {
 		System.out.println("The data of the following patients was deleted: ");
@@ -66,7 +82,7 @@ public class Assignment {
 	public static void method4() {
 		System.out.println("The following patients are still in camp: ");
 		for(Patient p1 : patientRecord) {
-			if(p1.getHealthInstitute()==null)
+			if(p1.getHealthInstitute()=="NA")
 			System.out.println(p1.getId()+ " "+ p1.getName());
 		}
 	}
@@ -82,10 +98,13 @@ public class Assignment {
 		System.out.println("Enter the name of the Institute : ");
 		String inputName = sc.next();
 		for(HealthInstitute p1 : instituteRecord) {
+			System.out.println(p1.getName());
 			if(p1.getName()==inputName) {
-				System.out.println(p1.getName());
-				p1.display();
-				break;
+				System.out.println("Body temperature criteria <= " + p1.getTemperatureCriteria()+"\n"+
+						"Oxygen level criteria >= " + p1.getOxygenCriteria() + "\n"+
+						"Number of available beds: " + p1.getNumberBeds()+ "\n"+
+						"Admission Status: "+ p1.getStatus()+ "\n");
+						break;
 			}
 		}
 	}
@@ -114,17 +133,26 @@ public class Assignment {
 		
 	}
     public static void main(String args[]){
+    	System.out.println("Enter the number of Patients: ");
     	int numberPatients = sc.nextInt();
     	for (int i =0; i<numberPatients; i++) {
+//    		System.out.println("Enter the Patient Name, Body temperature, Oxygen levels, Age: ");
     		String inputName = sc.next();
+//    		System.out.println("Enter the Body temperature: ");
     		float inputTemp =sc.nextFloat();
+//    		System.out.println("Enter the Oxygen levels: ");
     		int inputOxygen = sc.nextInt();
-    		int inputbeds = sc.nextInt();
-    		Patient p = new Patient(inputName,inputOxygen,inputbeds,inputTemp);
+//    		System.out.println("Enter the Age: ");
+    		int inputAge = sc.nextInt();
+    		Patient p = new Patient(inputName,inputAge,inputOxygen,inputTemp);
     		patientRecord.add(p);    		
     	}
     	int loopFlag=1;
     	while(loopFlag==1) {
+    		System.out.println("");
+    		System.out.println("###### MAIN MENU ######");
+    		System.out.println("Enter 0 to exit.");
+    		System.out.println("Enter the query number: ");
     		int inputQuery = sc.nextInt();
     		switch (inputQuery) {
     		  case 0:
@@ -143,13 +171,13 @@ public class Assignment {
     			  method4();
     		    break;
     		  case 5:
-    		    System.out.println("Friday");
+    			  method5();
     		    break;
     		  case 6:
-    		    System.out.println("Saturday");
+    			  method6();
     		    break;
     		  case 7:
-    		    System.out.println("Sunday");
+    			  method7();
     		    break;
     		  case 8:
       		    System.out.println("Displaying Patient details... "+"\n");
@@ -223,7 +251,7 @@ public class Assignment {
 	private int age, oxygenLevel;
 	private float bodyTemperature;
 	private int id,recoverydays;
-	private String healthInstitute=null;
+	private String healthInstitute="NA";
 	
 	Patient(String name , int age, int oxygenLevel , float bodyTemperature){
 		// id s start at 0
@@ -238,7 +266,7 @@ public class Assignment {
 		System.out.println("ID: " + this.getId()+"\n"+
 				"Body Temperature: " + this.getBodyTemperature() + "\n"+
 				"Oxygen Level: " + this.getOxygenLevel()+ "\n");
-		if(this.getHealthInstitute()==null)
+		if(this.getHealthInstitute()=="NA")
 			System.out.println("Admission Status: Not Admitted" + "\n");
 		else
 			System.out.println("Admission Status: Admitted" + "\n" +"Institution Admitted to :"+ this.getHealthInstitute()+"\n");
