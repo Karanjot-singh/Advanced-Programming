@@ -25,8 +25,33 @@ public class Assignment {
 		method9(inputName);
 		
 	}
+	public static void method2() {
+		System.out.println("The data of the following patients was deleted: ");
+		method8();
+		patientRecord.clear();
+		
+	}
+	public static void method3() {
+		System.out.println("The accounts of the following Institutes were deleted: ");
+		for(HealthInstitute p1 : instituteRecord) {
+			System.out.println(p1.getName());
+		}
+		instituteRecord.clear();
+	}
 	
+	public static void method4() {
+		System.out.println("The following patients are still in camp: ");
+		for(Patient p1 : patientRecord) {
+			if(p1.getHealthInstitute()==null)
+			System.out.println(p1.getId()+ " "+ p1.getName());
+		}
+	}
 	
+	public static void method8() {
+		for(Patient p1 : patientRecord) {
+			System.out.println(p1.getId()+ " "+ p1.getName());
+		}
+	}
 	public static void method9(String instituteName) {
 		System.out.println("Patient Details:");
 		for(Patient p : patientRecord) {
@@ -76,10 +101,8 @@ public class Assignment {
     		    System.out.println("Sunday");
     		    break;
     		  case 8:
-      		    System.out.println("Sunday");
-      		    for(Patient p1 : patientRecord) {
-      		    	System.out.println(p1.getId()+ " "+ p1.getName());
-      		    }
+      		    System.out.println("Displaying Patient details... "+"\n");
+      		    method8();
       		    break;
     		  case 9:
     			  System.out.println("Enter the name of the Institute:");
@@ -90,6 +113,7 @@ public class Assignment {
     	}
         
     }
+	
 }
  class HealthInstitute{
 
