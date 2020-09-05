@@ -1,6 +1,7 @@
 package Assignment1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Assignment {
@@ -66,19 +67,40 @@ public class Assignment {
 	}
 	public static void method2() {
 		System.out.println("The data of the following patients was deleted: ");
-		for (int i=0; i< patientRecord.size();i++){
-			if(patientRecord.get(i).getHealthInstitute()=="NA")
-			System.out.println(patientRecord.get(i).getName());
-			patientRecord.remove(i);
+		Iterator<Patient> itr = patientRecord.iterator();
+		while(itr.hasNext()) {
+			Patient hi = itr.next();			
+			if(hi.getHealthInstitute()!="NA") {
+				System.out.println(hi.getName());
+				itr.remove();
+			}
 		}
+			
+//		for (int i=0; i< patientRecord.size();i++){
+//			if(patientRecord.get(i).getHealthInstitute()!="NA") {
+//			System.out.println(patientRecord.get(i).getName());
+//			patientRecord.set(i,new Patient());
+//			}
+//		}
 		
 	}
 	public static void method3() {
 		System.out.println("The accounts of the following Institutes were deleted: ");
-		for (int i=0; i< instituteRecord.size();i++){
-			if(instituteRecord.get(i).getStatus()=="CLOSED")
-			System.out.println(instituteRecord.get(i).getName());
-			instituteRecord.remove(i);
+		
+		Iterator<HealthInstitute> itr = instituteRecord.iterator();
+		while(itr.hasNext()) {
+			HealthInstitute hi = itr.next();			
+			if(hi.getStatus()=="CLOSED") {
+				System.out.println(hi.getName());
+				itr.remove();
+		}
+		
+//		for (int i=0; i< instituteRecord.size();i++){
+//			if(instituteRecord.get(i).getStatus()=="CLOSED") {
+//			System.out.println(instituteRecord.get(i).getName());
+//			instituteRecord.remove(i);
+//			}
+//	}
 		}
 	}
 	
@@ -101,12 +123,9 @@ public class Assignment {
 		System.out.println("Enter the name of the Institute : ");
 		String inputName = sc.next();
 		for(HealthInstitute p1 : instituteRecord) {
-			System.out.println(p1.getName());
+//			System.out.println(p1.getName());
 			if(p1.getName().equals(inputName)) {
-				System.out.println("Body temperature criteria <= " + p1.getTemperatureCriteria()+"\n"+
-						"Oxygen level criteria >= " + p1.getOxygenCriteria() + "\n"+
-						"Number of available beds: " + p1.getNumberBeds()+ "\n"+
-						"Admission Status: "+ p1.getStatus()+ "\n");
+				p1.display();
 						break;
 			}
 		}
@@ -214,7 +233,7 @@ public class Assignment {
 		System.out.println("Body temperature criteria <= " + this.temperatureCriteria+"\n"+
 				"Oxygen level criteria >= " + this.oxygenCriteria + "\n"+
 				"Number of available beds: " + this.numberBeds+ "\n"+
-				"Admission Status: "+ this.status+ "\n");
+				"Admission Status: "+ this.status);
 		
 	}
 
