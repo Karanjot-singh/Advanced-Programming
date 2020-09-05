@@ -7,18 +7,18 @@ public class Assignment {
     public static void main(String args[]){
     	Scanner sc = new Scanner(System.in);
     	int numberPatients = sc.nextInt();
-    	ArrayList <Patient> record = new ArrayList<Patient>();
-//    	Patient[] record = new Patient[numberPatients];
+    	ArrayList <Patient> patientRecord = new ArrayList<Patient>();
+//    	Patient[] patientRecord = new Patient[numberPatients];
     	for (int i =0; i<numberPatients; i++) {
     		String inputName = sc.next();
     		float inputTemp =sc.nextFloat();
     		int inputOxygen = sc.nextInt();
     		int inputAge = sc.nextInt();
     		Patient p = new Patient(inputName,inputAge,inputOxygen,inputTemp);
-    		record.add(p);    		
+    		patientRecord.add(p);    		
     	}
     	int loopFlag=1;
-    	while(loopFlag) {
+    	while(loopFlag==1) {
     		int inputQuery = sc.nextInt();
     		switch (inputQuery) {
     		  case 0:
@@ -47,6 +47,9 @@ public class Assignment {
     		    break;
     		  case 8:
       		    System.out.println("Sunday");
+      		    for(Patient p1 : patientRecord) {
+      		    	System.out.println(p1.getId()+ " "+ p1.getName());
+      		    }
       		    break;
     		  case 9:
       		    System.out.println("Sunday");
