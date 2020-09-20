@@ -324,7 +324,6 @@ class Customer implements User{
 		this.category = category;
 		this.discountAmount=0;
 		restaurants= restaurantList;
-		currentOrder = new Cart();
 		this.discountCriteria=0;
 		this.userAccount = new Wallet(); //composition
 		
@@ -345,7 +344,7 @@ class Customer implements User{
     		System.out.println();
     		int inputQuery = sc.nextInt();
     		if(inputQuery==1) selectRestaurant();
-    		else if(inputQuery==2) ;
+    		else if(inputQuery==2) checkoutCart();
     		else if(inputQuery==3) displayRewards();
     		else if(inputQuery==4);
     		else if(inputQuery==5) {
@@ -355,12 +354,16 @@ class Customer implements User{
 		
 	}
 	private void selectRestaurant() {
+
 		int choice = User.restaurantMenu();
-		int idx = restaurants.get(choice).showMenu();
+		Restaurant selected = restaurants.get(choice);
+		//Association
+		this.currentOrder = new Cart(selected, this);
+		int idx = selected.showMenu();
 		System.out.println("Enter item quantity - ");
 		//Assuming input will always be less than restaurant stock
 		int inputQty = sc.nextInt();
-		Food itemOld = restaurants.get(choice).menu.get(idx);
+		Food itemOld = selected.menu.get(idx);
 		Food item;
 		try {
 			item = (Food)itemOld.clone();
@@ -373,7 +376,10 @@ class Customer implements User{
 		
 		System.out.println("Items added to cart");
 	}
-	@Override
+	private void checkoutCart()
+	{
+		
+	}	@Override
 	public void displayRewards() {
 		
 	}
@@ -442,9 +448,13 @@ class Wallet{
 class Cart{
 	private double totalAmount;
 	private ArrayList <Food> items = new ArrayList<Food>();
-	public Cart() {
+	private Restaurant restaurant;
+	private Customer customer;
+	
+	public Cart(Restaurant restaurant, Customer customer) {
 		super();
-		//code to calculate discounts, checkout , rewards
+		this.restaurant = restaurant;
+		this.customer = customer;
 	}
 	public void addToCart(Food item) {
 		this.items.add(item);
