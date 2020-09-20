@@ -1,22 +1,43 @@
 package assignment2;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Assignment2 {
-
+	public Scanner sc = new Scanner(System.in);
+	private Zotato zotato = new Zotato();
+	private App startApp = new App();
 	public static void main(String[] args) {
-
+		
 	}
+	public Zotato getZotato() {
+		return zotato;
+	}
+	public App getStartApp() {
+		return startApp;
+	}
+	
 
 }
 
 class Zotato{
 	private double deliveryCharges;
 	private double restaurantCharges;
-	public Zotato(double deliveryCharges, double restaurantCharges) {
+	public Zotato() {
 		super();
+	}
+	public double getDeliveryCharges() {
+		return deliveryCharges;
+	}
+	public void setDeliveryCharges(double deliveryCharges) {
 		this.deliveryCharges = deliveryCharges;
+	}
+	public double getRestaurantCharges() {
+		return restaurantCharges;
+	}
+	public void setRestaurantCharges(double restaurantCharges) {
 		this.restaurantCharges = restaurantCharges;
 	}
+	
 	
 }
 class App{
