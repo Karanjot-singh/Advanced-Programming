@@ -55,6 +55,15 @@ class Restaurant implements User{
 		this.rewardAmount=5;
 		this.rewardCriteria=100;
 	}
+	@Override
+	public void displayMenu() {
+		
+	}
+	@Override
+	public void displayRewards() {
+		
+	}
+	
 	public static ArrayList<Food> getMenu() {
 		return menu;
 	}
@@ -114,10 +123,10 @@ class Customer implements User{
 	protected static ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
 	protected ArrayList <Cart> pastOrders = new ArrayList<Cart>();
 	protected Restaurant selectedRestaurant;
-	protected Cart currentOrder;		
-	protected int delivery=40;
+	protected Cart currentOrder;
+	protected Wallet userAccount;
+	protected int delivery=40;	
 	protected double discountCriteria,discountAmount;
-	protected double rewardAmount,wallet;
 	protected final String name;
 	protected final String address;
 	
@@ -126,9 +135,19 @@ class Customer implements User{
 		this.name = name;
 		this.address = address;
 		this.category = category;
-		this.wallet = 1000;
 		this.discountAmount=0;
-		this.discountCriteria=0;		
+		this.discountCriteria=0;
+		this.userAccount = new Wallet(); //composition
+		
+	}
+	
+	@Override
+	public void displayMenu() {
+		
+	}
+	@Override
+	public void displayRewards() {
+		
 	}
 
 	public String getCategory() {
@@ -163,18 +182,35 @@ class Customer implements User{
 		return discountAmount;
 	}
 
+	public String getName() {
+		return name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	
+}
+class Wallet{
+	private double rewardAmount,wallet;
+	public Wallet() {
+		this.wallet = 1000;
+		this.rewardAmount=0;
+	}
+
+	public void setRewardAmount(double rewardAmount) {
+		this.rewardAmount = rewardAmount;
+	}
+
+	public void setWallet(double wallet) {
+		this.wallet = wallet;
+	}
+
 	public double getRewardAmount() {
 		return rewardAmount;
 	}
 
 	public double getWallet() {
 		return wallet;
-	}
-	public String getName() {
-		return name;
-	}
-	public String getAddress() {
-		return address;
 	}
 	
 }
@@ -202,6 +238,7 @@ class EliteCustomer extends Customer{
 		this.discountAmount=50;
 		this.discountCriteria=200;
 		this.delivery=0;
+		
 	}	
 }
 class SpecialCustomer extends Customer{
