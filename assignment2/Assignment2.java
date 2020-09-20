@@ -59,16 +59,15 @@ class App{
 		restaurantRecord.add(wang);
 		Restaurant paradise = new Restaurant("Paradise", "K01 Street");
 		restaurantRecord.add(paradise);
-		
-		Customer ram = new EliteCustomer("Ram", "66-A block", "Elite");
+		Customer ram = new EliteCustomer("Ram", "66-A block", "Elite",restaurantRecord);
 		customerRecord.add(ram);
-		Customer c = new EliteCustomer("Sam", "67-A block", "Elite");
+		Customer c = new EliteCustomer("Sam", "67-A block", "Elite",restaurantRecord);
 		customerRecord.add(c);
-		c = new SpecialCustomer("Tim", "68-A block", "Special");
+		c = new SpecialCustomer("Tim", "68-A block", "Special",restaurantRecord);
 		customerRecord.add(c);
-		c = new Customer("Kim", "69-A block", "Customer");
+		c = new Customer("Kim", "69-A block", "Customer",restaurantRecord);
 		customerRecord.add(c);
-		c = new Customer("Jim", "70-A block", "Customer");
+		c = new Customer("Jim", "70-A block", "Customer",restaurantRecord);
 		customerRecord.add(c);
 		parentMenu(c);
 		
@@ -308,12 +307,14 @@ class Customer implements User{
 	protected final String name;
 	protected final String address;
 	
-	public Customer(String name, String address, String category) {
+	public Customer(String name, String address, String category,ArrayList <Restaurant> restaurantList ) {
+		//Association 
 		super();
 		this.name = name;
 		this.address = address;
 		this.category = category;
 		this.discountAmount=0;
+		restaurants= restaurantList;
 		this.discountCriteria=0;
 		this.userAccount = new Wallet(); //composition
 		
@@ -326,7 +327,7 @@ class Customer implements User{
     		System.out.println("");
     		System.out.println("Welcome " +this.getName() +"\n" + 
     				"Customer Menu\n" + 
-    				"1) Search item\n" + 
+    				"1) Select Restaurant\n" + 
     				"2) checkout cart\n" + 
     				"3) Reward won\n" + 
     				"4) print the recent orders\n" + 
@@ -431,8 +432,8 @@ class Cart{
 }
 class EliteCustomer extends Customer{
 
-	public EliteCustomer(String name, String address, String category) {
-		super(name, address, category);
+	public EliteCustomer(String name, String address, String category,ArrayList <Restaurant> restaurantList) {
+		super(name, address, category,restaurantList);
 		this.discountAmount=50;
 		this.discountCriteria=200;
 		this.delivery=0;
@@ -441,8 +442,8 @@ class EliteCustomer extends Customer{
 }
 class SpecialCustomer extends Customer{
 
-	public SpecialCustomer(String name, String address, String category) {
-		super(name, address, category);
+	public SpecialCustomer(String name, String address, String category,ArrayList <Restaurant> restaurantList) {
+		super(name, address, category,restaurantList);
 		this.discountAmount=25;
 		this.discountCriteria=200;
 		this.delivery=20;
