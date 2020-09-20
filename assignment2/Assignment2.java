@@ -46,6 +46,29 @@ class App{
 	//getter?
 	App(){
 		//hardcode data
+		Restaurant shah = new AuthenticRestaurant("Shah", "101 Street", 1);
+		restaurantRecord.add(shah);
+		Restaurant ravi = new Restaurant("Ravi's", "100 Street");
+		restaurantRecord.add(ravi);
+		Restaurant chinese = new AuthenticRestaurant("The Chinese", "102 Street", 1);
+		restaurantRecord.add(chinese);
+		Restaurant wang = new FastfoodRestaurant("Wang's", "B22 Street", 1);
+		restaurantRecord.add(wang);
+		Restaurant paradise = new Restaurant("Paradise", "K01 Street");
+		restaurantRecord.add(paradise);
+		
+		Customer ram = new EliteCustomer("Ram", "66-A block", "Elite");
+		customerRecord.add(ram);
+		Customer c = new EliteCustomer("Sam", "67-A block", "Elite");
+		customerRecord.add(c);
+		c = new SpecialCustomer("Tim", "68-A block", "Special");
+		customerRecord.add(c);
+		c = new Customer("Kim", "69-A block", "Customer");
+		customerRecord.add(c);
+		c = new Customer("Jim", "70-A block", "Customer");
+		customerRecord.add(c);
+		
+		
 	}
 	
 	public static ArrayList<Customer> getCustomerRecord() {
