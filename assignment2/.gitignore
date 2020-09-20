@@ -7,3 +7,6 @@
 /User.class
 /AuthenticRestaurant.class
 /FastfoodRestaurant.class
+/Cart.class
+/EliteCustomer.class
+/SpecialCustomer.class
