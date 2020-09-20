@@ -3,16 +3,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Assignment2 {
-	private Zotato zotato = new Zotato();
-	private App startApp = new App();
+	private static Zotato zotato;
+	private static App app;
 	public static void main(String[] args) {
-		
+		App startApp = new App();
+		app=startApp;
+		Zotato company = new Zotato();
+		zotato = company;
 	}
 	public Zotato getZotato() {
 		return zotato;
 	}
-	public App getStartApp() {
-		return startApp;
+	public App getApp() {
+		return app;
 	}
 	
 
@@ -90,8 +93,7 @@ class App{
     		else if(inputQuery==4) {}
     		else if(inputQuery==5) {
     			loopFlag=0;
-    		}
-    		
+    		}	
     		
     	}
 		
@@ -108,7 +110,7 @@ class App{
 }
 
 class Restaurant implements User{
-	protected static ArrayList <Food> menu = new ArrayList<Food>();
+	protected ArrayList <Food> menu = new ArrayList<Food>();
 	protected int numberOrders=0;
 	protected double discount;
 	protected double morediscountCriteria,morediscountAmount;
@@ -127,7 +129,43 @@ class Restaurant implements User{
 	}
 	@Override
 	public void displayMenu() {
-
+		int loopFlag=1;
+    	while(loopFlag==1) {
+    		System.out.println("");
+    		System.out.println("Welcome " +this.getName() +"\n" + 
+    				"1) Add item\n" + 
+    				"2) Edit item\n" + 
+    				"3) Print Rewards\n" + 
+    				"4) Discount on bill value\n" + 
+    				"5) Exit");
+    		System.out.println();
+    		int inputQuery = sc.nextInt();
+    		if(inputQuery==1)
+    			addItem();
+    		else if(inputQuery==2) {}
+    		else if(inputQuery==3) {}
+    		else if(inputQuery==4) {}
+    		else if(inputQuery==5) {
+    			loopFlag=0;
+    		}    		
+    	}		
+	}
+	private void addItem() {		
+		System.out.println("");
+		System.out.println("Enter food item details\n" + 
+				"Food name:");
+		String input = sc.next();
+		System.out.println("item price:");
+		double inputPrice = sc.nextDouble();
+		System.out.println("item quantity​ :");
+		int inputQty = sc.nextInt();
+		System.out.println("item category​ :");
+		String inputCategory = sc.next();
+		System.out.println("Offer:");
+		int inputOffer = sc.nextInt();
+		Food item = new Food(input, inputCategory, inputPrice, inputOffer, inputQty);
+		this.menu.add(item);
+		System.out.println(" "+ input + " " + inputCategory+ " " + inputPrice+ " " + inputOffer+ " " + inputQty);
 		
 	}
 	@Override
@@ -135,7 +173,7 @@ class Restaurant implements User{
 		
 	}
 	
-	public static ArrayList<Food> getMenu() {
+	public ArrayList<Food> getMenu() {
 		return menu;
 	}
 	public double getDiscount() {
