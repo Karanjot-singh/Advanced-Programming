@@ -140,9 +140,8 @@ class Restaurant implements User{
     				"5) Exit");
     		System.out.println();
     		int inputQuery = sc.nextInt();
-    		if(inputQuery==1)
-    			addItem();
-    		else if(inputQuery==2) {}
+    		if(inputQuery==1) addItem();
+    		else if(inputQuery==2) editItem();
     		else if(inputQuery==3) {}
     		else if(inputQuery==4) {}
     		else if(inputQuery==5) {
@@ -165,7 +164,65 @@ class Restaurant implements User{
 		int inputOffer = sc.nextInt();
 		Food item = new Food(input, inputCategory, inputPrice, inputOffer, inputQty);
 		this.menu.add(item);
-		System.out.println(" "+ input + " " + inputCategory+ " " + inputPrice+ " " + inputOffer+ " " + inputQty);
+		System.out.println(item.getId() +" "+ input + " " + inputCategory+ " " 
+		+ inputPrice+ " " + inputOffer+ "% off " + inputQty);
+		
+	}
+	private void editItem() {		
+		System.out.println("");
+		int count =0;
+		for(Food item : menu) {
+			System.out.println(++count +" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
+		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
+		}
+		System.out.println("Choose item by number");
+		int inputidx = sc.nextInt();
+		this.editItemMenu(inputidx-1);
+		
+		
+	}
+	private void editItemMenu(int index) {
+		int loopFlag=1;
+    	while(loopFlag==1) {
+    		System.out.println("");
+    		System.out.println("Choose an attribute to edit:\n" + 
+    				"1) Name\n" + 
+    				"2) Price\n" + 
+    				"3) Quantity\n" + 
+    				"4) Category\n" + 
+    				"5) Offer");
+    		System.out.println();
+    		int inputQuery = sc.nextInt();
+    		if(inputQuery==2) {
+    			System.out.println("Enter the new price -");
+    			double price = sc.nextDouble();
+    			this.menu.get(index).setPrice(price);
+    		}
+    		else if(inputQuery==1) {
+    			System.out.println("Enter the new name -");
+    			String input = sc.next();
+    			this.menu.get(index).setName(input);	
+    		}
+    		else if(inputQuery==3) {    			
+    		System.out.println("Enter the new quantity -");
+			int input = sc.nextInt();
+			this.menu.get(index).setQuantity(input);
+			}
+    		else if(inputQuery==4) {
+    			System.out.println("Enter the new category -");
+    			String input = sc.next();
+    			this.menu.get(index).setName(input);
+    		}
+    		else if(inputQuery==5) {
+    			System.out.println("Enter the new offer -");
+    			double price = sc.nextDouble();
+    			this.menu.get(index).setDiscount(price);
+    		}
+    		Food item = this.menu.get(index);
+    		System.out.println(index+1 +" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
+    		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
+    	}
+
 		
 	}
 	@Override
