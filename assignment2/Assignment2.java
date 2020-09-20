@@ -153,7 +153,7 @@ class Restaurant implements User{
     		}    		
     	}		
 	}
-	private void addItem() {		
+	protected void addItem() {		
 		System.out.println("");
 		System.out.println("Enter food item details\n" + 
 				"Food name:");
@@ -172,7 +172,7 @@ class Restaurant implements User{
 		+ inputPrice+ " " + inputOffer+ "% off " + inputQty);
 		
 	}
-	private void editItem() {		
+	protected void editItem() {		
 		System.out.println("");
 		int count =0;
 		for(Food item : menu) {
@@ -195,7 +195,7 @@ class Restaurant implements User{
 		int inputItem = sc.nextInt();
 		return inputItem-1;
 	}
-	private void editItemMenu(int index) {
+	protected void editItemMenu(int index) {
 		int loopFlag=1;
     	while(loopFlag==1) {
     		System.out.println("");
@@ -344,7 +344,7 @@ class Customer implements User{
     		System.out.println();
     		int inputQuery = sc.nextInt();
     		if(inputQuery==1) selectRestaurant();
-    		else if(inputQuery==2) checkoutCart();
+    		else if(inputQuery==2) currentOrder.checkoutCart();
     		else if(inputQuery==3) displayRewards();
     		else if(inputQuery==4);
     		else if(inputQuery==5) {
@@ -353,7 +353,7 @@ class Customer implements User{
     	}
 		
 	}
-	private void selectRestaurant() {
+	protected void selectRestaurant() {
 
 		int choice = User.restaurantMenu();
 		Restaurant selected = restaurants.get(choice);
@@ -376,10 +376,8 @@ class Customer implements User{
 		
 		System.out.println("Items added to cart");
 	}
-	private void checkoutCart()
-	{
-		
-	}	@Override
+	
+	@Override
 	public void displayRewards() {
 		
 	}
@@ -450,6 +448,7 @@ class Cart{
 	private ArrayList <Food> items = new ArrayList<Food>();
 	private Restaurant restaurant;
 	private Customer customer;
+	public static Scanner sc = new Scanner(System.in);
 	
 	public Cart(Restaurant restaurant, Customer customer) {
 		super();
@@ -458,6 +457,20 @@ class Cart{
 	}
 	public void addToCart(Food item) {
 		this.items.add(item);
+		
+	}
+	protected void checkoutCart(){
+		System.out.println("");
+		System.out.println("Items in Cart -");
+		for(Food item : items) {
+			System.out.println(item.getId() +" "+ restaurant.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
+		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
+		}
+		System.out.println("Delivery charge -"+customer.getDelivery() +"/-");
+		//price calc
+		
+		System.out.println("1) Proceed to checkout");
+		int inputidx = sc.nextInt();
 		
 	}
 	public double getTotalAmount() {
