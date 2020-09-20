@@ -10,18 +10,59 @@ public class Assignment2 {
 }
 
 class Zotato{
-	double deliveryCharges;
-	double restaurantCharges;
+	private double deliveryCharges;
+	private double restaurantCharges;
+	public Zotato(double deliveryCharges, double restaurantCharges) {
+		super();
+		this.deliveryCharges = deliveryCharges;
+		this.restaurantCharges = restaurantCharges;
+	}
 	
 }
 class App{
 	protected static ArrayList <Customer> customerRecord = new ArrayList<Customer>();
 	protected static ArrayList <Restaurant> restaurantRecord = new ArrayList<Restaurant>();
+	App(){
+		//hardcode data
+	}
 }
 
-class Restaurant{
+abstract class User{
+	protected String name;
+	protected String address;
 	
 }
-class Customer{
+
+class Restaurant extends User{
+	
 	
 }
+class Customer extends User{
+	
+}
+
+class Food{
+	private static int idGenerator=0;
+	private String name;
+	private double price, discount;
+	private int quantity;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
