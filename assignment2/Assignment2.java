@@ -116,7 +116,7 @@ class Restaurant implements User{
 	protected int numberOrders=0;
 	protected double discount;
 	protected double morediscountCriteria,morediscountAmount;
-	protected double rewardAmount, rewardCriteria ,rewardPoints;
+	protected int rewardAmount, rewardCriteria ,rewardPoints;
 	protected final String name;
 	protected final String address;
 	public Restaurant(String name, String address) {
@@ -248,10 +248,10 @@ class Restaurant implements User{
 		return menu;
 	}
 	
-	public double getRewardPoints() {
+	public int getRewardPoints() {
 		return rewardPoints;
 	}
-	public void setRewardPoints(double rewardPoints) {
+	public void setRewardPoints(int rewardPoints) {
 		this.rewardPoints = rewardPoints;
 	}
 	public double getDiscount() {
@@ -266,10 +266,10 @@ class Restaurant implements User{
 	public double getMorediscountAmount() {
 		return morediscountAmount;
 	}
-	public double getRewardAmount() {
+	public int getRewardAmount() {
 		return rewardAmount;
 	}
-	public double getRewardCriteria() {
+	public int getRewardCriteria() {
 		return rewardCriteria;
 	}
 	public String getName() {
@@ -310,7 +310,8 @@ class Customer implements User{
 	protected static ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
 	protected ArrayList <Cart> pastOrders = new ArrayList<Cart>();
 	protected Cart currentOrder;
-	protected Wallet userAccount;
+	protected int rewards;
+	protected Wallet wallet;
 	protected int delivery=40;	
 	protected double discountCriteria,discountAmount;
 	protected final String name;
@@ -325,7 +326,7 @@ class Customer implements User{
 		this.discountAmount=0;
 		restaurants= restaurantList;
 		this.discountCriteria=0;
-		this.userAccount = new Wallet(); //composition
+		this.wallet = new Wallet(); //composition
 		
 	}
 	
@@ -381,6 +382,15 @@ class Customer implements User{
 	public void displayRewards() {
 		
 	}
+	
+	public int getRewards() {
+		return rewards;
+	}
+
+	public void setRewards(int rewards) {
+		this.rewards = rewards;
+		wallet.setRewardAmount(rewards);
+	}
 
 	public String getCategory() {
 		return category;
@@ -419,13 +429,24 @@ class Customer implements User{
 	
 }
 class Wallet{
-	private double rewardAmount,wallet;
+	private double wallet;
+	private double rewardAmount;
 	public Wallet() {
 		this.wallet = 1000;
 		this.rewardAmount=0;
 	}
+	public void deductAmount(double amount) {
+		if(amount> this.rewardAmount)
+		{
+			this.wallet= wallet-amount+this.rewardAmount;
+			this.rewardAmount=0;
+		}
+		else
+			this.rewardAmount= this.rewardAmount -amount;
+			
+	}
 
-	public void setRewardAmount(double rewardAmount) {
+	public void setRewardAmount(int rewardAmount) {
 		this.rewardAmount = rewardAmount;
 	}
 
@@ -446,6 +467,7 @@ class Wallet{
 class Cart{
 	private double totalAmount=0;
 	private double foodDiscount=0;
+	private int reward=0;
 	private ArrayList <Food> items = new ArrayList<Food>();
 	private Restaurant restaurant;
 	private Customer customer;
@@ -475,11 +497,26 @@ class Cart{
 
 		}
 		double discount = restaurantDiscounts();
-		customerDiscounts(discount);
+		customerDiscounts(discount);		
 		System.out.println("Delivery charge -"+customer.getDelivery() +"/-");
-		
+		double totalPay=this.totalAmount+customer.getDelivery();
 		System.out.println("1) Proceed to checkout");
 		int inputidx = sc.nextInt();
+		if(inputidx ==1) {
+			customer.wallet.deductAmount(totalPay);
+			//deduction
+			System.out.println("items successfully bought for INR "+totalPay+"/-");
+			calculateRewards();
+			customer.setRewards(customer.getRewards()+this.reward);
+			restaurant.setRewardPoints(restaurant.getRewardPoints()+this.reward);
+			
+		}			
+		
+	}
+	protected void calculateRewards() {
+		int temp =0;
+		temp = (int) (totalAmount/restaurant.getRewardCriteria());
+		this.reward = (int) (temp*(restaurant.getRewardAmount()));
 		
 	}
 	protected void customerDiscounts(double discount) {
