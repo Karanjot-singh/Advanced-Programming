@@ -22,6 +22,7 @@ class Zotato{
 class App{
 	protected static ArrayList <Customer> customerRecord = new ArrayList<Customer>();
 	protected static ArrayList <Restaurant> restaurantRecord = new ArrayList<Restaurant>();
+	//getter?
 	App(){
 		//hardcode data
 	}
@@ -36,32 +37,18 @@ class App{
 
 }
 
-abstract class User{
-
-	protected final String name;
-	protected final String address;	
-	public User(String name, String address) {
-		super();
-		this.name = name;
-		this.address = address;
-	}
-	public String getName() {
-		return name;
-	}
-	public String getAddress() {
-		return address;
-	}
-	
-}
-
-class Restaurant extends User{
+class Restaurant implements User{
 	protected static ArrayList <Food> menu = new ArrayList<Food>();
 	protected int numberOrders=0;
 	protected double discount;
 	protected double morediscountCriteria,morediscountAmount;
 	protected double rewardAmount, rewardCriteria;
+	protected final String name;
+	protected final String address;
 	public Restaurant(String name, String address) {
-		super(name, address);
+		super();
+		this.name = name;
+		this.address = address;
 		this.discount = 0;
 		this.morediscountCriteria = 0;
 		this.morediscountAmount = 0;
@@ -88,6 +75,12 @@ class Restaurant extends User{
 	}
 	public double getRewardCriteria() {
 		return rewardCriteria;
+	}
+	public String getName() {
+		return name;
+	}
+	public String getAddress() {
+		return address;
 	}
 	
 	
@@ -116,7 +109,7 @@ class FastfoodRestaurant extends Restaurant{
 	
 }
 
-class Customer extends User{
+class Customer implements User{
 	private String category;
 	protected static ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
 	protected ArrayList <Cart> pastOrders = new ArrayList<Cart>();
@@ -125,9 +118,13 @@ class Customer extends User{
 	protected int delivery=40;
 	protected double discountCriteria,discountAmount;
 	protected double rewardAmount,wallet;
+	protected final String name;
+	protected final String address;
 	
 	public Customer(String name, String address, String category) {
-		super(name, address);
+		super();
+		this.name = name;
+		this.address = address;
 		this.category = category;
 		this.wallet = 1000;
 		this.discountAmount=0;
@@ -173,7 +170,29 @@ class Customer extends User{
 	public double getWallet() {
 		return wallet;
 	}
+	public String getName() {
+		return name;
+	}
+	public String getAddress() {
+		return address;
+	}
 	
+}
+
+class Cart{
+	private double totalAmount;
+	private ArrayList <Food> items = new ArrayList<Food>();
+	public Cart(ArrayList<Food> items) {
+		super();
+		this.items = items;
+		//code to calculate discounts, checkout , rewards
+	}
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+	public ArrayList<Food> getItems() {
+		return items;
+	}	
 	
 }
 class EliteCustomer extends Customer{
@@ -193,19 +212,6 @@ class SpecialCustomer extends Customer{
 		this.discountCriteria=200;
 		this.delivery=20;
 	}	
-	
-	
-}
-
-class Cart{
-	private double totalAmount;
-	private ArrayList <Food> items = new ArrayList<Food>();
-	public Cart(ArrayList<Food> items) {
-		super();
-		this.items = items;
-		//code to calculate discounts, checkout , rewards
-	}
-	
 	
 	
 }
