@@ -376,12 +376,19 @@ class Customer implements User{
     		if(inputQuery==1) selectRestaurant();
     		else if(inputQuery==2) currentOrder.checkoutCart();
     		else if(inputQuery==3) displayRewards();
-    		else if(inputQuery==4);
+    		else if(inputQuery==4) displayPreviousOrders();
     		else if(inputQuery==5) {
     			loopFlag=0;
     		}    		
     	}
 		
+	}
+	protected void displayPreviousOrders() {
+
+		System.out.println("");
+		for(Cart orders : this.pastOrders) {
+			System.out.println(orders.getSummary());
+		}
 	}
 	protected void selectRestaurant() {
 
@@ -499,6 +506,7 @@ class Wallet{
 }
 
 class Cart{
+	private String summary="";
 	private double totalAmount=0;
 	private double foodDiscount=0;
 	private int reward=0;
@@ -522,7 +530,7 @@ class Cart{
 		System.out.println("");
 		System.out.println("Items in Cart -");
 		for(Food item : items) {
-			System.out.println(item.getId() +" "+ restaurant.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
+			System.out.println(item.getId() +" "+ item.getQuantity() +" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
 			double temp;
 			if(item.getDiscount()==0)
@@ -552,8 +560,16 @@ class Cart{
 			customer.setRewards(customer.getRewards()+this.reward);
 			restaurant.setRewardPoints(restaurant.getRewardPoints()+this.reward);
 			restaurant.setNumberOrders(restaurant.getNumberOrders()+1);
+			displayDetails();
 		}			
 		
+	}
+	protected void displayDetails() {
+		for(Food item : items) {
+		this.summary="Bought item: "+item.getName() + " Quantity:" + item.getQuantity()+ " for Rs  " 
+				+ item.getPrice()+ " from Restaurant " + restaurant.getName()
+				+ " and Delivery Charge "+customer.getDelivery();
+		}
 	}
 	protected void calculateRewards() {
 		int temp =0;
@@ -581,6 +597,9 @@ class Cart{
 	}
 	public ArrayList<Food> getItems() {
 		return items;
+	}
+	public String getSummary() {
+		return summary;
 	}	
 	
 }
