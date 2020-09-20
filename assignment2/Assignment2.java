@@ -70,10 +70,10 @@ class App{
 		customerRecord.add(c);
 		c = new Customer("Jim", "70-A block", "Customer");
 		customerRecord.add(c);
-		parentMenu();
+		parentMenu(c);
 		
 	}
-	private static void parentMenu() {
+	private static void parentMenu(Customer c) {
 		int loopFlag=1;
     	while(loopFlag==1) {
     		System.out.println("");
@@ -88,7 +88,10 @@ class App{
     			int choice = User.restaurantMenu();
     			restaurantRecord.get(choice).displayMenu();
     		}
-    		else if(inputQuery==2) {}
+    		else if(inputQuery==2) {
+    			int choice = User.customerMenu();
+    			c.displayMenu();
+    		}
     		else if(inputQuery==3) {}
     		else if(inputQuery==4) {}
     		else if(inputQuery==5) {
@@ -318,6 +321,26 @@ class Customer implements User{
 	
 	@Override
 	public void displayMenu() {
+		int loopFlag=1;
+    	while(loopFlag==1) {
+    		System.out.println("");
+    		System.out.println("Welcome " +this.getName() +"\n" + 
+    				"Customer Menu\n" + 
+    				"1) Search item\n" + 
+    				"2) checkout cart\n" + 
+    				"3) Reward won\n" + 
+    				"4) print the recent orders\n" + 
+    				"5) Exit");
+    		System.out.println();
+    		int inputQuery = sc.nextInt();
+    		if(inputQuery==1) ;
+    		else if(inputQuery==2) ;
+    		else if(inputQuery==3) displayRewards();
+    		else if(inputQuery==4);
+    		else if(inputQuery==5) {
+    			loopFlag=0;
+    		}    		
+    	}
 		
 	}
 	@Override
