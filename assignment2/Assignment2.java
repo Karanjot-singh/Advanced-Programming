@@ -185,6 +185,16 @@ class Restaurant implements User{
 		
 		
 	}
+	public int showMenu() {
+		System.out.println("");
+		int count =0;
+		for(Food item : menu) {
+			System.out.println(++count +" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
+		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
+		}
+		int inputItem = sc.nextInt();
+		return inputItem-1;
+	}
 	private void editItemMenu(int index) {
 		int loopFlag=1;
     	while(loopFlag==1) {
@@ -299,7 +309,6 @@ class Customer implements User{
 	private String category;
 	protected static ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
 	protected ArrayList <Cart> pastOrders = new ArrayList<Cart>();
-	protected Restaurant selectedRestaurant;
 	protected Cart currentOrder;
 	protected Wallet userAccount;
 	protected int delivery=40;	
@@ -315,6 +324,7 @@ class Customer implements User{
 		this.category = category;
 		this.discountAmount=0;
 		restaurants= restaurantList;
+		currentOrder = new Cart();
 		this.discountCriteria=0;
 		this.userAccount = new Wallet(); //composition
 		
@@ -334,7 +344,7 @@ class Customer implements User{
     				"5) Exit");
     		System.out.println();
     		int inputQuery = sc.nextInt();
-    		if(inputQuery==1) ;
+    		if(inputQuery==1) selectRestaurant();
     		else if(inputQuery==2) ;
     		else if(inputQuery==3) displayRewards();
     		else if(inputQuery==4);
@@ -343,6 +353,25 @@ class Customer implements User{
     		}    		
     	}
 		
+	}
+	private void selectRestaurant() {
+		int choice = User.restaurantMenu();
+		int idx = restaurants.get(choice).showMenu();
+		System.out.println("Enter item quantity - ");
+		//Assuming input will always be less than restaurant stock
+		int inputQty = sc.nextInt();
+		Food itemOld = restaurants.get(choice).menu.get(idx);
+		Food item;
+		try {
+			item = (Food)itemOld.clone();
+			item.setQuantity(inputQty); // not a reference but a copy
+			currentOrder.addToCart(item);
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("Items added to cart");
 	}
 	@Override
 	public void displayRewards() {
@@ -359,10 +388,6 @@ class Customer implements User{
 
 	public ArrayList<Cart> getPastOrders() {
 		return pastOrders;
-	}
-
-	public Restaurant getSelectedRestaurant() {
-		return selectedRestaurant;
 	}
 
 	public Cart getCurrentOrder() {
@@ -417,10 +442,13 @@ class Wallet{
 class Cart{
 	private double totalAmount;
 	private ArrayList <Food> items = new ArrayList<Food>();
-	public Cart(ArrayList<Food> items) {
+	public Cart() {
 		super();
-		this.items = items;
 		//code to calculate discounts, checkout , rewards
+	}
+	public void addToCart(Food item) {
+		this.items.add(item);
+		
 	}
 	public double getTotalAmount() {
 		return totalAmount;
@@ -452,13 +480,18 @@ class SpecialCustomer extends Customer{
 	
 }
 
-class Food{
+class Food implements Cloneable{
 	private static int idGenerator=1;
 	private int id;
 	private String name, category;
 	private double price, discount;
 	private int quantity;
-
+	
+	public Object clone() throws
+	    CloneNotSupportedException 
+		{ 
+		return super.clone(); 
+		}
 	public Food(String name, String category, double price, double discount, int quantity) {
 		super();
 		this.name = name;
