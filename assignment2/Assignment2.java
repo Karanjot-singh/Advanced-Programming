@@ -3,22 +3,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Assignment2 {
-	private static Zotato zotato;
 	private static App app;
 	public static void main(String[] args) {
 		App startApp = new App();
 		app=startApp;
-		Zotato company = new Zotato();
-		zotato = company;
 	}
-	public Zotato getZotato() {
-		return zotato;
-	}
-	public App getApp() {
-		return app;
-	}
-	
-
 }
 
 class Zotato{
@@ -26,6 +15,11 @@ class Zotato{
 	private double restaurantCharges;
 	public Zotato() {
 		super();
+	}
+	public void display() {
+		System.out.println("");
+		System.out.println("Total Company balance - INR"+this.restaurantCharges+"/-\n" + 
+				"Total Delivery Charges Collected - INR"+this.deliveryCharges+"/-\n");
 	}
 	public double getDeliveryCharges() {
 		return deliveryCharges;
@@ -49,6 +43,7 @@ class App{
 	//getter?
 	App(){
 		//hardcode data
+//		zotato = new Zotato();
 		Restaurant shah = new AuthenticRestaurant("Shah", "101 Street", 1);
 		restaurantRecord.add(shah);
 		Restaurant ravi = new Restaurant("Ravi's", "100 Street");
@@ -72,6 +67,7 @@ class App{
 		parentMenu(c);
 		
 	}
+
 	private static void parentMenu(Customer c) {
 		int loopFlag=1;
     	while(loopFlag==1) {
@@ -91,8 +87,29 @@ class App{
     			int choice = User.customerMenu();
     			c.displayMenu();
     		}
-    		else if(inputQuery==3) {}
-    		else if(inputQuery==4) {}
+    		else if(inputQuery==3) {
+    			System.out.println("");
+    			System.out.println("1) Customer List\n" + 
+    					"2) Restaurant List");
+    			
+    			int input1 = sc.nextInt();
+    			if(input1==1) {
+    				int choice = User.customerMenu();
+    				Customer customer =customerRecord.get(choice);
+    				useInterface(customer);
+    			}
+    			else {
+    				int choice = User.restaurantMenu();
+    				Restaurant restaurant = restaurantRecord.get(choice);
+    				useInterface(restaurant);
+    				
+    			}
+    			
+    		}
+    		else if(inputQuery==4) {
+    			Zotato z = new Zotato();
+    			z.display();
+    		}
     		else if(inputQuery==5) {
     			loopFlag=0;
     		}	
@@ -100,7 +117,10 @@ class App{
     	}
 		
 	}
-	
+	private static void useInterface(User user) {
+		user.displayUserDetails();
+
+	}
 	public static ArrayList<Customer> getCustomerRecord() {
 		return customerRecord;
 	}
@@ -243,6 +263,11 @@ class Restaurant implements User{
 	public void displayRewards() {
 		System.out.println("Reward Points: "+ this.getRewardPoints());
 	}
+	@Override
+	public void displayUserDetails() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public ArrayList<Food> getMenu() {
 		return menu;
@@ -278,6 +303,7 @@ class Restaurant implements User{
 	public String getAddress() {
 		return address;
 	}
+
 	
 	
 }
@@ -380,9 +406,12 @@ class Customer implements User{
 	
 	@Override
 	public void displayRewards() {
+		System.out.println("Reward Points: "+ this.rewards);
+	}
+	@Override
+	public void displayUserDetails() {
 		
 	}
-	
 	public int getRewards() {
 		return rewards;
 	}
@@ -431,6 +460,7 @@ class Customer implements User{
 class Wallet{
 	private double wallet;
 	private double rewardAmount;
+
 	public Wallet() {
 		this.wallet = 1000;
 		this.rewardAmount=0;
@@ -471,12 +501,14 @@ class Cart{
 	private ArrayList <Food> items = new ArrayList<Food>();
 	private Restaurant restaurant;
 	private Customer customer;
+	private Zotato zotato;
 	public static Scanner sc = new Scanner(System.in);
 	
 	public Cart(Restaurant restaurant, Customer customer) {
 		super();
 		this.restaurant = restaurant;
 		this.customer = customer;
+		zotato = new Zotato();
 	}
 	public void addToCart(Food item) {
 		this.items.add(item);
@@ -497,9 +529,14 @@ class Cart{
 
 		}
 		double discount = restaurantDiscounts();
-		customerDiscounts(discount);		
+		customerDiscounts(discount);	
+		
 		System.out.println("Delivery charge -"+customer.getDelivery() +"/-");
 		double totalPay=this.totalAmount+customer.getDelivery();
+		
+		zotato.setRestaurantCharges(this.totalAmount);
+		zotato.setDeliveryCharges(customer.getDelivery());
+		
 		System.out.println("1) Proceed to checkout");
 		int inputidx = sc.nextInt();
 		if(inputidx ==1) {

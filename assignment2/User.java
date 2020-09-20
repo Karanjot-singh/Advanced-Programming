@@ -59,4 +59,5 @@ public interface User {
 	}
 	public void displayMenu();
 	public void displayRewards();
+	public void displayUserDetails();
 }
