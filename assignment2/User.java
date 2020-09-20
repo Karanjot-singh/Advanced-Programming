@@ -1,6 +1,37 @@
 package assignment2;
 
+import java.util.Scanner;
+
 public interface User {
+	public static Scanner sc = new Scanner(System.in);
+	public static int restaurantMenu() {
+		int loopFlag=1;
+    	while(loopFlag==1) {
+    		System.out.println("");
+    		System.out.println("Choose Restaurant\n" + 
+    				"1) Shah (Authentic)\n" + 
+    				"2) Ravi’s\n" + 
+    				"3) The Chinese (Authentic)\n" + 
+    				"4) Wang’s (Fast Food)\n" + 
+    				"5) Paradise");
+    		int inputQuery = sc.nextInt();
+    		switch (inputQuery) {
+  			
+    		  case 1:
+    			  return 0;
+    		  case 2:
+    			  return 1;
+    		  case 3:
+    			return 2;
+    		  case 4:
+    			  return 3;
+    		  case 5:
+    			  return 4;  
+    		  
+    		}
+    	}
+		return 0;	// never executed
+	}
 	public void displayMenu();
 	public void displayRewards();
 }

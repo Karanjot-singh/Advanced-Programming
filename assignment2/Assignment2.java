@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Assignment2 {
-	public Scanner sc = new Scanner(System.in);
 	private Zotato zotato = new Zotato();
 	private App startApp = new App();
 	public static void main(String[] args) {
@@ -43,6 +42,7 @@ class Zotato{
 class App{
 	protected static ArrayList <Customer> customerRecord = new ArrayList<Customer>();
 	protected static ArrayList <Restaurant> restaurantRecord = new ArrayList<Restaurant>();
+	public static Scanner sc = new Scanner(System.in);
 	//getter?
 	App(){
 		//hardcode data
@@ -67,7 +67,33 @@ class App{
 		customerRecord.add(c);
 		c = new Customer("Jim", "70-A block", "Customer");
 		customerRecord.add(c);
+		parentMenu();
 		
+	}
+	private static void parentMenu() {
+		int loopFlag=1;
+    	while(loopFlag==1) {
+    		System.out.println("");
+    		System.out.println("Welcome to Zotato:");
+    		System.out.println("1. Enter as Restaurant Owner\n" + 
+    				"    		2. Enter as Customer\n" + 
+    				"    		3. Check User Details\n" + 
+    				"    		4. Company Account details\n" + 
+    				"    		5. Exit");
+    		int inputQuery = sc.nextInt();
+    		if(inputQuery==1) {
+    			int choice = User.restaurantMenu();
+    			restaurantRecord.get(choice).displayMenu();
+    		}
+    		else if(inputQuery==2) {}
+    		else if(inputQuery==3) {}
+    		else if(inputQuery==4) {}
+    		else if(inputQuery==5) {
+    			loopFlag=0;
+    		}
+    		
+    		
+    	}
 		
 	}
 	
@@ -101,6 +127,7 @@ class Restaurant implements User{
 	}
 	@Override
 	public void displayMenu() {
+
 		
 	}
 	@Override
