@@ -114,7 +114,7 @@ class Restaurant implements User{
 	protected int numberOrders=0;
 	protected double discount;
 	protected double morediscountCriteria,morediscountAmount;
-	protected double rewardAmount, rewardCriteria;
+	protected double rewardAmount, rewardCriteria ,rewardPoints;
 	protected final String name;
 	protected final String address;
 	public Restaurant(String name, String address) {
@@ -126,6 +126,7 @@ class Restaurant implements User{
 		this.morediscountAmount = 0;
 		this.rewardAmount=5;
 		this.rewardCriteria=100;
+		this.rewardPoints=0;
 	}
 	@Override
 	public void displayMenu() {
@@ -142,8 +143,9 @@ class Restaurant implements User{
     		int inputQuery = sc.nextInt();
     		if(inputQuery==1) addItem();
     		else if(inputQuery==2) editItem();
-    		else if(inputQuery==3) {}
-    		else if(inputQuery==4) {}
+    		else if(inputQuery==3) displayRewards();
+    		else if(inputQuery==4)
+    			System.out.println("Offer on bill value - ​"+ this.getDiscount()+" %");
     		else if(inputQuery==5) {
     			loopFlag=0;
     		}    		
@@ -227,11 +229,18 @@ class Restaurant implements User{
 	}
 	@Override
 	public void displayRewards() {
-		
+		System.out.println("Reward Points: "+ this.getRewardPoints());
 	}
 	
 	public ArrayList<Food> getMenu() {
 		return menu;
+	}
+	
+	public double getRewardPoints() {
+		return rewardPoints;
+	}
+	public void setRewardPoints(double rewardPoints) {
+		this.rewardPoints = rewardPoints;
 	}
 	public double getDiscount() {
 		return discount;
