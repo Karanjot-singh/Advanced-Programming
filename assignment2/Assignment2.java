@@ -444,7 +444,8 @@ class Wallet{
 }
 
 class Cart{
-	private double totalAmount;
+	private double totalAmount=0;
+	private double foodDiscount=0;
 	private ArrayList <Food> items = new ArrayList<Food>();
 	private Restaurant restaurant;
 	private Customer customer;
@@ -465,13 +466,36 @@ class Cart{
 		for(Food item : items) {
 			System.out.println(item.getId() +" "+ restaurant.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
+			double temp;
+			if(item.getDiscount()==0)
+				temp = (item.getPrice()) * (item.getQuantity());
+			else
+				temp = (100-item.getDiscount() )*(item.getPrice()) * (item.getQuantity())/100;
+			this.foodDiscount = this.foodDiscount +temp;
+
 		}
+		double discount = restaurantDiscounts();
+		customerDiscounts(discount);
 		System.out.println("Delivery charge -"+customer.getDelivery() +"/-");
-		//price calc
 		
 		System.out.println("1) Proceed to checkout");
 		int inputidx = sc.nextInt();
 		
+	}
+	protected void customerDiscounts(double discount) {
+		if(discount>=customer.getDiscountCriteria()) {
+			discount = discount - customer.getDiscountAmount();		}
+		this.totalAmount= discount;
+	}
+	protected double restaurantDiscounts() {
+		double temp=this.foodDiscount;
+		if(restaurant.getDiscount()==0) 
+			temp = this.foodDiscount; //customer
+		else if (restaurant.getMorediscountCriteria()==0)
+			temp = (100-restaurant.getDiscount() )*(this.foodDiscount)/100; //special
+		else if(temp >= restaurant.getMorediscountCriteria()) 
+			temp = this.foodDiscount- restaurant.getMorediscountAmount();			
+		return temp;
 	}
 	public double getTotalAmount() {
 		return totalAmount;
