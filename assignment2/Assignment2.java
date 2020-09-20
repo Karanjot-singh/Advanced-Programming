@@ -265,10 +265,13 @@ class Restaurant implements User{
 	}
 	@Override
 	public void displayUserDetails() {
-		// TODO Auto-generated method stub
+		System.out.println("/n"+ this.name+" "+ this.address+ " " + this.getNumberOrders());
 		
 	}
 	
+	public void setNumberOrders(int numberOrders) {
+		this.numberOrders = numberOrders;
+	}
 	public ArrayList<Food> getMenu() {
 		return menu;
 	}
@@ -410,6 +413,7 @@ class Customer implements User{
 	}
 	@Override
 	public void displayUserDetails() {
+		System.out.println("/n"+ this.name+" "+ this.category+" "+ this.address+ " " + this.wallet.getWallet());
 		
 	}
 	public int getRewards() {
@@ -544,9 +548,10 @@ class Cart{
 			//deduction
 			System.out.println("items successfully bought for INR "+totalPay+"/-");
 			calculateRewards();
+			
 			customer.setRewards(customer.getRewards()+this.reward);
 			restaurant.setRewardPoints(restaurant.getRewardPoints()+this.reward);
-			
+			restaurant.setNumberOrders(restaurant.getNumberOrders()+1);
 		}			
 		
 	}
