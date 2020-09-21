@@ -529,34 +529,38 @@ class Cart{
 		
 	}
 	//dependency
-	protected void checkoutCart(Zotato zotato){
+	protected void checkoutCart(Zotato zotato ){
 		System.out.println("");
 		System.out.println("Items in Cart -");
 		for(Food item : items) {
 			System.out.println(item.getId() +" "+ item.getQuantity() +" "+restaurant.getName()+
 					" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
+			
 			double temp;
 			if(item.getDiscount()==0)
 				temp = (item.getPrice()) * (item.getQuantity());
 			else
 				temp = (100-item.getDiscount() )*(item.getPrice()) * (item.getQuantity())/100;
 			this.foodDiscount = this.foodDiscount +temp;
-
+//			System.out.println("Food discount"+this.foodDiscount);
 		}
 		double discount = restaurantDiscounts();
 		customerDiscounts(discount);	
 		System.out.println("Delivery charge -"+customer.getDelivery() +"/-");
 		double totalPay=this.totalAmount+customer.getDelivery();
 		System.out.println("Total Order Value - INR "+totalPay+"/-");
+		
 		System.out.println("1) Proceed to checkout");
 		int inputidx = sc.nextInt();
 		if(inputidx ==1) {
 			customer.wallet.deductAmount(totalPay);
+//			int qty = itemOld.getQuantity();
+			
 			//deduction
 			System.out.println("items successfully bought for INR "+totalPay+"/-");
 			
-			// to send reards to the customer and the Restaurant
+			// to send rewards to the customer and the Restaurant
 			calculateRewards();
 			
 			customer.setRewards(customer.getRewards()+this.reward);
@@ -578,25 +582,33 @@ class Cart{
 		}
 	}
 	protected void calculateRewards() {
-		int temp =0;
-		temp = (int) (totalAmount/restaurant.getRewardCriteria());
+		int temp = (int) (totalAmount/restaurant.getRewardCriteria());
+		System.out.println("temp");
 		this.reward = (int) (temp*(restaurant.getRewardAmount()));
 		System.out.println("Reward calculated ="+this.reward);
 		
 	}
 	protected void customerDiscounts(double discount) {
 		if(discount>=customer.getDiscountCriteria()) {
-			discount = discount - customer.getDiscountAmount();		}
+			discount = discount - customer.getDiscountAmount();		
+			System.out.println("customer "+discount);}
 		this.totalAmount= discount;
 	}
 	protected double restaurantDiscounts() {
 		double temp=this.foodDiscount;
-		if(restaurant.getDiscount()==0) 
-			temp = this.foodDiscount; //customer
-		else if (restaurant.getMorediscountCriteria()==0)
-			temp = (100-restaurant.getDiscount() )*(this.foodDiscount)/100; //special
-		else if(temp >= restaurant.getMorediscountCriteria()) 
-			temp = this.foodDiscount- restaurant.getMorediscountAmount();			
+		if(restaurant.getDiscount()==0) {
+			temp = this.foodDiscount;
+//			System.out.println("c"+temp);
+		} //customer
+		else if (restaurant.getMorediscountCriteria()==0) {
+			temp = (100-restaurant.getDiscount() )*(this.foodDiscount)/100; 
+//			System.out.println("s"+temp);
+		}//special
+		else if(temp >= restaurant.getMorediscountCriteria()) {
+			temp = (100-restaurant.getDiscount() )*(this.foodDiscount)/100;
+			temp = temp- restaurant.getMorediscountAmount();	
+//			System.out.println("e"+temp);
+		}		
 		return temp;
 	}
 	public double getTotalAmount() {
