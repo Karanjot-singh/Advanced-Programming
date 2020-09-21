@@ -197,7 +197,7 @@ class Restaurant implements User{
 		System.out.println("");
 		int count =0;
 		for(Food item : menu) {
-			System.out.println(++count +" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
+			System.out.println(++count +") Id:"+ item.getId()+" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
 		}
 		System.out.println("Choose item by number");
@@ -207,10 +207,10 @@ class Restaurant implements User{
 		
 	}
 	public int showMenu() {
-		System.out.println("");
+		System.out.println("\nChoose with number:");
 		int count =0;
 		for(Food item : menu) {
-			System.out.println(++count +" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
+			System.out.println(++count +") Id:"+ item.getId()+" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
 		}
 		int inputItem = sc.nextInt();
@@ -225,8 +225,8 @@ class Restaurant implements User{
     				"2) Price\n" + 
     				"3) Quantity\n" + 
     				"4) Category\n" + 
-    				"5) Offer"+ 
-    				"6) Exit\n" );
+    				"5) Offer\n"+ 
+    				"6) Exit" );
     		System.out.println();
     		int inputQuery = sc.nextInt();
     		if(inputQuery==2) {
@@ -257,7 +257,7 @@ class Restaurant implements User{
     		else
     			loopFlag=0;
     		Food item = this.menu.get(index);
-    		System.out.println(index+1 +" "+ this.getName() +" - "+item.getName() + " " 
+    		System.out.println(index+1 +") Id:"+ item.getId()+" "+ this.getName() +" - "+item.getName() + " " 
     		+ item.getPrice()+ " " +item.getQuantity()+ " "+ item.getDiscount()+ "% off " +  item.getCategory() );
     	}
 
@@ -310,8 +310,6 @@ class Restaurant implements User{
 	public String getAddress() {
 		return address;
 	}
-
-	
 	
 }
 class AuthenticRestaurant extends Restaurant{
@@ -539,7 +537,7 @@ class Cart{
 		System.out.println("");
 		System.out.println("Items in Cart -");
 		for(Food item : items) {
-			System.out.println(item.getId() +" "+ item.getQuantity() +" "+restaurant.getName()+
+			System.out.println("Id: "+item.getId() +" "+ item.getQuantity() +" "+restaurant.getName()+
 					" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
 			
@@ -585,6 +583,7 @@ class Cart{
 		this.summary="Bought item: "+item.getName() + " Quantity:" + item.getQuantity()+ " for Rs  " 
 				+ item.getPrice()+ " from Restaurant " + restaurant.getName()
 				+ " and Delivery Charge "+customer.getDelivery();
+		System.out.println(this.summary);
 		}
 	}
 	protected void calculateRewards() {
