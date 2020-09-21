@@ -39,13 +39,14 @@ class Zotato{
 	
 }
 class App{
-	protected static ArrayList <Customer> customerRecord = new ArrayList<Customer>();
-	protected static ArrayList <Restaurant> restaurantRecord = new ArrayList<Restaurant>();
+	private static ArrayList <Customer> customerRecord = new ArrayList<Customer>();
+	private static ArrayList <Restaurant> restaurantRecord = new ArrayList<Restaurant>();
 	public static Scanner sc = new Scanner(System.in);
+	private static Zotato z;
 	//getter?
 	App(){
 		//hardcode data
-		Zotato z = new Zotato();
+		z = new Zotato();
 		Restaurant shah = new AuthenticRestaurant("Shah", "101 Street", 1);
 		restaurantRecord.add(shah);
 		Restaurant ravi = new Restaurant("Ravi's", "100 Street");
@@ -108,7 +109,6 @@ class App{
     			
     		}
     		else if(inputQuery==4) {
-    			Zotato z = new Zotato();
     			z.display();
     		}
     		else if(inputQuery==5) {
