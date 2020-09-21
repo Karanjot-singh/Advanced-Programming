@@ -382,14 +382,20 @@ class Customer implements User {
 	@Override
 	public void displayMenu() {
 		int loopFlag = 1;
+		int singleRestaurant=1;
 		while (loopFlag == 1) {
 			System.out.println("");
 			System.out.println("Welcome " + this.getName() + "\n" + "Customer Menu\n" + "1) Select Restaurant\n"
 					+ "2) checkout cart\n" + "3) Reward won\n" + "4) print the recent orders\n" + "5) Exit");
 			System.out.println();
-			int inputQuery = sc.nextInt();
+			int inputQuery = sc.nextInt();			
 			if (inputQuery == 1)
+				if(singleRestaurant==1) {
 				selectRestaurant();
+				singleRestaurant=0;
+				}
+				else
+					System.out.println("\nRestaurant already selected.\n");
 			else if (inputQuery == 2) {
 				currentOrder.checkoutCart(zotato);
 				previousOrders.put(count++, currentOrder);
@@ -587,7 +593,7 @@ class Cart {
 				int qty = itemOld.getQuantity();
 				itemOld.setQuantity(qty - item.getQuantity());
 			}
-			System.out.println("items successfully bought for INR " + totalPay + "/-");
+			System.out.println("Items successfully bought for INR " + totalPay + "/-");
 
 			// to send rewards to the customer and the Restaurant
 			calculateRewards();
@@ -622,9 +628,9 @@ class Cart {
 	protected void displayDetails() {
 		for (Duo pair : items) {
 			Food item = pair.getItem();
-			this.summary = "Bought item: " + item.getName() + " Quantity:" + item.getQuantity() + " for Rs  "
-					+ item.getPrice() + " from Restaurant " + restaurant.getName() + " and Delivery Charge "
-					+ customer.getDelivery();
+			this.summary = "Bought item: " + item.getName() + " Quantity:" + item.getQuantity() + "\nfor Rs "
+					+ item.getPrice() + "/- from Restaurant " + restaurant.getName() + " Delivery "
+					+ customer.getDelivery()+"/-";
 			System.out.println(this.summary);
 		}
 	}
