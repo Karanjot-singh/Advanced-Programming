@@ -1,5 +1,7 @@
 package assignment2;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Assignment2 {
@@ -67,7 +69,6 @@ class App{
 		parentMenu();
 		
 	}
-
 	private static void parentMenu() {
 		int loopFlag=1;
     	while(loopFlag==1) {
@@ -338,14 +339,16 @@ class FastfoodRestaurant extends Restaurant{
 }
 
 class Customer implements User{
-	private String category;
+	protected String category;
 	protected static ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
 	protected static Zotato zotato; //association
 	protected ArrayList <Cart> pastOrders = new ArrayList<Cart>();
+	protected HashMap<Integer,Cart> previousOrders = new HashMap<Integer,Cart>();           
 	protected Cart currentOrder;
 	protected int rewards;
 	protected Wallet wallet;
 	protected int delivery=40;	
+	private static int count =1;
 	protected double discountCriteria,discountAmount;
 	protected final String name;
 	protected final String address;
@@ -378,7 +381,10 @@ class Customer implements User{
     		System.out.println();
     		int inputQuery = sc.nextInt();
     		if(inputQuery==1) selectRestaurant();
-    		else if(inputQuery==2) currentOrder.checkoutCart(zotato);
+    		else if(inputQuery==2) { 
+    			currentOrder.checkoutCart(zotato);
+    			previousOrders.put(count++,currentOrder);
+    		}
     		else if(inputQuery==3) displayRewards();
     		else if(inputQuery==4) displayPreviousOrders();
     		else if(inputQuery==5) {
@@ -393,6 +399,10 @@ class Customer implements User{
 		for(Cart orders : this.pastOrders) {
 			System.out.println(orders.getSummary());
 		}
+		   for(Map.Entry m : previousOrders.entrySet()){ 
+			   Cart order = (Cart) m.getValue();
+			    System.out.println(order.getSummary());    
+			   } 
 	}
 	protected void selectRestaurant() {
 
@@ -446,6 +456,10 @@ class Customer implements User{
 
 	public ArrayList<Cart> getPastOrders() {
 		return pastOrders;
+	}
+	
+	public HashMap<Integer, Cart> getPreviousOrders() {
+		return previousOrders;
 	}
 
 	public Cart getCurrentOrder() {
@@ -646,7 +660,7 @@ class SpecialCustomer extends Customer{
 
 class Food implements Cloneable{
 	private static int idGenerator=1;
-	private int id;
+	private final int id;
 	private String name, category;
 	private double price, discount;
 	private int quantity;
