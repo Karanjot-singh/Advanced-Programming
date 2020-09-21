@@ -74,10 +74,10 @@ class App{
     		System.out.println("");
     		System.out.println("Welcome to Zotato:\n");
     		System.out.println("1. Enter as Restaurant Owner\n" + 
-    				"    		2. Enter as Customer\n" + 
-    				"    		3. Check User Details\n" + 
-    				"    		4. Company Account details\n" + 
-    				"    		5. Exit");
+    				"2. Enter as Customer\n" + 
+    				"3. Check User Details\n" + 
+    				"4. Company Account details\n" + 
+    				"5. Exit");
     		int inputQuery = sc.nextInt();
     		if(inputQuery==1) {
     			int choice = User.restaurantMenu();
@@ -533,7 +533,8 @@ class Cart{
 		System.out.println("");
 		System.out.println("Items in Cart -");
 		for(Food item : items) {
-			System.out.println(item.getId() +" "+ item.getQuantity() +" -"+item.getName() + " " + item.getCategory()+ " " 
+			System.out.println(item.getId() +" "+ item.getQuantity() +" "+restaurant.getName()+
+					" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
 			double temp;
 			if(item.getDiscount()==0)
@@ -545,10 +546,9 @@ class Cart{
 		}
 		double discount = restaurantDiscounts();
 		customerDiscounts(discount);	
-		
 		System.out.println("Delivery charge -"+customer.getDelivery() +"/-");
 		double totalPay=this.totalAmount+customer.getDelivery();
-		
+		System.out.println("Total Order Value - INR "+totalPay+"/-");
 		System.out.println("1) Proceed to checkout");
 		int inputidx = sc.nextInt();
 		if(inputidx ==1) {
