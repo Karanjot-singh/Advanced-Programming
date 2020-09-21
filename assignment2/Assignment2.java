@@ -180,7 +180,8 @@ class Restaurant implements User{
 		System.out.println("");
 		System.out.println("Enter food item details\n" + 
 				"Food name:");
-		String input = sc.next();
+		String input = sc.nextLine();
+		input = sc.nextLine();
 		System.out.println("item price:");
 		double inputPrice = sc.nextDouble();
 		System.out.println("item quantity​ :");
@@ -271,7 +272,7 @@ class Restaurant implements User{
 	}
 	@Override
 	public void displayUserDetails() {
-		System.out.println("/n"+ this.name+" "+ this.address+ " " + this.getNumberOrders());
+		System.out.println("\n Name:"+ this.name+" Address: "+ this.address+ " Number of orders: " + this.getNumberOrders());
 		
 	}
 	
@@ -559,13 +560,22 @@ class Cart{
 		System.out.println("Total Order Value - INR "+totalPay+"/-");
 		
 		System.out.println("1) Proceed to checkout");
+		if(checkBal(totalPay)==1)
+			return;
 		int inputidx = sc.nextInt();
 		if(inputidx ==1) {
 			customer.wallet.deductAmount(totalPay);
 //			int qty = itemOld.getQuantity();
 			
 			//deduction
+			for(Duo pair : items) {
+				Food item =pair.getItem();
+				Food itemOld =pair.getItemOld();
+				int qty = itemOld.getQuantity();
+				itemOld.setQuantity(qty-item.getQuantity());
+				}
 			System.out.println("items successfully bought for INR "+totalPay+"/-");
+			
 			
 			// to send rewards to the customer and the Restaurant
 			calculateRewards();
@@ -581,6 +591,20 @@ class Cart{
 		}			
 		
 	}
+	private int checkBal(double pay) {
+		if(customer.wallet.getWallet()<=pay)
+		{
+			System.out.println("Insufficient balance!\n Press 1 to clear cart.\n");
+			int c = sc.nextInt();
+			deleteCart();
+			return 1;
+		}
+		return 0;
+	}
+	private void  deleteCart() {
+		System.out.println("All Items from the cart wil be removed");
+		items.clear();
+	}
 	protected void displayDetails() {
 		for(Duo pair : items) {
 			Food item = pair.getItem();
@@ -592,7 +616,6 @@ class Cart{
 	}
 	protected void calculateRewards() {
 		int temp = (int) (totalAmount/restaurant.getRewardCriteria());
-		System.out.println("temp");
 		this.reward = (int) (temp*(restaurant.getRewardAmount()));
 		System.out.println("Reward calculated ="+this.reward);
 		
@@ -600,23 +623,20 @@ class Cart{
 	protected void customerDiscounts(double discount) {
 		if(discount>=customer.getDiscountCriteria()) {
 			discount = discount - customer.getDiscountAmount();		
-			System.out.println("customer "+discount);}
+			}
 		this.totalAmount= discount;
 	}
 	protected double restaurantDiscounts() {
 		double temp=this.foodDiscount;
 		if(restaurant.getDiscount()==0) {
 			temp = this.foodDiscount;
-//			System.out.println("c"+temp);
 		} //customer
 		else if (restaurant.getMorediscountCriteria()==0) {
 			temp = (100-restaurant.getDiscount() )*(this.foodDiscount)/100; 
-//			System.out.println("s"+temp);
 		}//special
 		else if(temp >= restaurant.getMorediscountCriteria()) {
 			temp = (100-restaurant.getDiscount() )*(this.foodDiscount)/100;
 			temp = temp- restaurant.getMorediscountAmount();	
-//			System.out.println("e"+temp);
 		}		
 		return temp;
 	}
