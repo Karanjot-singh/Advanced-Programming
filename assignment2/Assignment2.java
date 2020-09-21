@@ -97,12 +97,14 @@ class App{
     			int input1 = sc.nextInt();
     			if(input1==1) {
     				int choice = User.customerMenu();
-    				Customer customer =customerRecord.get(choice);
+    				//Polymorphism
+    				User customer =customerRecord.get(choice);
     				useInterface(customer);
     			}
     			else {
     				int choice = User.restaurantMenu();
-    				Restaurant restaurant = restaurantRecord.get(choice);
+    				//Polymorphism
+    				User restaurant = restaurantRecord.get(choice);
     				useInterface(restaurant);
     				
     			}
@@ -413,7 +415,7 @@ class Customer implements User{
 		try {
 			item = (Food)itemOld.clone();
 			item.setQuantity(inputQty); // not a reference but a copy
-			currentOrder.addToCart(item);
+			currentOrder.addToCart(new Duo(item,itemOld));
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -518,7 +520,7 @@ class Cart{
 	private double totalAmount=0;
 	private double foodDiscount=0;
 	private int reward=0;
-	private ArrayList <Food> items = new ArrayList<Food>();
+	private ArrayList <Duo> items = new ArrayList<Duo>();
 	private Restaurant restaurant;
 	private Customer customer;
 	public static Scanner sc = new Scanner(System.in);
@@ -528,15 +530,16 @@ class Cart{
 		this.restaurant = restaurant;
 		this.customer = customer;
 	}
-	public void addToCart(Food item) {
-		this.items.add(item);
+	public void addToCart(Duo duo) {
+		this.items.add(duo);
 		
 	}
 	//dependency
 	protected void checkoutCart(Zotato zotato ){
 		System.out.println("");
 		System.out.println("Items in Cart -");
-		for(Food item : items) {
+		for(Duo pair : items) {
+			Food item =pair.getItem();
 			System.out.println("Id: "+item.getId() +" "+ item.getQuantity() +" "+restaurant.getName()+
 					" -"+item.getName() + " " + item.getCategory()+ " " 
 		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
@@ -579,7 +582,8 @@ class Cart{
 		
 	}
 	protected void displayDetails() {
-		for(Food item : items) {
+		for(Duo pair : items) {
+			Food item = pair.getItem();
 		this.summary="Bought item: "+item.getName() + " Quantity:" + item.getQuantity()+ " for Rs  " 
 				+ item.getPrice()+ " from Restaurant " + restaurant.getName()
 				+ " and Delivery Charge "+customer.getDelivery();
@@ -619,7 +623,7 @@ class Cart{
 	public double getTotalAmount() {
 		return totalAmount;
 	}
-	public ArrayList<Food> getItems() {
+	public ArrayList<Duo> getItems() {
 		return items;
 	}
 	public String getSummary() {
@@ -719,8 +723,6 @@ class Food implements Cloneable{
 
 	
 }
-
-
 
 
 
