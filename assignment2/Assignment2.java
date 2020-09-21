@@ -43,7 +43,7 @@ class App{
 	//getter?
 	App(){
 		//hardcode data
-//		zotato = new Zotato();
+		Zotato z = new Zotato();
 		Restaurant shah = new AuthenticRestaurant("Shah", "101 Street", 1);
 		restaurantRecord.add(shah);
 		Restaurant ravi = new Restaurant("Ravi's", "100 Street");
@@ -54,25 +54,25 @@ class App{
 		restaurantRecord.add(wang);
 		Restaurant paradise = new Restaurant("Paradise", "K01 Street");
 		restaurantRecord.add(paradise);
-		Customer ram = new EliteCustomer("Ram", "66-A block", "Elite",restaurantRecord);
+		Customer ram = new EliteCustomer("Ram", "66-A block", "Elite",restaurantRecord,z);
 		customerRecord.add(ram);
-		Customer c = new EliteCustomer("Sam", "67-A block", "Elite",restaurantRecord);
+		Customer c = new EliteCustomer("Sam", "67-A block", "Elite",restaurantRecord,z);
 		customerRecord.add(c);
-		c = new SpecialCustomer("Tim", "68-A block", "Special",restaurantRecord);
+		c = new SpecialCustomer("Tim", "68-A block", "Special",restaurantRecord,z);
 		customerRecord.add(c);
-		c = new Customer("Kim", "69-A block", "Customer",restaurantRecord);
+		c = new Customer("Kim", "69-A block", "Customer",restaurantRecord,z);
 		customerRecord.add(c);
-		c = new Customer("Jim", "70-A block", "Customer",restaurantRecord);
+		c = new Customer("Jim", "70-A block", "Customer",restaurantRecord,z);
 		customerRecord.add(c);
-		parentMenu(c);
+		parentMenu();
 		
 	}
 
-	private static void parentMenu(Customer c) {
+	private static void parentMenu() {
 		int loopFlag=1;
     	while(loopFlag==1) {
     		System.out.println("");
-    		System.out.println("Welcome to Zotato:");
+    		System.out.println("Welcome to Zotato:\n");
     		System.out.println("1. Enter as Restaurant Owner\n" + 
     				"    		2. Enter as Customer\n" + 
     				"    		3. Check User Details\n" + 
@@ -85,7 +85,7 @@ class App{
     		}
     		else if(inputQuery==2) {
     			int choice = User.customerMenu();
-    			c.displayMenu();
+    			customerRecord.get(choice).displayMenu();
     		}
     		else if(inputQuery==3) {
     			System.out.println("");
@@ -188,8 +188,8 @@ class Restaurant implements User{
 		int inputOffer = sc.nextInt();
 		Food item = new Food(input, inputCategory, inputPrice, inputOffer, inputQty);
 		this.menu.add(item);
-		System.out.println(item.getId() +" "+ input + " " + inputCategory+ " " 
-		+ inputPrice+ " " + inputOffer+ "% off " + inputQty);
+		System.out.println(item.getId() +" "+ input + " "  
+		+ inputPrice+ " " + inputQty + " "+ inputOffer+ "% off " + inputCategory );
 		
 	}
 	protected void editItem() {		
@@ -224,7 +224,8 @@ class Restaurant implements User{
     				"2) Price\n" + 
     				"3) Quantity\n" + 
     				"4) Category\n" + 
-    				"5) Offer");
+    				"5) Offer"+ 
+    				"6) Exit\n" );
     		System.out.println();
     		int inputQuery = sc.nextInt();
     		if(inputQuery==2) {
@@ -252,9 +253,11 @@ class Restaurant implements User{
     			double price = sc.nextDouble();
     			this.menu.get(index).setDiscount(price);
     		}
+    		else
+    			loopFlag=0;
     		Food item = this.menu.get(index);
-    		System.out.println(index+1 +" "+ this.getName() +" -"+item.getName() + " " + item.getCategory()+ " " 
-    		+ item.getPrice()+ " " + item.getDiscount()+ "% off " + item.getQuantity());
+    		System.out.println(index+1 +" "+ this.getName() +" - "+item.getName() + " " 
+    		+ item.getPrice()+ " " +item.getQuantity()+ " "+ item.getDiscount()+ "% off " +  item.getCategory() );
     	}
 
 		
@@ -337,6 +340,7 @@ class FastfoodRestaurant extends Restaurant{
 class Customer implements User{
 	private String category;
 	protected static ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
+	protected static Zotato zotato; //association
 	protected ArrayList <Cart> pastOrders = new ArrayList<Cart>();
 	protected Cart currentOrder;
 	protected int rewards;
@@ -346,7 +350,7 @@ class Customer implements User{
 	protected final String name;
 	protected final String address;
 	
-	public Customer(String name, String address, String category,ArrayList <Restaurant> restaurantList ) {
+	public Customer(String name, String address, String category,ArrayList <Restaurant> restaurantList, Zotato z) {
 		//Association 
 		super();
 		this.name = name;
@@ -356,7 +360,7 @@ class Customer implements User{
 		restaurants= restaurantList;
 		this.discountCriteria=0;
 		this.wallet = new Wallet(); //composition
-		
+		zotato = z;
 	}
 	
 	@Override
@@ -374,7 +378,7 @@ class Customer implements User{
     		System.out.println();
     		int inputQuery = sc.nextInt();
     		if(inputQuery==1) selectRestaurant();
-    		else if(inputQuery==2) currentOrder.checkoutCart();
+    		else if(inputQuery==2) currentOrder.checkoutCart(zotato);
     		else if(inputQuery==3) displayRewards();
     		else if(inputQuery==4) displayPreviousOrders();
     		else if(inputQuery==5) {
@@ -420,7 +424,7 @@ class Customer implements User{
 	}
 	@Override
 	public void displayUserDetails() {
-		System.out.println("/n"+ this.name+" "+ this.category+" "+ this.address+ " " + this.wallet.getWallet());
+		System.out.println("\n"+ this.name+" "+ this.category+" "+ this.address+ " " + this.wallet.getWallet());
 		
 	}
 	public int getRewards() {
@@ -513,20 +517,19 @@ class Cart{
 	private ArrayList <Food> items = new ArrayList<Food>();
 	private Restaurant restaurant;
 	private Customer customer;
-	private Zotato zotato;
 	public static Scanner sc = new Scanner(System.in);
 	
 	public Cart(Restaurant restaurant, Customer customer) {
 		super();
 		this.restaurant = restaurant;
 		this.customer = customer;
-		zotato = new Zotato();
 	}
 	public void addToCart(Food item) {
 		this.items.add(item);
 		
 	}
-	protected void checkoutCart(){
+	//dependency
+	protected void checkoutCart(Zotato zotato){
 		System.out.println("");
 		System.out.println("Items in Cart -");
 		for(Food item : items) {
@@ -546,20 +549,23 @@ class Cart{
 		System.out.println("Delivery charge -"+customer.getDelivery() +"/-");
 		double totalPay=this.totalAmount+customer.getDelivery();
 		
-		zotato.setRestaurantCharges(this.totalAmount);
-		zotato.setDeliveryCharges(customer.getDelivery());
-		
 		System.out.println("1) Proceed to checkout");
 		int inputidx = sc.nextInt();
 		if(inputidx ==1) {
 			customer.wallet.deductAmount(totalPay);
 			//deduction
 			System.out.println("items successfully bought for INR "+totalPay+"/-");
+			
+			// to send reards to the customer and the Restaurant
 			calculateRewards();
 			
 			customer.setRewards(customer.getRewards()+this.reward);
 			restaurant.setRewardPoints(restaurant.getRewardPoints()+this.reward);
-			restaurant.setNumberOrders(restaurant.getNumberOrders()+1);
+			restaurant.setNumberOrders(restaurant.getNumberOrders()+1);			
+			//Payout to zotato			
+			zotato.setRestaurantCharges(this.totalAmount);
+			zotato.setDeliveryCharges(customer.getDelivery());
+			
 			displayDetails();
 		}			
 		
@@ -575,6 +581,7 @@ class Cart{
 		int temp =0;
 		temp = (int) (totalAmount/restaurant.getRewardCriteria());
 		this.reward = (int) (temp*(restaurant.getRewardAmount()));
+		System.out.println("Reward calculated ="+this.reward);
 		
 	}
 	protected void customerDiscounts(double discount) {
@@ -605,8 +612,8 @@ class Cart{
 }
 class EliteCustomer extends Customer{
 
-	public EliteCustomer(String name, String address, String category,ArrayList <Restaurant> restaurantList) {
-		super(name, address, category,restaurantList);
+	public EliteCustomer(String name, String address, String category,ArrayList <Restaurant> restaurantList,Zotato z) {
+		super(name, address, category,restaurantList,z);
 		this.discountAmount=50;
 		this.discountCriteria=200;
 		this.delivery=0;
@@ -615,8 +622,8 @@ class EliteCustomer extends Customer{
 }
 class SpecialCustomer extends Customer{
 
-	public SpecialCustomer(String name, String address, String category,ArrayList <Restaurant> restaurantList) {
-		super(name, address, category,restaurantList);
+	public SpecialCustomer(String name, String address, String category,ArrayList <Restaurant> restaurantList,Zotato z) {
+		super(name, address, category,restaurantList,z);
 		this.discountAmount=25;
 		this.discountCriteria=200;
 		this.delivery=20;

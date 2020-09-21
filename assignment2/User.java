@@ -15,26 +15,13 @@ public interface User {
     				"4) Wang’s (Fast Food)\n" + 
     				"5) Paradise");
     		int inputQuery = sc.nextInt();
-    		switch (inputQuery) {
-  			
-    		  case 1:
-    			  return 0;
-    		  case 2:
-    			  return 1;
-    		  case 3:
-    			return 2;
-    		  case 4:
-    			  return 3;
-    		  case 5:
-    			  return 4;    		  
-    		}
+    		return inputQuery-1;
     	}
-		return 0;	// never executed
+    	return 0;		// never executed
 	}
 	public static int customerMenu() {
 		int loopFlag=1;
     	while(loopFlag==1) {
-    		System.out.println("");
     		System.out.println("\n" + 
     				"1. Ram (Elite)\n" + 
     				"2. Sam (Elite)\n" + 
@@ -42,18 +29,7 @@ public interface User {
     				"4. Kim\n" + 
     				"5. Jim");
     		int inputQuery = sc.nextInt();
-    		switch (inputQuery) {  			
-    		  case 1:
-    			  return 0;
-    		  case 2:
-    			  return 1;
-    		  case 3:
-    			return 2;
-    		  case 4:
-    			  return 3;
-    		  case 5:
-    			  return 4;    		  
-    		}
+    		return inputQuery-1;
     	}
 		return 0;	// never executed
 	}
