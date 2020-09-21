@@ -342,7 +342,6 @@ class Customer implements User{
 	protected String category;
 	protected static ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
 	protected static Zotato zotato; //association
-	protected ArrayList <Cart> pastOrders = new ArrayList<Cart>();
 	protected HashMap<Integer,Cart> previousOrders = new HashMap<Integer,Cart>();           
 	protected Cart currentOrder;
 	protected int rewards;
@@ -396,9 +395,6 @@ class Customer implements User{
 	protected void displayPreviousOrders() {
 
 		System.out.println("");
-		for(Cart orders : this.pastOrders) {
-			System.out.println(orders.getSummary());
-		}
 		   for(Map.Entry m : previousOrders.entrySet()){ 
 			   Cart order = (Cart) m.getValue();
 			    System.out.println(order.getSummary());    
@@ -452,10 +448,6 @@ class Customer implements User{
 
 	public static ArrayList<Restaurant> getRestaurants() {
 		return restaurants;
-	}
-
-	public ArrayList<Cart> getPastOrders() {
-		return pastOrders;
 	}
 	
 	public HashMap<Integer, Cart> getPreviousOrders() {
