@@ -2,12 +2,12 @@ package assignment3;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 
 public class Assignment3 {
     public static Scanner sc = new Scanner(System.in);
-
     public static void main(String args[]) {
         Game newGame = new Game();
     }
@@ -26,58 +26,70 @@ class Game {
         } catch (InputMismatchException) {
             System.out.println("Invalid input. \nPlease Try Again.");
         }
-        if (choice == 1) {
+        System.out.println("Choose a Character\n" +
+                "1) Mafia\n" +
+                "2) Detective\n" +
+                "3) Healer\n" +
+                "4) Commoner\n" +
+                "5) Assign Randomly");
+        int choice;
+        try {
+            choice = sc.nextInt();
+            if (choice == 1) {
 
-            System.out.println("Choose a Character\n" +
-                    "1) Mafia\n" +
-                    "2) Detective\n" +
-                    "3) Healer\n" +
-                    "4) Commoner\n" +
-                    "5) Assign Randomly");
-            int choice;
-            try {
-                choice = sc.nextInt();
-                if (choice == 1) {
-
-                } else if (choice == 2) {
-                } else if (choice == 3) {
-                }
+            } else if (choice == 2) {
+            } else if (choice == 3) {
             } else if (choice == 4) {
             } else if (choice == 5) {
 
             }
 
-        } catch(InputMismatchException) {
-                System.out.println("Invalid input. \nPlease Try Again.");
-        }
-
-
-
-    public Game() {
-            displayMenu();
-
+        } catch (InputMismatchException) {
+            System.out.println("Invalid input. \nPlease Try Again.");
         }
     }
 
-    abstract class Player {
-        private static ArrayList<Player> players;
+    class Round {
+        displayMenu();
 
-        public static int generateRandom() {
-            return 0;
-        }
     }
 
-    class Mafia extends Player {
+    class User<T> {
+
+
+    }
+}
+
+abstract class Player {
+    private static ArrayList<Player> players;
+
+    public Player() {
     }
 
-    class Healer extends Player {
-    }
+    public void randomSelector(){
+        Random selector = new Random();
+        int randomPlayer = selector.nextInt(players.size());
 
-    class Commoner extends Player {
-    }
 
-    class Detective extends Player {
     }
+    public static int generateRandom() {
+        return 0;
+    }
+}
+
+class Mafia extends Player {
+    public Mafia() {
+    }
+}
+
+class Healer extends Player {
+}
+
+class Commoner extends Player {
+}
+
+class Detective extends Player {
+}
 
 
 
