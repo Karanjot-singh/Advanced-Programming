@@ -19,16 +19,10 @@ abstract class Player {
     protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
     protected int hp;
     protected int user;
+    protected int id;
 
-    protected void displayPreviousOrders() {
-        System.out.println("");
-        for (Map.Entry m : players.entrySet()) {
-            Player order = (Player) m.getValue();
-            System.out.println();
-        }
-    }
-
-    public Player() {
+    public Player(int id) {
+        this.id = id;
     }
 
     public void randomSelector() {
@@ -64,18 +58,33 @@ abstract class Player {
 }
 
 class Mafia extends Player {
-    public Mafia() {
+    public Mafia(int id) {
+        super(id);
+        this.hp = 2500;
     }
 }
 
 class Healer extends Player {
+    public Healer(int id) {
+        super(id);
+        this.hp = 800;
+    }
 }
 
 class Commoner extends Player {
+    public Commoner(int id) {
+        super(id);
+        this.hp = 1000;
+    }
 }
 
 class Detective extends Player {
+    public Detective(int id) {
+        super(id);
+        this.hp = 800;
+    }
 }
+
 
 
 
