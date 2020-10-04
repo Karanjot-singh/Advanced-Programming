@@ -8,24 +8,49 @@ import java.util.Scanner;
 
 public class Assignment3 {
     public static Scanner sc = new Scanner(System.in);
-    public static void main(String args[]) {
+
+    public static void main(String[] args) {
         Game newGame = new Game();
     }
 }
 
 class Game {
     public static Scanner sc = new Scanner(System.in);
+    private static ArrayList<Player> players;
+
+    public static void chooseUser(int choice) {
+        if (choice == 1) {
+            User<Mafia> player1 = new User<Mafia>();
+            players.add(player1);
+
+        } else if (choice == 2) {
+            User<Detective> player1 = new User<Detective>();
+
+        } else if (choice == 3) {
+            User<Healer> player1 = new User<Healer>();
+
+        } else if (choice == 4) {
+            User<Commoner> player1 = new User<Commoner>();
+
+        } else if (choice == 5) {
+            User<Mafia> player1 = new User<Mafia>();
+        }
+    }
 
     public static void displayMenu() {
         System.out.println("Welcome to Mafia");
-        System.out.println("Enter Number of players:\n");
-        int numberPlayers;
-        try {
-            numberPlayers = sc.nextInt();
-
-        } catch (InputMismatchException) {
-            System.out.println("Invalid input. \nPlease Try Again.");
+        int numberPlayers, loop;
+        loop = 1;
+        while (loop == 1) {
+            try {
+                System.out.println("Enter Number of players:\n");
+                numberPlayers = sc.nextInt();
+                loop = 0;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. \nPlease Try Again.");
+            }
         }
+
         System.out.println("Choose a Character\n" +
                 "1) Mafia\n" +
                 "2) Detective\n" +
@@ -33,30 +58,26 @@ class Game {
                 "4) Commoner\n" +
                 "5) Assign Randomly");
         int choice;
-        try {
-            choice = sc.nextInt();
-            if (choice == 1) {
-
-            } else if (choice == 2) {
-            } else if (choice == 3) {
-            } else if (choice == 4) {
-            } else if (choice == 5) {
-
+        loop = 1;
+        while (loop == 1) {
+            try {
+                choice = sc.nextInt();
+                chooseUser(choice);
+                loop = 0;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. \nPlease Try Again.");
             }
-
-        } catch (InputMismatchException) {
-            System.out.println("Invalid input. \nPlease Try Again.");
         }
     }
+}
 
-    class Round {
-        displayMenu();
-
-    }
-
-    class User<T> {
+class Round {
 
 
+}
+
+class User<T>extends Player {
+    public User() {
     }
 }
 
@@ -66,12 +87,13 @@ abstract class Player {
     public Player() {
     }
 
-    public void randomSelector(){
+    public void randomSelector() {
         Random selector = new Random();
         int randomPlayer = selector.nextInt(players.size());
 
 
     }
+
     public static int generateRandom() {
         return 0;
     }
