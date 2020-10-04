@@ -40,8 +40,8 @@ public class Game {
                 "3) Healer\n" +
                 "4) Commoner\n" +
                 "5) Assign Randomly");
-        chooseUser(choice); //calls addPlayers
         System.out.println("You are Player1.");
+        chooseUser(choice); //calls addPlayers
 //        players.get(1)
     }
 
@@ -55,7 +55,7 @@ public class Game {
             maxMafias -= 1;
             addPlayers();
             maxMafias += 1;
-            System.out.print("You are a Mafia."+"Other Mafias are: ");
+            System.out.print("You are a Mafia."+"All Mafias are: ");
             mafiaController.displayPlayers();
         } else if (choice == 2) {
             Player player1 = new Detective();
@@ -65,7 +65,7 @@ public class Game {
             maxDetectives -= 1;
             addPlayers();
             maxDetectives += 1;
-            System.out.print("You are a Detective."+"Other Detectives are :");
+            System.out.print("You are a Detective."+"All Detectives are :");
             detectiveController.displayPlayers();
         } else if (choice == 3) {
             Player player1 = new Healer();
@@ -75,18 +75,16 @@ public class Game {
             maxHealers -= 1;
             addPlayers();
             maxHealers += 1;
-            System.out.print("You are a Healer."+"Other Healers are:");
+            System.out.print("You are a Healer."+"All Healers are:");
             healerController.displayPlayers();
         } else if (choice == 4) {
             Player player1 = new Commoner();
             player1.setUser(1);
             players.put(count++, player1);
-            commonerController.addToList(player1);
             maxCommoners -= 1;
             addPlayers();
             maxCommoners += 1;
             System.out.print("You are a Commoner.");
-            commonerController.displayPlayers();
         } else if (choice == 5) {
             Random selector = new Random();
             int randomChoice = (int) selector.nextInt(4 - 1) + 1;
