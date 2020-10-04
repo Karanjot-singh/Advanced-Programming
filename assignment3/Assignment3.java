@@ -1,6 +1,10 @@
 package assignment3;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.InputMismatchException;
+import java.util.Random;
+import java.util.Scanner;
 
 
 public class Assignment3 {
@@ -12,13 +16,70 @@ public class Assignment3 {
 }
 
 class Game {
-
     public static Scanner sc = new Scanner(System.in);
     protected static HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    private static int numberPlayers;
+    private static int maxMafias;
+    private static int maxDetectives;
+    private static int maxHealers;
+    private static int maxCommoners;
 
-    public static void addPlayers(int choice) {
-//        N/5 Mafias, N/5 Detectives, max {1,
-//                N/10}
+    Game() {
+        displaymenu();
+    }
+
+    public static void displaymenu() {
+        System.out.println("Welcome to Mafia");
+        int numberPlayers = 0;
+        System.out.println("Enter Number of players:");
+        numberPlayers = sc.nextInt();
+        countPlayers(numberPlayers);
+        System.out.println("Choose a Character\n" +
+                "1) Mafia\n" +
+                "2) Detective\n" +
+                "3) Healer\n" +
+                "4) Commoner\n" +
+                "5) Assign Randomly");
+        int choice;
+        choice = sc.nextInt();
+
+
+    }
+
+    public static void countPlayers(int n) {
+        numberPlayers = n;
+        int count = 0;
+        maxMafias = numberPlayers / 5;
+        maxDetectives = numberPlayers / 5;
+        maxHealers = Math.max(numberPlayers / 10, 1);
+        count += maxMafias + maxDetectives + maxHealers;
+        maxCommoners = numberPlayers - count;
+    }
+
+    public static void addPlayers() {
+        int count = 1;
+        for (int i = 0; i < maxMafias; i++) {
+            Player player = new Mafia();
+            players.put(++count, player);
+//            System.out.println("m");
+        }
+        for (int i = 0; i < maxDetectives; i++) {
+            Player player = new Mafia();
+            players.put(++count, player);
+//            System.out.println("d");
+
+        }
+        for (int i = 0; i < maxHealers; i++) {
+            Player player = new Mafia();
+            players.put(++count, player);
+//            System.out.println("h");
+
+        }
+        for (int i = 0; i < maxCommoners; i++) {
+            Player player = new Mafia();
+            players.put(++count, player);
+        }
+
     }
 
     public static void chooseUser(int choice) {
@@ -26,120 +87,98 @@ class Game {
         if (choice == 1) {
             Player player1 = new Mafia();
             players.put(++count, player1);
-            addPlayers(choice);
+            maxMafias -= 1;
+            addPlayers();
+            maxMafias += 1;
         } else if (choice == 2) {
             Player player1 = new Detective();
             players.put(++count, player1);
-            addPlayers(choice);
+            maxDetectives -= 1;
+            addPlayers();
+            maxDetectives += 1;
         } else if (choice == 3) {
             Player player1 = new Healer();
             players.put(++count, player1);
-            addPlayers(choice);
+            maxHealers -= 1;
+            addPlayers();
+            maxHealers += 1;
         } else if (choice == 4) {
             Player player1 = new Commoner();
             players.put(++count, player1);
-            addPlayers(choice);
+            maxCommoners -= 1;
+            addPlayers();
+            maxCommoners += 1;
         } else if (choice == 5) {
             Random selector = new Random();
             int randomChoice = (int) selector.nextInt(4 - 1) + 1;
             chooseUser(randomChoice);
         }
     }
-        public static void displayMenu () {
-            System.out.println("Welcome to Mafia");
-            int numberPlayers, loop;
-            loop = 1;
-            while (loop == 1) {
-                try {
-                    System.out.println("Enter Number of players:\n");
-                    numberPlayers = sc.nextInt();
-                    loop = 0;
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. \nPlease Try Again.");
-                }
-            }
 
-            System.out.println("Choose a Character\n" +
-                    "1) Mafia\n" +
-                    "2) Detective\n" +
-                    "3) Healer\n" +
-                    "4) Commoner\n" +
-                    "5) Assign Randomly");
-            int choice;
-            loop = 1;
-            while (loop == 1) {
-                try {
-                    choice = sc.nextInt();
-                    chooseUser(choice);
-                    loop = 0;
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. \nPlease Try Again.");
-                }
-            }
+
+}
+
+abstract class Player {
+    protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    protected int hp;
+    protected int user;
+
+    protected void displayPreviousOrders() {
+        System.out.println("");
+        for (Map.Entry m : players.entrySet()) {
+            Player order = (Player) m.getValue();
+            System.out.println();
         }
     }
 
-    abstract class Player {
-        protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
-        protected int hp;
-        protected int user;
-
-        protected void displayPreviousOrders() {
-            System.out.println("");
-            for (Map.Entry m : players.entrySet()) {
-                Player order = (Player) m.getValue();
-                System.out.println();
-            }
-        }
-
-        public Player() {
-        }
-
-        public void randomSelector() {
-            Random selector = new Random();
-            int randomPlayer = selector.nextInt(players.size());
-
-
-        }
-
-        public HashMap<Integer, Player> getPlayers() {
-            return players;
-        }
-
-        public void setPlayers(HashMap<Integer, Player> players) {
-            this.players = players;
-        }
-
-        public int getHp() {
-            return hp;
-        }
-
-        public void setHp(int hp) {
-            this.hp = hp;
-        }
-
-        public int getUser() {
-            return user;
-        }
-
-        public void setUser(int user) {
-            this.user = user;
-        }
+    public Player() {
     }
 
-    class Mafia extends Player {
-        public Mafia() {
-        }
+    public void randomSelector() {
+        Random selector = new Random();
+        int randomPlayer = selector.nextInt(players.size());
+
+
     }
 
-    class Healer extends Player {
+    public HashMap<Integer, Player> getPlayers() {
+        return players;
     }
 
-    class Commoner extends Player {
+    public void setPlayers(HashMap<Integer, Player> players) {
+        this.players = players;
     }
 
-    class Detective extends Player {
+    public int getHp() {
+        return hp;
     }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getUser() {
+        return user;
+    }
+
+    public void setUser(int user) {
+        this.user = user;
+    }
+}
+
+class Mafia extends Player {
+    public Mafia() {
+    }
+}
+
+class Healer extends Player {
+}
+
+class Commoner extends Player {
+}
+
+class Detective extends Player {
+}
 
 
 
