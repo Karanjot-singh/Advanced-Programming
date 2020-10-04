@@ -46,39 +46,47 @@ public class Game {
     }
 
     public static void chooseUser(int choice) {
-        int count = 0;
+        int count = 1;
         if (choice == 1) {
             Player player1 = new Mafia();
             player1.setUser(1);
-            players.put(++count, player1);
+            players.put(count++, player1);
+            mafiaController.addToList(player1);
             maxMafias -= 1;
             addPlayers();
             maxMafias += 1;
             System.out.print("You are a Mafia."+"Other Mafias are: ");
+            mafiaController.displayPlayers();
         } else if (choice == 2) {
             Player player1 = new Detective();
             player1.setUser(1);
-            players.put(++count, player1);
+            players.put(count++, player1);
+            detectiveController.addToList(player1);
             maxDetectives -= 1;
             addPlayers();
             maxDetectives += 1;
             System.out.print("You are a Detective."+"Other Detectives are :");
+            detectiveController.displayPlayers();
         } else if (choice == 3) {
             Player player1 = new Healer();
             player1.setUser(1);
-            players.put(++count, player1);
+            players.put(count++, player1);
+            healerController.addToList(player1);
             maxHealers -= 1;
             addPlayers();
             maxHealers += 1;
             System.out.print("You are a Healer."+"Other Healers are:");
+            healerController.displayPlayers();
         } else if (choice == 4) {
             Player player1 = new Commoner();
             player1.setUser(1);
-            players.put(++count, player1);
+            players.put(count++, player1);
+            commonerController.addToList(player1);
             maxCommoners -= 1;
             addPlayers();
             maxCommoners += 1;
             System.out.print("You are a Commoner.");
+            commonerController.displayPlayers();
         } else if (choice == 5) {
             Random selector = new Random();
             int randomChoice = (int) selector.nextInt(4 - 1) + 1;
@@ -97,27 +105,27 @@ public class Game {
     }
 
     public static void addPlayers() {
-        int count = 1;
+        int count = 2;
         for (int i = 0; i < maxMafias; i++) {
             Player player = new Mafia();
-            players.put(++count, player);
+            players.put(count++, player);
 //            System.out.println("m");
         }
         for (int i = 0; i < maxDetectives; i++) {
             Player player = new Detective();
-            players.put(++count, player);
+            players.put(count++, player);
 //            System.out.println("d");
 
         }
         for (int i = 0; i < maxHealers; i++) {
             Player player = new Healer();
-            players.put(++count, player);
+            players.put(count++, player);
 //            System.out.println("h");
 
         }
         for (int i = 0; i < maxCommoners; i++) {
             Player player = new Commoner();
-            players.put(++count, player);
+            players.put(count++, player);
         }
 
     }

@@ -19,10 +19,8 @@ abstract class Player {
     protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
     protected int hp;
     protected int user;
-    protected int id;
 
-    public Player(int id) {
-        this.id = id;
+    public Player() {
     }
 
     public void randomSelector() {
@@ -58,29 +56,25 @@ abstract class Player {
 }
 
 class Mafia extends Player {
-    public Mafia(int id) {
-        super(id);
+    public Mafia() {
         this.hp = 2500;
     }
 }
 
 class Healer extends Player {
-    public Healer(int id) {
-        super(id);
+    public Healer() {
         this.hp = 800;
     }
 }
 
 class Commoner extends Player {
-    public Commoner(int id) {
-        super(id);
+    public Commoner() {
         this.hp = 1000;
     }
 }
 
 class Detective extends Player {
-    public Detective(int id) {
-        super(id);
+    public Detective() {
         this.hp = 800;
     }
 }
