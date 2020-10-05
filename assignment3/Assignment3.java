@@ -32,6 +32,11 @@ abstract class Player {
     }
 
     @Override
+    public String toString() {
+        return "Player"+ id+" " ;
+    }
+
+    @Override
     public boolean equals(Object o1) {
         if (o1 != null && getClass() == o1.getClass()) {
             Player o = (Player) o1; //type casting

@@ -123,10 +123,19 @@ public class Controller<T extends Player> {
 
     public void displayPlayers() {
         for (Map.Entry m : players.entrySet()) {
-            Integer id = (Integer) m.getKey();
-            System.out.print("Player" + id + " ");
+            Player p = (Player) m.getValue();
+            System.out.print(p.toString());
         }
         System.out.println();
+    }
+    public void showResults(String message){
+        for (Map.Entry m : original.entrySet()) {
+            Player p = (Player) m.getValue();
+            System.out.print(message);
+            System.out.print(" "+p.toString());
+        }
+        System.out.println();
+
     }
 
 }

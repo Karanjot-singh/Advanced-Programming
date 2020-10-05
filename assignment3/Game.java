@@ -25,7 +25,6 @@ public class Game {
         int choice = displaymenu();
         choice = chooseUser(choice); //calls addPlayers
         gameRound(choice);
-//        gameResults();
     }
 
     public static int getChoice(int choice, String input, String exception) {
@@ -35,10 +34,14 @@ public class Game {
         return inputValue;
     }
     public static void results(int status){
-        if(status==1){
+        if(status==1)
             System.out.println("Game Over.\nThe Mafias have won.");
-
-        }
+        else
+            System.out.println("Game Over.\nThe Mafias have lost.");
+        mafiaController.showResults("The Mafias were: ");
+        detectiveController.showResults("The Detectives were: ");
+        healerController.showResults("The Healers were: ");
+        commonerController.showResults("The Commoners were: ");
     }
     public static void gameRound(int choice) {
         int count = 0;
