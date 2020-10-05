@@ -36,19 +36,6 @@ abstract class Player {
         }
     }
 
-    public void randomSelector() {
-        Random selector = new Random();
-        int randomPlayer = selector.nextInt(players.size());
-    }
-
-    public HashMap<Integer, Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(HashMap<Integer, Player> players) {
-        this.players = players;
-    }
-
     public int getHp() {
         return hp;
     }

@@ -84,7 +84,7 @@ public class Game {
                     }
                 }
                 mafiaChoice = value;
-                int target = mafiaController.killTarget(mafiaChoice);
+                int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
                 //Healing process
@@ -99,8 +99,8 @@ public class Game {
                 } else {
                     System.out.println("Player" + target + "has died.");
                     removeValues(target);
-                    if(!checkUserAlive(target))
-                        choice=0;
+                    if (!checkUserAlive(target))
+                        choice = 0;
                 }
                 //vote
                 //fix
@@ -108,28 +108,33 @@ public class Game {
                 if (!mafiaController.checkInput(detectiveChoice)) {
                     System.out.println("Player" + detectiveChoice + " has been voted out.");
                     removeValues(detectiveChoice);
-                    if(!checkUserAlive(detectiveChoice))
-                        choice=0;
+                    if (!checkUserAlive(detectiveChoice))
+                        choice = 0;
                 } else {
                     int voteOut = healerController.getRandomAll("", players);
                     System.out.println("Player" + voteOut + " has been voted out.");
                     removeValues(voteOut);
-                    if(!checkUserAlive(voteOut))
-                        choice=0;
+                    if (!checkUserAlive(voteOut))
+                        choice = 0;
                 }
             }
-//                vote();
+            System.out.println("--End of Round " + count + "--");
         }
-        System.out.println("--End of Round " + count + "--");
         //        gameOver();
 
     }
 
     public static void removeValues(int target) {
-        players.remove(target);
+//        try {
         int type = players.get(target).getPlayerType();
         Controller<? extends Player> newControl = returnController(type);
         newControl.removeFromList(target);
+        players.remove(target);
+
+//        }
+//        catch (NullPointerException e){
+//            System.out.println("Error");
+//        }
     }
 
     public static int displaymenu() {
@@ -162,7 +167,7 @@ public class Game {
         } else if (choice == 2) {
             Player player1 = new Detective();
             player1.setUser(1);
-            players.put(count++, player1);
+            players.put(count, player1);
             detectiveController.addToList(player1);
             maxDetectives -= 1;
             addPlayers();
@@ -172,7 +177,7 @@ public class Game {
         } else if (choice == 3) {
             Player player1 = new Healer();
             player1.setUser(1);
-            players.put(count++, player1);
+            players.put(count, player1);
             healerController.addToList(player1);
             maxHealers -= 1;
             addPlayers();
@@ -182,7 +187,7 @@ public class Game {
         } else if (choice == 4) {
             Player player1 = new Commoner();
             player1.setUser(1);
-            players.put(count++, player1);
+            players.put(count, player1);
             maxCommoners -= 1;
             addPlayers();
             maxCommoners += 1;
@@ -251,7 +256,7 @@ public class Game {
     }
 
     public static boolean checkUserAlive(int removed) {
-        return (removed==1) ? false : true;
+        return (removed == 1) ? false : true;
     }
 
 }

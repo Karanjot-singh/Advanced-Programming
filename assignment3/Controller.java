@@ -18,10 +18,50 @@ public class Controller<T1> {
         selector = new Random();
     }
 
-    public int killTarget(int target) {
+    private void mafiaDamage(int targetHp,int count) {
+        int damage = targetHp / count;
 
+        if (count > 0) {
+            for (Map.Entry m : players.entrySet()) {
+                Object p = m.getValue();
+                int hp = ((Player) p).getHp();
+                if (hp <damage){
+                    int temp = damage-hp;
+                    ((Player) p).setHp(0);
+                    count--;
+                    damage+= temp/count;
+                }
+            }
+            for (Map.Entry m : players.entrySet()) {
+                Object p = m.getValue();
+                int hp = ((Player) p).getHp();
+                if(hp>0)
+                    ((Player) p).setHp(hp-damage);
+            }
+        } else
+            return;
+    }
+
+    public int killTarget(int target, int count) {
+        //Generic
         //ret -1 if not able to kill
-        return 0;
+        System.out.println("Mafias have chosen their target.");
+        int hpSum = 0;
+        for (Map.Entry m : players.entrySet()) {
+            Object p = m.getValue();
+            hpSum += ((Player) p).getHp();
+                Player selected = others.get(target);
+                if (hpSum >= selected.getHp()) {
+                    others.get(target).setHp(0);
+                    mafiaDamage(target, count);
+                    return target;
+                } else {
+                    selected.setHp(selected.getHp() - hpSum);
+                    mafiaDamage(target, count);
+                    return -1;
+                }
+            }
+        return -1;
     }
 
     public void removeFromList(int key) {
@@ -71,10 +111,6 @@ public class Controller<T1> {
                 others.remove(a);
             }
         }
-
-    }
-
-    public void clearOthers() {
 
     }
 
