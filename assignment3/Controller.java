@@ -8,11 +8,13 @@ import java.util.Random;
 public class Controller<T extends Player> {
     private HashMap<Integer, T> players;
     private HashMap<Integer, T> others;
+    private HashMap<Integer, T> original;
     public static Random selector;
 
     public Controller() {
         players = new HashMap<>();
         others = new HashMap<>();
+        original = new HashMap<>();
         selector = new Random();
     }
     private void mafiaDamage(int targetHp,int count) {
@@ -90,7 +92,10 @@ public class Controller<T extends Player> {
 
     public void addToList(int count ,Player p) {
         try {
-            players.put(count-1, (T) p);
+            players.put(count, (T) p);
+            players.put(count, (T) p);
+
+
         } catch (NullPointerException e) {
             System.out.println("error");
         }
@@ -107,13 +112,6 @@ public class Controller<T extends Player> {
             }
         }
 
-    }
-
-    public void displayList(HashMap<Integer, Player> map) {
-        for (Map.Entry m : map.entrySet()) {
-            Integer id = (Integer) m.getKey();
-            System.out.print("Player" + id + " ");
-        }
     }
 
     public void displayPlayers() {

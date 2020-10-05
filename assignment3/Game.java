@@ -34,7 +34,12 @@ public class Game {
         int inputValue = user.fetchInput(newControl, input, exception);
         return inputValue;
     }
-    public static void results(int status){}
+    public static void results(int status){
+        if(status==1){
+            System.out.println("Game Over.\nThe Mafias have won.");
+
+        }
+    }
     public static void gameRound(int choice) {
         int count = 0;
         boolean game =true;
@@ -123,12 +128,11 @@ public class Game {
 
     public static int chooseUser(int choice) {
         //tryp
-        int count = 1;
         if (choice == 1) {
             Player player1 = new Mafia();
             player1.setUser(1);
-            players.put(count++, player1);
-            mafiaController.addToList(count, player1);
+            players.put(1, player1);
+            mafiaController.addToList(1, player1);
             maxMafias -= 1;
             addPlayers();
             maxMafias += 1;
@@ -137,8 +141,8 @@ public class Game {
         } else if (choice == 2) {
             Player player1 = new Detective();
             player1.setUser(1);
-            players.put(count, player1);
-            detectiveController.addToList(count, player1);
+            players.put(1, player1);
+            detectiveController.addToList(1, player1);
             maxDetectives -= 1;
             addPlayers();
             maxDetectives += 1;
@@ -147,8 +151,8 @@ public class Game {
         } else if (choice == 3) {
             Player player1 = new Healer();
             player1.setUser(1);
-            players.put(count, player1);
-            healerController.addToList(count, player1);
+            players.put(1, player1);
+            healerController.addToList(1, player1);
             maxHealers -= 1;
             addPlayers();
             maxHealers += 1;
@@ -157,7 +161,7 @@ public class Game {
         } else if (choice == 4) {
             Player player1 = new Commoner();
             player1.setUser(1);
-            players.put(count, player1);
+            players.put(1, player1);
             maxCommoners -= 1;
             addPlayers();
             maxCommoners += 1;
@@ -262,26 +266,30 @@ public class Game {
         int count = 2;
         for (int i = 0; i < maxMafias; i++) {
             Player player = new Mafia();
-            players.put(count++, player);
+            players.put(count, player);
             mafiaController.addToList(count, player);
+            count++;
         }
         for (int i = 0; i < maxDetectives; i++) {
             Player player = new Detective();
-            players.put(count++, player);
+            players.put(count, player);
             detectiveController.addToList(count, player);
+            count++;
         }
         for (int i = 0; i < maxHealers; i++) {
             Player player = new Healer();
-            players.put(count++, player);
+            players.put(count, player);
             healerController.addToList(count, player);
+            count++;
 
 //            System.out.println("h");
 
         }
         for (int i = 0; i < maxCommoners; i++) {
             Player player = new Commoner();
-            players.put(count++, player);
+            players.put(count, player);
             commonerController.addToList(count, player);
+            count++;
         }
 
     }
