@@ -189,10 +189,16 @@ public class Game {
             removeValues(detectiveChoice);
             checkUserAlive(detectiveChoice);
         } else {
-            int voteOut = healerController.getRandomAll("", players);
-            System.out.println("Player" + voteOut + " has been voted out.");
-            removeValues(voteOut);
-            checkUserAlive(voteOut);
+            while (true) {
+                int voteOut = healerController.getRandomVotes(players);
+                if (voteOut != 0) {
+                    System.out.println("Player" + voteOut + " has been voted out.");
+                    removeValues(voteOut);
+                    checkUserAlive(voteOut);
+                    break;
+                } else
+                    System.out.println("Voting Tied. Voting process re-initiated");
+            }
         }
     }
 

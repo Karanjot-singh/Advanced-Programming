@@ -17,6 +17,7 @@ public class Controller<T extends Player> {
         original = new HashMap<>();
         selector = new Random();
     }
+
     private void mafiaDamage(int targetHp,int count) {
         int damage = targetHp / count;
 
@@ -85,6 +86,12 @@ public class Controller<T extends Player> {
 
     public int getRandomAll(String message, HashMap<Integer, Player> players1) {
         System.out.println(message);
+        ArrayList<Integer> temp = new ArrayList<>(players1.keySet());
+        int rand = temp.get(selector.nextInt(players1.size()));
+        return rand;
+    }
+    public int getRandomVotes( HashMap<Integer, Player> players1) {
+        players1.put(0,null);
         ArrayList<Integer> temp = new ArrayList<>(players1.keySet());
         int rand = temp.get(selector.nextInt(players1.size()));
         return rand;
