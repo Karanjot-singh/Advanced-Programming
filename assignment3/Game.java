@@ -24,48 +24,101 @@ public class Game {
         choice = chooseUser(choice); //calls addPlayers
         gameRound(choice);
     }
-    public static void displayAlive(){
+
+    public static void displayAlive() {
         for (Map.Entry m : players.entrySet()) {
             Integer id = (Integer) m.getKey();
-            System.out.print("Player" + id +" ");
+            System.out.print("Player" + id + " ");
+        }
+    }
+    public static Controller<? extends Player> returnController(int playerType){
+        if(playerType==1){
+            numberPlayers--;
+            maxMafias--;
+            return mafiaController;
+        }
+        else if(playerType==2){
+            numberPlayers--;
+            maxDetectives--;
+            return detectiveController;}
+        else if(playerType==3){
+            numberPlayers--;
+            maxHealers--;
+            return healerController;}
+        else {
+            maxCommoners--;
+            numberPlayers--;
+            return commonerController;
         }
     }
 
     public static void gameRound(int choice) {
-        System.out.print(numberPlayers+" Players remaining: ");
-        displayAlive();
-        System.out.println(" are Alive.");
-        mafiaController.othersList(players);
-        detectiveController.othersList(players);
-        healerController.othersList(players);
-        commonerController.othersList(players);
-        int mafiaChoice,detectiveChoice,commonerChoice,healerChoice;
-        if (choice == 1) {
-            int value=0;
-            while (true) {
-                try {
-                    System.out.println("Choose the target: ");
-                    value = Integer.parseInt(sc.next());
-                    if (mafiaController.checkInput(value))
-                        break;
-                    else
-                        System.out.println("Mafia can't be chosen Target");
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. \nPlease Try Again.");
+        int count =0;
+        while ((maxMafias < maxCommoners + maxHealers + maxDetectives) && maxMafias != 0) {
+            System.out.println("Round "+ ++count);
 
-                }
+            System.out.print(numberPlayers + " Players remaining: ");
+            displayAlive();
+            System.out.println(" are Alive.");
+            mafiaController.othersList(players);
+            detectiveController.othersList(players);
+            healerController.othersList(players);
+            commonerController.othersList(players);
+            int mafiaChoice, detectiveChoice, commonerChoice, healerChoice;
+            if(players.get(1).getHp()==0 && players.get(1).getPlayerType()!=1){
+                //User is dead
+
             }
-            mafiaChoice=value;
-            mafiaController.killTarget();
-            detectiveChoice=detectiveController.getRandom("Detectives have chosen a player to test.");
-            healerChoice=healerController.getRandomAll("Healers have chosen someone to heal.");
-            System.out.println("--End of actions--");
+            else if (choice == 1) {
+                int value = 0;
+                while (true) {
+                    try {
+                        System.out.println("Choose the target: ");
+                        value = Integer.parseInt(sc.next());
+                        if (mafiaController.checkInput(value))
+                            break;
+                        else
+                            System.out.println("Mafia can't be chosen Target");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. \nPlease Try Again.");
 
+                    }
+                }
+                mafiaChoice = value;
+                int target = mafiaController.killTarget(mafiaChoice);
+                detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
+                healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
 
+                int hp=players.get(healerChoice).getHp();
+                players.get(healerChoice).setHp(hp+500);
 
+                System.out.println("--End of actions--");
+                if (target == -1 || players.get(target) == players.get(healerChoice)) {
+                    System.out.println("No one died.");
+
+                } else {
+                    System.out.println("Player" + target + "has died.");
+                    removeValues(target);
+                }
+                //vote
+                //fix
+                //test if player is mafia
+                if(!mafiaController.checkInput(detectiveChoice)){
+                    System.out.println("Player"+detectiveChoice+" has been voted out.");
+                    removeValues(detectiveChoice);
+                }
+//                vote();
+            }
+            System.out.println("--End of Round "+count+"--");
         }
+//        gameOver();
     }
-
+    public static void removeValues(int target){
+        players.remove(target);
+        int type = players.get(target).getPlayerType();
+        Controller<? extends Player> newControl = returnController(type);
+        newControl.removeFromList(target);
+    }
     public static int displaymenu() {
         System.out.println("Welcome to Mafia");
         int numberPlayers = safeInput("Enter Number of players:");

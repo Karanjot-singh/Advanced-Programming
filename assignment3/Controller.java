@@ -17,29 +17,41 @@ public class Controller<T1> {
         others = new HashMap<>();
         selector = new Random();
     }
-    public void killTarget(){
 
+    public int killTarget(int target) {
+
+        //ret -1 if not able to kill
+        return 0;
     }
-    public int getRandom(String message){
+
+    public void removeFromList(int key) {
+        players.remove(key);
+    }
+
+    public int getRandom(String message) {
         System.out.println(message);
         ArrayList<Integer> temp = new ArrayList<>(others.keySet());
         int rand = temp.get(selector.nextInt(others.size()));
         return rand;
     }
-    public boolean checkInput(int value){
+
+    public boolean checkInput(int value) {
         ArrayList<Integer> temp = new ArrayList<>(players.keySet());
-        for (int i: temp
-             ) {if(i==value)
-                 return false;
+        for (int i : temp
+        ) {
+            if (i == value)
+                return false;
         }
         return true;
     }
-    public int getRandomAll(String message){
+
+    public int getRandomAll(String message , HashMap<Integer, Player> players1) {
         System.out.println(message);
-        ArrayList<Integer> temp = new ArrayList<>(players.keySet());
-        int rand = temp.get(selector.nextInt(players.size()));
+        ArrayList<Integer> temp = new ArrayList<>(players1.keySet());
+        int rand = temp.get(selector.nextInt(players1.size()));
         return rand;
     }
+
     public void addToList(Player p) {
         try {
             players.put(count, p);
@@ -66,11 +78,19 @@ public class Controller<T1> {
 
     }
 
+    public void displayList(HashMap<Integer, Player>map) {
+        System.out.println("");
+        for (Map.Entry m : map.entrySet()) {
+            Integer id = (Integer) m.getKey();
+            System.out.print("Player" + id + " ");
+        }
+    }
+
     public void displayPlayers() {
         System.out.println("");
         for (Map.Entry m : players.entrySet()) {
             Integer id = (Integer) m.getKey();
-            System.out.print("Player" + id+" ");
+            System.out.print("Player" + id + " ");
         }
     }
 //
