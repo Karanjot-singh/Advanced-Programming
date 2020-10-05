@@ -1,8 +1,6 @@
 package assignment3;
 
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     public static Scanner sc = new Scanner(System.in);
@@ -22,15 +20,53 @@ public class Game {
         detectiveController = new Controller<Detective>();
         healerController = new Controller<Healer>();
         commonerController = new Controller<Commoner>();
-        displaymenu();
-        gameRound();
+        int choice = displaymenu();
+        choice = chooseUser(choice); //calls addPlayers
+        gameRound(choice);
+    }
+    public static void displayAlive(){
+        for (Map.Entry m : players.entrySet()) {
+            Integer id = (Integer) m.getKey();
+            System.out.print("Player" + id +" ");
+        }
     }
 
-    public static void gameRound() {
+    public static void gameRound(int choice) {
+        System.out.print(numberPlayers+" Players remaining: ");
+        displayAlive();
+        System.out.println(" are Alive.");
+        mafiaController.othersList(players);
+        detectiveController.othersList(players);
+        healerController.othersList(players);
+        commonerController.othersList(players);
+        int mafiaChoice,detectiveChoice,commonerChoice,healerChoice;
+        if (choice == 1) {
+            int value=0;
+            while (true) {
+                try {
+                    System.out.println("Choose the target: ");
+                    value = Integer.parseInt(sc.next());
+                    if (mafiaController.checkInput(value))
+                        break;
+                    else
+                        System.out.println("Mafia can't be chosen Target");
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. \nPlease Try Again.");
 
+                }
+            }
+            mafiaChoice=value;
+            mafiaController.killTarget();
+            detectiveChoice=detectiveController.getRandom("Detectives have chosen a player to test.");
+            healerChoice=healerController.getRandomAll("Healers have chosen someone to heal.");
+            System.out.println("--End of actions--");
+
+
+
+        }
     }
 
-    public static void displaymenu() {
+    public static int displaymenu() {
         System.out.println("Welcome to Mafia");
         int numberPlayers = safeInput("Enter Number of players:");
         countPlayers(numberPlayers);
@@ -41,11 +77,11 @@ public class Game {
                 "4) Commoner\n" +
                 "5) Assign Randomly");
         System.out.println("You are Player1.");
-        chooseUser(choice); //calls addPlayers
-//        players.get(1)
+        return choice;
     }
 
-    public static void chooseUser(int choice) {
+    public static int chooseUser(int choice) {
+        //tryp
         int count = 1;
         if (choice == 1) {
             Player player1 = new Mafia();
@@ -55,7 +91,7 @@ public class Game {
             maxMafias -= 1;
             addPlayers();
             maxMafias += 1;
-            System.out.print("You are a Mafia."+"All Mafias are: ");
+            System.out.print("You are a Mafia." + "All Mafias are: ");
             mafiaController.displayPlayers();
         } else if (choice == 2) {
             Player player1 = new Detective();
@@ -65,7 +101,7 @@ public class Game {
             maxDetectives -= 1;
             addPlayers();
             maxDetectives += 1;
-            System.out.print("You are a Detective."+"All Detectives are :");
+            System.out.print("You are a Detective." + "All Detectives are :");
             detectiveController.displayPlayers();
         } else if (choice == 3) {
             Player player1 = new Healer();
@@ -75,7 +111,7 @@ public class Game {
             maxHealers -= 1;
             addPlayers();
             maxHealers += 1;
-            System.out.print("You are a Healer."+"All Healers are:");
+            System.out.print("You are a Healer." + "All Healers are:");
             healerController.displayPlayers();
         } else if (choice == 4) {
             Player player1 = new Commoner();
@@ -89,7 +125,9 @@ public class Game {
             Random selector = new Random();
             int randomChoice = (int) selector.nextInt(4 - 1) + 1;
             chooseUser(randomChoice);
+            return randomChoice;
         }
+        return choice;
     }
 
     public static void countPlayers(int n) {
@@ -107,23 +145,29 @@ public class Game {
         for (int i = 0; i < maxMafias; i++) {
             Player player = new Mafia();
             players.put(count++, player);
+            mafiaController.addToList(player);
 //            System.out.println("m");
         }
         for (int i = 0; i < maxDetectives; i++) {
             Player player = new Detective();
             players.put(count++, player);
+            detectiveController.addToList(player);
+
 //            System.out.println("d");
 
         }
         for (int i = 0; i < maxHealers; i++) {
             Player player = new Healer();
             players.put(count++, player);
+            healerController.addToList(player);
+
 //            System.out.println("h");
 
         }
         for (int i = 0; i < maxCommoners; i++) {
             Player player = new Commoner();
             players.put(count++, player);
+            commonerController.addToList(player);
         }
 
     }

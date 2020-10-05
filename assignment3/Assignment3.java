@@ -6,6 +6,8 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
+//you must use OOP concepts, especially inheritance and polymorphism, ​ demonstration of object
+//        comparison, and object equality check​ .
 
 public class Assignment3 {
     public static Scanner sc = new Scanner(System.in);
