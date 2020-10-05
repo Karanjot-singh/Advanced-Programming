@@ -60,6 +60,27 @@ public class Game {
                 eliminatePlayer(target, healerChoice);
                 //test if player is mafia
                 votingProcess(detectiveChoice);
+            } else if (choice == 2) {
+                userChoice = getChoice(1, "Choose a player to test: ", "You cannot test a detective.");
+                mafiaChoice = mafiaController.getRandom("");
+                int target = mafiaController.killTarget(mafiaChoice, maxMafias);
+                detectiveChoice = userChoice;
+                checkMafia(detectiveChoice);
+                healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
+                heal(healerChoice);
+                System.out.println("--End of actions--");
+                eliminatePlayer(target, healerChoice);
+                votingProcess(detectiveChoice);
+            } else if (choice == 3) {
+                userChoice = getChoice(1, "Choose a player to heal: ", "");
+                mafiaChoice = mafiaController.getRandom("");
+                int target = mafiaController.killTarget(mafiaChoice, maxMafias);
+                detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
+                healerChoice = userChoice;
+                heal(healerChoice);
+                System.out.println("--End of actions--");
+                eliminatePlayer(target, healerChoice);
+                votingProcess(detectiveChoice);
             }
             System.out.println("--End of Round " + count + "--");
         }
@@ -131,6 +152,13 @@ public class Game {
         return choice;
     }
 
+    public static void checkMafia(int detectiveChoice) {
+        if (mafiaController.checkInput(detectiveChoice)) {
+            System.out.println("Player" + detectiveChoice + " is a Mafia.");
+        } else
+            System.out.println("Player" + detectiveChoice + " is not a Mafia.");
+
+    }
 
     public static void votingProcess(int detectiveChoice) {
         if (!mafiaController.checkInput(detectiveChoice)) {
@@ -146,8 +174,9 @@ public class Game {
     }
 
     public static void heal(int healerChoice) {
-        int hp = players.get(healerChoice).getHp();
-        players.get(healerChoice).setHp(hp + 500);
+        int hp = players.get(healerChoice).getHp()+500;
+        players.get(healerChoice).setHp(hp);
+        System.out.println("heal "+healerChoice+" "+hp);
     }
 
     public static void eliminatePlayer(int target, int healerChoice) {

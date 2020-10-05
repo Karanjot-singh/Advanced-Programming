@@ -69,8 +69,20 @@ abstract class Player {
 class Mafia extends Player {
     @Override
     public int fetchInput(Controller<? extends Player> controller,String input, String exception) {
-
-        return 0;
+        int value;
+        while (true) {
+            try {
+                System.out.println(input);
+                value = Integer.parseInt(sc.next());
+                if (controller.checkInput(value))
+                    break;
+                else
+                    System.out.println(exception);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. \nPlease Try Again.");
+            }
+        }
+        return value;
     }
 
     public Mafia() {
@@ -103,7 +115,6 @@ class Healer extends Player {
     public Healer() {
         this.hp = 800;
         this.playerType = 3;
-
     }
 }
 
@@ -123,7 +134,20 @@ class Commoner extends Player {
 class Detective extends Player {
     @Override
     public int fetchInput(Controller<? extends Player> controller,String input, String exception) {
-        return 0;
+        int value;
+        while (true) {
+            try {
+                System.out.println(input);
+                value = Integer.parseInt(sc.next());
+                if (controller.checkInput(value))
+                    break;
+                else
+                    System.out.println(exception);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. \nPlease Try Again.");
+            }
+        }
+        return value;
     }
 
     public Detective() {
