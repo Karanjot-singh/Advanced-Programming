@@ -15,7 +15,6 @@ public class Controller<T extends Player> {
         others = new HashMap<>();
         selector = new Random();
     }
-
     private void mafiaDamage(int targetHp,int count) {
         int damage = targetHp / count;
 

@@ -18,12 +18,17 @@ public class Assignment3 {
 }
 
 abstract class Player {
-    protected HashMap<Integer, Player> players = new HashMap<>();
+    protected HashMap<Integer, Player> players;
     protected int hp, playerType;
     protected int user;
     protected int id;
-    abstract protected int fetchInput();
+    public static Scanner sc;
+
+    abstract public int fetchInput(Controller<? extends Player> controller,String input, String exception);
+
     public Player() {
+        players = new HashMap<>();
+        sc=new Scanner(System.in);
     }
 
     @Override
@@ -63,7 +68,8 @@ abstract class Player {
 
 class Mafia extends Player {
     @Override
-    protected int fetchInput() {
+    public int fetchInput(Controller<? extends Player> controller,String input, String exception) {
+
         return 0;
     }
 
@@ -76,8 +82,22 @@ class Mafia extends Player {
 
 class Healer extends Player {
     @Override
-    protected int fetchInput() {
-        return 0;
+    public int fetchInput(Controller<? extends Player> controller,String input, String exception) {
+        int value;
+        while (true) {
+            try {
+                System.out.println(input);
+                value = Integer.parseInt(sc.next());
+                if (controller.checkInput(value))
+                    break;
+                else
+                    System.out.println(exception);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. \nPlease Try Again.");
+
+            }
+        }
+        return value;
     }
 
     public Healer() {
@@ -89,7 +109,7 @@ class Healer extends Player {
 
 class Commoner extends Player {
     @Override
-    protected int fetchInput() {
+    public int fetchInput(Controller<? extends Player> controller,String input, String exception) {
         return 0;
     }
 
@@ -102,7 +122,7 @@ class Commoner extends Player {
 
 class Detective extends Player {
     @Override
-    protected int fetchInput() {
+    public int fetchInput(Controller<? extends Player> controller,String input, String exception) {
         return 0;
     }
 
