@@ -18,7 +18,7 @@ public class Assignment3 {
 }
 
 abstract class Player {
-    protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    protected HashMap<Integer, Player> players = new HashMap<>();
     protected int hp, playerType;
     protected int user;
     protected int id;
@@ -91,7 +91,3 @@ class Detective extends Player {
 
     }
 }
-
-
-
-

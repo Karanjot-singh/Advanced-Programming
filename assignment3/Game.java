@@ -22,34 +22,9 @@ public class Game {
         commonerController = new Controller<Commoner>();
         int choice = displaymenu();
         choice = chooseUser(choice); //calls addPlayers
+        System.out.println("number of"+numberPlayers+" "+maxMafias+" "+maxDetectives+" "+maxHealers+" "+maxCommoners);
+
         gameRound(choice);
-    }
-
-    public static void displayAlive() {
-        for (Map.Entry m : players.entrySet()) {
-            Integer id = (Integer) m.getKey();
-            System.out.print("Player" + id + " ");
-        }
-    }
-
-    public static Controller<? extends Player> returnController(int playerType) {
-        if (playerType == 1) {
-            numberPlayers--;
-            maxMafias--;
-            return mafiaController;
-        } else if (playerType == 2) {
-            numberPlayers--;
-            maxDetectives--;
-            return detectiveController;
-        } else if (playerType == 3) {
-            numberPlayers--;
-            maxHealers--;
-            return healerController;
-        } else {
-            maxCommoners--;
-            numberPlayers--;
-            return commonerController;
-        }
     }
 
     public static void gameRound(int choice) {
@@ -65,11 +40,12 @@ public class Game {
             healerController.othersList(players);
             commonerController.othersList(players);
             int mafiaChoice, detectiveChoice, commonerChoice, healerChoice;
-            if (players.get(1).getHp() == 0 && players.get(1).getPlayerType() != 1) {
-                //User is dead
-
-            } else if (choice == 1) {
-                int value = 0;
+//            if (players.get(1).getHp() == 0 && players.get(1).getPlayerType() != 1) {
+//                //User is dead
+//
+//            }
+            if (choice == 1) {
+                int value;
                 while (true) {
                     try {
                         System.out.println("Choose the target: ");
@@ -97,7 +73,7 @@ public class Game {
                     System.out.println("No one died.");
 
                 } else {
-                    System.out.println("Player" + target + "has died.");
+                    System.out.println("Player" + target + " has died.");
                     removeValues(target);
                     if (!checkUserAlive(target))
                         choice = 0;
@@ -141,6 +117,8 @@ public class Game {
         System.out.println("Welcome to Mafia");
         int numberPlayers = safeInput("Enter Number of players:");
         countPlayers(numberPlayers);
+        System.out.println("displ of"+numberPlayers+" "+maxMafias+" "+maxDetectives+" "+maxHealers+" "+maxCommoners);
+
         int choice = safeInput("Choose a Character\n" +
                 "1) Mafia\n" +
                 "2) Detective\n" +
@@ -158,7 +136,7 @@ public class Game {
             Player player1 = new Mafia();
             player1.setUser(1);
             players.put(count++, player1);
-            mafiaController.addToList(player1);
+            mafiaController.addToList(count,player1);
             maxMafias -= 1;
             addPlayers();
             maxMafias += 1;
@@ -168,7 +146,7 @@ public class Game {
             Player player1 = new Detective();
             player1.setUser(1);
             players.put(count, player1);
-            detectiveController.addToList(player1);
+            detectiveController.addToList(count,player1);
             maxDetectives -= 1;
             addPlayers();
             maxDetectives += 1;
@@ -178,7 +156,7 @@ public class Game {
             Player player1 = new Healer();
             player1.setUser(1);
             players.put(count, player1);
-            healerController.addToList(player1);
+            healerController.addToList(count,player1);
             maxHealers -= 1;
             addPlayers();
             maxHealers += 1;
@@ -201,6 +179,33 @@ public class Game {
         return choice;
     }
 
+    public static void displayAlive() {
+        for (Map.Entry m : players.entrySet()) {
+            Integer id = (Integer) m.getKey();
+            System.out.print("Player" + id + " ");
+        }
+    }
+
+    public static Controller<? extends Player> returnController(int playerType) {
+        if (playerType == 1) {
+            numberPlayers--;
+            maxMafias--;
+            return mafiaController;
+        } else if (playerType == 2) {
+            numberPlayers--;
+            maxDetectives--;
+            return detectiveController;
+        } else if (playerType == 3) {
+            numberPlayers--;
+            maxHealers--;
+            return healerController;
+        } else {
+            maxCommoners--;
+            numberPlayers--;
+            return commonerController;
+        }
+    }
+
     public static void countPlayers(int n) {
         numberPlayers = n;
         int count = 0;
@@ -214,20 +219,20 @@ public class Game {
     public static void addPlayers() {
         int count = 2;
         for (int i = 0; i < maxMafias; i++) {
+            System.out.println("hello"+i);
             Player player = new Mafia();
             players.put(count++, player);
-            mafiaController.addToList(player);
-//            System.out.println("m");
+            mafiaController.addToList(count,player);
         }
         for (int i = 0; i < maxDetectives; i++) {
             Player player = new Detective();
             players.put(count++, player);
-            detectiveController.addToList(player);
+            detectiveController.addToList(count,player);
         }
         for (int i = 0; i < maxHealers; i++) {
             Player player = new Healer();
             players.put(count++, player);
-            healerController.addToList(player);
+            healerController.addToList(count,player);
 
 //            System.out.println("h");
 
@@ -235,7 +240,7 @@ public class Game {
         for (int i = 0; i < maxCommoners; i++) {
             Player player = new Commoner();
             players.put(count++, player);
-            commonerController.addToList(player);
+            commonerController.addToList(count,player);
         }
 
     }

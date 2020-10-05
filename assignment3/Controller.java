@@ -6,13 +6,11 @@ import java.util.Map;
 import java.util.Random;
 
 public class Controller<T1> {
-    private int count;
     private HashMap<Integer, Player> players;
     private HashMap<Integer, Player> others;
     public static Random selector;
 
     public Controller() {
-        this.count = 1;
         players = new HashMap<>();
         others = new HashMap<>();
         selector = new Random();
@@ -21,7 +19,7 @@ public class Controller<T1> {
     private void mafiaDamage(int targetHp,int count) {
         int damage = targetHp / count;
 
-        if (count > 0) {
+        if (count > 1) {
             for (Map.Entry m : players.entrySet()) {
                 Object p = m.getValue();
                 int hp = ((Player) p).getHp();
@@ -38,8 +36,7 @@ public class Controller<T1> {
                 if(hp>0)
                     ((Player) p).setHp(hp-damage);
             }
-        } else
-            return;
+        }
     }
 
     public int killTarget(int target, int count) {
@@ -92,10 +89,9 @@ public class Controller<T1> {
         return rand;
     }
 
-    public void addToList(Player p) {
+    public void addToList(int count ,Player p) {
         try {
-            players.put(count, p);
-
+            players.put(count-1, p);
         } catch (NullPointerException e) {
             System.out.println("error");
         }
@@ -115,7 +111,6 @@ public class Controller<T1> {
     }
 
     public void displayList(HashMap<Integer, Player> map) {
-        System.out.println("");
         for (Map.Entry m : map.entrySet()) {
             Integer id = (Integer) m.getKey();
             System.out.print("Player" + id + " ");
@@ -123,11 +118,11 @@ public class Controller<T1> {
     }
 
     public void displayPlayers() {
-        System.out.println("");
         for (Map.Entry m : players.entrySet()) {
             Integer id = (Integer) m.getKey();
             System.out.print("Player" + id + " ");
         }
+        System.out.println();
     }
 
 }
