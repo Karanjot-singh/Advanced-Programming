@@ -24,7 +24,6 @@ public class Game {
         flag = 1;
         int choice = displaymenu();
         choice = chooseUser(choice); //calls addPlayers
-        System.out.println("number of" + numberPlayers + " " + maxMafias + " " + maxDetectives + " " + maxHealers + " " + maxCommoners);
         gameRound(choice);
 //        gameResults();
     }
@@ -35,10 +34,13 @@ public class Game {
         int inputValue = user.fetchInput(newControl, input, exception);
         return inputValue;
     }
-
+    public static void results(int status){}
     public static void gameRound(int choice) {
         int count = 0;
-        while ((maxMafias < maxCommoners + maxHealers + maxDetectives) && maxMafias != 0) {
+        boolean game =true;
+        while (game) {
+            System.out.println("number of" + numberPlayers + " M" + maxMafias + " D" + maxDetectives + " H" + maxHealers + " C" + maxCommoners);
+
             System.out.println("Round " + ++count);
             System.out.print(numberPlayers + " Players remaining: ");
             displayAlive();
@@ -48,8 +50,27 @@ public class Game {
             healerController.othersList(players);
             commonerController.othersList(players);
             int mafiaChoice, detectiveChoice, userChoice, healerChoice;
-            if (flag == 0)
-                break;
+            if(maxMafias >= maxCommoners + maxHealers + maxDetectives)
+            {
+                results(1);
+                game=false;
+            }
+            else if(maxMafias<=0){
+                results(0);
+                game=false;
+            }
+            // User condition
+            if (flag == 0){
+                mafiaChoice = mafiaController.getRandom("");
+                int target = mafiaController.killTarget(mafiaChoice, maxMafias);
+                detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
+                healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
+                heal(healerChoice);
+                System.out.println("--End of actions--");
+                eliminatePlayer(target, healerChoice);
+                votingProcess(detectiveChoice);
+
+            }
             else if (choice == 1) {
                 userChoice = getChoice(1, "Choose the target: ", "Mafia can't be chosen Target");
                 int target = mafiaController.killTarget(userChoice, maxMafias);
@@ -90,8 +111,6 @@ public class Game {
         System.out.println("Welcome to Mafia");
         int numberPlayers = safeInput("Enter Number of players:");
         countPlayers(numberPlayers);
-        System.out.println("displ of" + numberPlayers + " " + maxMafias + " " + maxDetectives + " " + maxHealers + " " + maxCommoners);
-
         int choice = safeInput("Choose a Character\n" +
                 "1) Mafia\n" +
                 "2) Detective\n" +
@@ -174,9 +193,9 @@ public class Game {
     }
 
     public static void heal(int healerChoice) {
-        int hp = players.get(healerChoice).getHp()+500;
+        int hp = players.get(healerChoice).getHp() + 500;
         players.get(healerChoice).setHp(hp);
-        System.out.println("heal "+healerChoice+" "+hp);
+        System.out.println("heal " + healerChoice + " " + hp);
     }
 
     public static void eliminatePlayer(int target, int healerChoice) {
@@ -196,6 +215,8 @@ public class Game {
         Controller<? extends Player> newControl = returnController(type);
         newControl.removeFromList(target);
         players.remove(target);
+        updatePlayerCount(type);
+        numberPlayers--;
     }
 
     public static void displayAlive() {
@@ -205,24 +226,26 @@ public class Game {
         }
     }
 
-    public static Controller<? extends Player> returnController(int playerType) {
-        if (playerType == 1) {
-            numberPlayers--;
+    public static void updatePlayerCount(int playerType) {
+        if (playerType == 1)
             maxMafias--;
-            return mafiaController;
-        } else if (playerType == 2) {
-            numberPlayers--;
+        else if (playerType == 2)
             maxDetectives--;
-            return detectiveController;
-        } else if (playerType == 3) {
-            numberPlayers--;
+        else if (playerType == 3)
             maxHealers--;
-            return healerController;
-        } else {
+        else
             maxCommoners--;
-            numberPlayers--;
+    }
+
+    public static Controller<? extends Player> returnController(int playerType) {
+        if (playerType == 1)
+            return mafiaController;
+        else if (playerType == 2)
+            return detectiveController;
+        else if (playerType == 3)
+            return healerController;
+        else
             return commonerController;
-        }
     }
 
     public static void countPlayers(int n) {
@@ -238,7 +261,6 @@ public class Game {
     public static void addPlayers() {
         int count = 2;
         for (int i = 0; i < maxMafias; i++) {
-            System.out.println("hello" + i);
             Player player = new Mafia();
             players.put(count++, player);
             mafiaController.addToList(count, player);
