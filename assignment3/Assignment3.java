@@ -22,7 +22,7 @@ abstract class Player {
     protected int hp, playerType;
     protected int user;
     protected int id;
-
+    abstract protected int fetchInput();
     public Player() {
     }
 
@@ -62,13 +62,24 @@ abstract class Player {
 }
 
 class Mafia extends Player {
+    @Override
+    protected int fetchInput() {
+        return 0;
+    }
+
     public Mafia() {
         this.hp = 2500;
         this.playerType = 1;
     }
+
 }
 
 class Healer extends Player {
+    @Override
+    protected int fetchInput() {
+        return 0;
+    }
+
     public Healer() {
         this.hp = 800;
         this.playerType = 3;
@@ -77,6 +88,11 @@ class Healer extends Player {
 }
 
 class Commoner extends Player {
+    @Override
+    protected int fetchInput() {
+        return 0;
+    }
+
     public Commoner() {
         this.hp = 1000;
         this.playerType = 4;
@@ -85,6 +101,11 @@ class Commoner extends Player {
 }
 
 class Detective extends Player {
+    @Override
+    protected int fetchInput() {
+        return 0;
+    }
+
     public Detective() {
         this.hp = 800;
         this.playerType = 2;

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class Controller<T1> {
-    private HashMap<Integer, Player> players;
-    private HashMap<Integer, Player> others;
+public class Controller<T extends Player> {
+    private HashMap<Integer, T> players;
+    private HashMap<Integer, T> others;
     public static Random selector;
 
     public Controller() {
@@ -91,7 +91,7 @@ public class Controller<T1> {
 
     public void addToList(int count ,Player p) {
         try {
-            players.put(count-1, p);
+            players.put(count-1, (T) p);
         } catch (NullPointerException e) {
             System.out.println("error");
         }
@@ -100,7 +100,7 @@ public class Controller<T1> {
     public void othersList(HashMap<Integer, Player> all) {
         others.clear();
         others.putAll(players);
-        others.putAll(all);
+        others.putAll((HashMap<Integer, T>) all);
 
         for (Integer a : players.keySet()) {
             if (all.containsKey(a)) {
