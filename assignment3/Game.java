@@ -31,21 +31,21 @@ public class Game {
             System.out.print("Player" + id + " ");
         }
     }
-    public static Controller<? extends Player> returnController(int playerType){
-        if(playerType==1){
+
+    public static Controller<? extends Player> returnController(int playerType) {
+        if (playerType == 1) {
             numberPlayers--;
             maxMafias--;
             return mafiaController;
-        }
-        else if(playerType==2){
+        } else if (playerType == 2) {
             numberPlayers--;
             maxDetectives--;
-            return detectiveController;}
-        else if(playerType==3){
+            return detectiveController;
+        } else if (playerType == 3) {
             numberPlayers--;
             maxHealers--;
-            return healerController;}
-        else {
+            return healerController;
+        } else {
             maxCommoners--;
             numberPlayers--;
             return commonerController;
@@ -53,9 +53,9 @@ public class Game {
     }
 
     public static void gameRound(int choice) {
-        int count =0;
+        int count = 0;
         while ((maxMafias < maxCommoners + maxHealers + maxDetectives) && maxMafias != 0) {
-            System.out.println("Round "+ ++count);
+            System.out.println("Round " + ++count);
 
             System.out.print(numberPlayers + " Players remaining: ");
             displayAlive();
@@ -65,11 +65,10 @@ public class Game {
             healerController.othersList(players);
             commonerController.othersList(players);
             int mafiaChoice, detectiveChoice, commonerChoice, healerChoice;
-            if(players.get(1).getHp()==0 && players.get(1).getPlayerType()!=1){
+            if (players.get(1).getHp() == 0 && players.get(1).getPlayerType() != 1) {
                 //User is dead
 
-            }
-            else if (choice == 1) {
+            } else if (choice == 1) {
                 int value = 0;
                 while (true) {
                     try {
@@ -88,37 +87,51 @@ public class Game {
                 int target = mafiaController.killTarget(mafiaChoice);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
-
-                int hp=players.get(healerChoice).getHp();
-                players.get(healerChoice).setHp(hp+500);
+                //Healing process
+                int hp = players.get(healerChoice).getHp();
+                players.get(healerChoice).setHp(hp + 500);
 
                 System.out.println("--End of actions--");
+                //Target returns -1 if player hp > combined mafia hp
                 if (target == -1 || players.get(target) == players.get(healerChoice)) {
                     System.out.println("No one died.");
 
                 } else {
                     System.out.println("Player" + target + "has died.");
                     removeValues(target);
+                    if(!checkUserAlive(target))
+                        choice=0;
                 }
                 //vote
                 //fix
                 //test if player is mafia
-                if(!mafiaController.checkInput(detectiveChoice)){
-                    System.out.println("Player"+detectiveChoice+" has been voted out.");
+                if (!mafiaController.checkInput(detectiveChoice)) {
+                    System.out.println("Player" + detectiveChoice + " has been voted out.");
                     removeValues(detectiveChoice);
+                    if(!checkUserAlive(detectiveChoice))
+                        choice=0;
+                } else {
+                    int voteOut = healerController.getRandomAll("", players);
+                    System.out.println("Player" + voteOut + " has been voted out.");
+                    removeValues(voteOut);
+                    if(!checkUserAlive(voteOut))
+                        choice=0;
                 }
-//                vote();
             }
-            System.out.println("--End of Round "+count+"--");
+//                vote();
         }
-//        gameOver();
+        System.out.println("--End of Round " + count + "--");
+        //        gameOver();
+
     }
-    public static void removeValues(int target){
+
+    public static void removeValues(int target) {
         players.remove(target);
         int type = players.get(target).getPlayerType();
         Controller<? extends Player> newControl = returnController(type);
         newControl.removeFromList(target);
     }
+
     public static int displaymenu() {
         System.out.println("Welcome to Mafia");
         int numberPlayers = safeInput("Enter Number of players:");
@@ -205,9 +218,6 @@ public class Game {
             Player player = new Detective();
             players.put(count++, player);
             detectiveController.addToList(player);
-
-//            System.out.println("d");
-
         }
         for (int i = 0; i < maxHealers; i++) {
             Player player = new Healer();
@@ -240,6 +250,9 @@ public class Game {
         return input;
     }
 
+    public static boolean checkUserAlive(int removed) {
+        return (removed==1) ? false : true;
+    }
 
 }
 

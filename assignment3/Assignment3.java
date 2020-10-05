@@ -19,7 +19,7 @@ public class Assignment3 {
 
 abstract class Player {
     protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
-    protected int hp,playerType;
+    protected int hp, playerType;
     protected int user;
     protected int id;
 
@@ -30,7 +30,7 @@ abstract class Player {
     public boolean equals(Object o1) {
         if (o1 != null && getClass() == o1.getClass()) {
             Player o = (Player) o1; //type casting
-            return (id == o.id );
+            return (id == o.id);
         } else {
             return false;
         }
@@ -77,14 +77,14 @@ abstract class Player {
 class Mafia extends Player {
     public Mafia() {
         this.hp = 2500;
-        this.playerType=1;
+        this.playerType = 1;
     }
 }
 
 class Healer extends Player {
     public Healer() {
         this.hp = 800;
-        this.playerType=3;
+        this.playerType = 3;
 
     }
 }
@@ -92,7 +92,7 @@ class Healer extends Player {
 class Commoner extends Player {
     public Commoner() {
         this.hp = 1000;
-        this.playerType=4;
+        this.playerType = 4;
 
     }
 }
@@ -100,7 +100,7 @@ class Commoner extends Player {
 class Detective extends Player {
     public Detective() {
         this.hp = 800;
-        this.playerType=2;
+        this.playerType = 2;
 
     }
 }

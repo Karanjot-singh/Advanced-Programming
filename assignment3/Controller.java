@@ -45,7 +45,7 @@ public class Controller<T1> {
         return true;
     }
 
-    public int getRandomAll(String message , HashMap<Integer, Player> players1) {
+    public int getRandomAll(String message, HashMap<Integer, Player> players1) {
         System.out.println(message);
         ArrayList<Integer> temp = new ArrayList<>(players1.keySet());
         int rand = temp.get(selector.nextInt(players1.size()));
@@ -78,7 +78,7 @@ public class Controller<T1> {
 
     }
 
-    public void displayList(HashMap<Integer, Player>map) {
+    public void displayList(HashMap<Integer, Player> map) {
         System.out.println("");
         for (Map.Entry m : map.entrySet()) {
             Integer id = (Integer) m.getKey();
@@ -93,13 +93,5 @@ public class Controller<T1> {
             System.out.print("Player" + id + " ");
         }
     }
-//
-//    public void displayPlayers() {
-//        for (Player p : playerList
-//        ) {
-//            System.out.println("Player"+p.getId());
-//        }
-//
-//    }
 
 }
