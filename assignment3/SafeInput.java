@@ -44,26 +44,18 @@ public interface SafeInput {
         return input;
     }
 
-    public static void safeInputElement(String message, ArrayList<Integer> eliminatedPlayers, Controller<Mafia> mafiaController) {
-        int input, error = 0;
+    public static int safeInputElement(String message,int eliminated) {
+        int input;
         while (true) {
             try {
-                error = 0;
                 System.out.println(message);
                 String input1 = sc.next();
                 input = Integer.parseInt(input1);
-                for (int eliminated :
-                        eliminatedPlayers
-                ) {
-                    if (input == eliminated)
-                        error = 1;
-                }
-                if (error == 1)
+                if (input== eliminated) {
                     System.out.println("Invalid input. Please Try Again.");
-                else if (!mafiaController.validInput(input))
-                    System.out.println("Invalid input. \nPlease Try Again.");
-                else
-                    break;
+                    continue;
+                } else
+                    return input;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please Try Again.");
             }

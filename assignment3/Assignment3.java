@@ -75,9 +75,7 @@ class Mafia extends Player {
             try {
                 System.out.println("Choose the target: ");
                 value = Integer.parseInt(sc.next());
-                if (!mafiaController.validInput(value))
-                    System.out.println("Invalid input. \nPlease Try Again.");
-                else if (controller.checkInput(value))
+                if (controller.checkInput(value))
                     break;
                 else
                     System.out.println("Mafia can't be chosen Target");
@@ -104,9 +102,7 @@ class Healer extends Player {
             try {
                 System.out.println("Choose a player to heal : ");
                 value = Integer.parseInt(sc.next());
-                if (!mafiaController.validInput(value))
-                    System.out.println("Invalid input. \nPlease Try Again.");
-                else if (controller.checkInput(value))
+                if (controller.checkInput(value))
                     break;
                 else
                     System.out.println(" ");
@@ -147,9 +143,7 @@ class Detective extends Player {
             try {
                 System.out.println("Choose a player to test: ");
                 value = Integer.parseInt(sc.next());
-                if (!mafiaController.validInput(value))
-                    System.out.println("Invalid input. \nPlease Try Again.");
-                else if (controller.checkInput(value))
+                if (controller.checkInput(value))
                     break;
                 else
                     System.out.println("You cannot test a detective.");
