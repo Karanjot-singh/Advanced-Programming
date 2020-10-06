@@ -130,7 +130,6 @@ public class Controller<T extends Player> {
     public void displayPlayers() {
         for (Map.Entry<Integer, T> m : players.entrySet()) {
             Player p = m.getValue();
-            p.id = m.getKey();
 //            System.out.print("Player"+p.id+" ");
             System.out.print(p.toString());
         }
@@ -141,7 +140,6 @@ public class Controller<T extends Player> {
         System.out.print(message);
         for (Map.Entry<Integer, T> m : original.entrySet()) {
             Player p = m.getValue();
-            p.id = m.getKey();
 //            System.out.print("Player"+p.id+" ");
             System.out.print(" " + p.toString());
         }

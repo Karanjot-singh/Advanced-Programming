@@ -2,7 +2,7 @@ package assignment3;
 
 import java.util.*;
 
-public class Game {
+public class Game implements SafeInput {
     public static Scanner sc = new Scanner(System.in);
     protected static HashMap<Integer, Player> players = new HashMap<Integer, Player>();
     private static int numberPlayers;
@@ -79,7 +79,10 @@ public class Game {
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
+                heal(healerChoice,maxHealers);
                 boolean check = checkMafia(detectiveChoice,choice);
+                if(maxDetectives==0)
+                    check=false;
                 System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
@@ -91,7 +94,10 @@ public class Game {
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
                 boolean check = checkMafia(detectiveChoice,choice);
+                if(maxDetectives==0)
+                    check=false;
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
+                heal(healerChoice,maxHealers);
                 System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
@@ -104,6 +110,7 @@ public class Game {
                 detectiveChoice = userChoice;
                 boolean check = checkMafia(detectiveChoice,choice);
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
+                heal(healerChoice,maxHealers);
                 System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
@@ -113,8 +120,11 @@ public class Game {
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
                 boolean check = checkMafia(detectiveChoice,choice);
+                if(maxDetectives==0)
+                    check=false;
                 userChoice = getChoice(3);
                 healerChoice = userChoice;
+                heal(healerChoice,maxHealers);
                 System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
@@ -126,9 +136,9 @@ public class Game {
 
     public static int displaymenu() {
         System.out.println("Welcome to Mafia");
-        int numberPlayers = safeInput("Enter Number of players:");
+        int numberPlayers = SafeInput.safeInput("Enter Number of players:");
         countPlayers(numberPlayers);
-        int choice = safeInput("Choose a Character\n" +
+        int choice = SafeInput.safeInput("Choose a Character\n" +
                 "1) Mafia\n" +
                 "2) Detective\n" +
                 "3) Healer\n" +
@@ -201,6 +211,7 @@ public class Game {
     }
 
     public static void votingProcess(int detectiveChoice, boolean mafiaCaught) {
+        int voteUser = SafeInput.safeInput("Select a person to vote out: ");
         if (mafiaCaught) {
             System.out.println("Player" + detectiveChoice + " has been voted out.");
             removeValues(detectiveChoice);
@@ -219,15 +230,17 @@ public class Game {
         }
     }
 
-    public static void heal(int healerChoice) {
-        int hp = players.get(healerChoice).getHp() + 500;
-        players.get(healerChoice).setHp(hp);
-        System.out.println("heal " + healerChoice + " " + hp);
+    public static void heal(int healerChoice , int maxHealers) {
+        if(maxHealers>0) {
+            int hp = players.get(healerChoice).getHp() + 500;
+            players.get(healerChoice).setHp(hp);
+            System.out.println("heal " + healerChoice + " " + hp);
+        }
     }
 
     public static void eliminatePlayer(int target, int healerChoice) {
         //Target returns -1 if player hp > combined mafia hp
-        if (target == -1 || players.get(target) == players.get(healerChoice)) {
+        if (target == -1 || players.get(target).equals(players.get(healerChoice))) {
             System.out.println("No one died.");
 
         } else {
@@ -326,21 +339,6 @@ public class Game {
             players.put(index, player);
             commonerController.addToList(index, player);
         }
-    }
-
-    public static int safeInput(String message) {
-        int input = 0;
-        while (true) {
-            try {
-                System.out.println(message);
-                String temp = sc.next();
-                input = Integer.parseInt(temp);
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. \nPlease Try Again.");
-            }
-        }
-        return input;
     }
 
     public static void checkUserAlive(int removed) {

@@ -1,9 +1,6 @@
 package assignment3;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 
 //you must use OOP concepts, especially inheritance and polymorphism, ​ demonstration of object
