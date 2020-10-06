@@ -3,18 +3,13 @@ package assignment3;
 import java.util.HashMap;
 import java.util.Scanner;
 
-//you must use OOP concepts, especially inheritance and polymorphism, ​ demonstration of object
-//        comparison, and object equality check​ .
-
 public class Assignment3 {
-    public static Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
-        Game newGame = new Game();
+        new Game();
     }
 }
 
-abstract class Player {
+abstract class Player implements Comparable<Player>{
     protected HashMap<Integer, Player> players;
     protected int hp, playerType;
     protected int user;
@@ -24,14 +19,14 @@ abstract class Player {
     abstract public int fetchInput(Controller<? extends Player> controller);
 
     public Player(int id) {
-        this.id=id;
+        this.id = id;
         players = new HashMap<>();
-        sc=new Scanner(System.in);
+        sc = new Scanner(System.in);
     }
 
     @Override
     public String toString() {
-        return "Player"+ this.id+" " ;
+        return "Player" + this.id + " ";
     }
 
     @Override
@@ -43,25 +38,22 @@ abstract class Player {
             return false;
         }
     }
+    @Override
+    public int compareTo(Player o) {
+        return Integer.compare(hp, o.hp);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public int getHp() {
         return hp;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    public int getUser() {
-        return user;
     }
 
     public void setUser(int user) {
@@ -72,9 +64,6 @@ abstract class Player {
         return playerType;
     }
 
-    public void setPlayerType(int playerType) {
-        this.playerType = playerType;
-    }
 }
 
 class Mafia extends Player {
@@ -115,7 +104,7 @@ class Healer extends Player {
                 if (controller.checkInput(value))
                     break;
                 else
-                    System.out.println("");
+                    System.out.println(" ");
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. \nPlease Try Again.");
 

@@ -82,7 +82,7 @@ public class Controller<T extends Player> {
         ArrayList<Integer> temp = new ArrayList<>(players.keySet());
         for (int i : temp
         ) {
-            System.out.print("check input " + i + " ");
+//            System.out.print("Test " + i + " ");
             if (i == value)
                 return false;
         }
@@ -130,7 +130,6 @@ public class Controller<T extends Player> {
     public void displayPlayers() {
         for (Map.Entry<Integer, T> m : players.entrySet()) {
             Player p = m.getValue();
-//            System.out.print("Player"+p.id+" ");
             System.out.print(p.toString());
         }
         System.out.println();
@@ -140,7 +139,6 @@ public class Controller<T extends Player> {
         System.out.print(message);
         for (Map.Entry<Integer, T> m : original.entrySet()) {
             Player p = m.getValue();
-//            System.out.print("Player"+p.id+" ");
             System.out.print(" " + p.toString());
         }
         System.out.println();
