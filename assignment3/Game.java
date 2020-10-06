@@ -101,7 +101,7 @@ public class Game implements SafeInput {
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
-                //test if player is mafia
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", players.keySet());
                 votingProcess(detectiveChoice, check);
             } else if (choice == 2) {
                 mafiaChoice = mafiaController.getRandom("");
@@ -113,6 +113,7 @@ public class Game implements SafeInput {
                 heal(healerChoice, maxHealers);
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", players.keySet());
                 eliminatePlayer(target, healerChoice);
                 votingProcess(detectiveChoice, check);
             } else if (choice == 3) {
@@ -128,6 +129,7 @@ public class Game implements SafeInput {
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", players.keySet());
                 votingProcess(detectiveChoice, check);
             }
             System.out.println("--End of Round " + count + "--");
@@ -210,7 +212,6 @@ public class Game implements SafeInput {
     }
 
     public static void votingProcess(int detectiveChoice, boolean mafiaCaught) {
-        int voteUser = SafeInput.safeInput("Select a person to vote out: ");
         if (mafiaCaught) {
             System.out.println("Player" + detectiveChoice + " has been voted out.");
             removeValues(detectiveChoice);
@@ -239,7 +240,7 @@ public class Game implements SafeInput {
 
     public static void eliminatePlayer(int target, int healerChoice) {
         //Target returns -1 if player hp > combined mafia hp
-        if (target == -1 || players.get(target).equals(players.get(healerChoice))) {
+        if (target == -1 || players.get(target) == (players.get(healerChoice))) {
             System.out.println("No one died.");
 
         } else {
