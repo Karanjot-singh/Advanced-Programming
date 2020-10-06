@@ -17,7 +17,7 @@ abstract class Player implements Comparable<Player> {
     protected final int id;
     public final static Scanner sc = new Scanner(System.in);
 
-    abstract public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController);
+    abstract public int fetchInput(Controller<? extends Player> controller);
 
     public Player(int id) {
         this.id = id;
@@ -69,7 +69,7 @@ abstract class Player implements Comparable<Player> {
 
 class Mafia extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
+    public int fetchInput(Controller<? extends Player> controller) {
         int value;
         while (true) {
             try {
@@ -96,7 +96,7 @@ class Mafia extends Player {
 
 class Healer extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
+    public int fetchInput(Controller<? extends Player> controller) {
         int value;
         while (true) {
             try {
@@ -123,7 +123,7 @@ class Healer extends Player {
 
 class Commoner extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
+    public int fetchInput(Controller<? extends Player> controller) {
         return 0;
     }
 
@@ -137,7 +137,7 @@ class Commoner extends Player {
 
 class Detective extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
+    public int fetchInput(Controller<? extends Player> controller) {
         int value;
         while (true) {
             try {

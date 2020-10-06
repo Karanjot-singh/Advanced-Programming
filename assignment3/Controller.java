@@ -87,17 +87,6 @@ public class Controller<T extends Player> {
         return true;
     }
 
-    public boolean validInput(int value) {
-        //healercontroller
-        ArrayList<Integer> temp = new ArrayList<>(others.keySet());
-        for (int i : temp
-        ) {
-            if (i == value)
-                return true;
-        }
-        return false;
-    }
-
     public int getRandomAll(String message, HashMap<Integer, Player> players1) {
         System.out.println(message);
         ArrayList<Integer> temp = new ArrayList<>(players1.keySet());

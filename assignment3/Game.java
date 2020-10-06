@@ -27,13 +27,13 @@ public class Game implements SafeInput {
         Player user = players.get(1);
         int inputValue;
         if (choice == 1)
-            inputValue = user.fetchInput(mafiaController, mafiaController);
+            inputValue = user.fetchInput(mafiaController);
         else if (choice == 2)
-            inputValue = user.fetchInput(detectiveController, mafiaController);
+            inputValue = user.fetchInput(detectiveController);
         else if (choice == 3)
-            inputValue = user.fetchInput(healerController, mafiaController);
+            inputValue = user.fetchInput(healerController);
         else
-            inputValue = user.fetchInput(commonerController, mafiaController);
+            inputValue = user.fetchInput(commonerController);
         return inputValue;
     }
 
