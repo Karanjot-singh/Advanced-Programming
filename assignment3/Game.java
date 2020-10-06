@@ -136,14 +136,14 @@ public class Game implements SafeInput {
 
     public static int displaymenu() {
         System.out.println("Welcome to Mafia");
-        int numberPlayers = SafeInput.safeInputMin("Enter Number of players:",6);
+        int numberPlayers = SafeInput.safeInputMin("Enter Number of players:", 6);
         countPlayers(numberPlayers);
         int choice = SafeInput.safeInputMax("Choose a Character\n" +
                 "1) Mafia\n" +
                 "2) Detective\n" +
                 "3) Healer\n" +
                 "4) Commoner\n" +
-                "5) Assign Randomly",5);
+                "5) Assign Randomly", 5);
         System.out.println("You are Player1.");
         return choice;
     }

@@ -9,7 +9,7 @@ public class Assignment3 {
     }
 }
 
-abstract class Player implements Comparable<Player>{
+abstract class Player implements Comparable<Player> {
     protected HashMap<Integer, Player> players;
     protected int hp, playerType;
     protected int user;
@@ -38,6 +38,7 @@ abstract class Player implements Comparable<Player>{
             return false;
         }
     }
+
     @Override
     public int compareTo(Player o) {
         return Integer.compare(hp, o.hp);

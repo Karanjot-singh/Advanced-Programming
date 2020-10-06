@@ -19,15 +19,16 @@ public interface SafeInput {
         }
         return input;
     }
-    public static int safeInputMin(String message,int min) {
+
+    public static int safeInputMin(String message, int min) {
         int input;
         while (true) {
             try {
                 System.out.println(message);
                 String temp = sc.next();
                 input = Integer.parseInt(temp);
-                if(input<min){
-                    System.out.println("Number of Players must be >="+min);
+                if (input < min) {
+                    System.out.println("Number of Players must be >=" + min);
                     continue;
                 }
                 break;
@@ -37,15 +38,16 @@ public interface SafeInput {
         }
         return input;
     }
-    public static int safeInputMax(String message,int max) {
+
+    public static int safeInputMax(String message, int max) {
         int input;
         while (true) {
             try {
                 System.out.println(message);
                 String temp = sc.next();
                 input = Integer.parseInt(temp);
-                if(input>max){
-                    System.out.println("Invalid input. Enter Input within "+max);
+                if (input > max) {
+                    System.out.println("Invalid input. Enter Input within " + max);
                     continue;
                 }
                 break;

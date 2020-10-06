@@ -112,6 +112,11 @@ public class Controller<T extends Player> {
         }
     }
 
+    public void temp() {
+
+        specialVote();
+    }
+
     public void othersList(HashMap<Integer, Player> all) {
         others.clear();
         others.putAll(players);
@@ -140,6 +145,15 @@ public class Controller<T extends Player> {
             System.out.print(" " + p.toString());
         }
         System.out.println();
+
+    }
+
+    public void specialVote() {
+        for (Map.Entry<Integer, T> m : players.entrySet()) {
+            Player p = m.getValue();
+            players.get(1).compareTo(p);
+            getRandomVotes((HashMap<Integer, Player>) players);
+        }
 
     }
 
