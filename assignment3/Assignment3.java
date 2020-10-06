@@ -15,9 +15,9 @@ abstract class Player implements Comparable<Player> {
     protected int playerType;
     protected int user;
     protected final int id;
-    public final static Scanner sc=new Scanner(System.in);
+    public final static Scanner sc = new Scanner(System.in);
 
-    abstract public int fetchInput(Controller<? extends Player> controller);
+    abstract public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController);
 
     public Player(int id) {
         this.id = id;
@@ -69,13 +69,15 @@ abstract class Player implements Comparable<Player> {
 
 class Mafia extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller) {
+    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
         int value;
         while (true) {
             try {
                 System.out.println("Choose the target: ");
                 value = Integer.parseInt(sc.next());
-                if (controller.checkInput(value))
+                if (!mafiaController.validInput(value))
+                    System.out.println("Invalid input. \nPlease Try Again.");
+                else if (controller.checkInput(value))
                     break;
                 else
                     System.out.println("Mafia can't be chosen Target");
@@ -96,13 +98,15 @@ class Mafia extends Player {
 
 class Healer extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller) {
+    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
         int value;
         while (true) {
             try {
                 System.out.println("Choose a player to heal : ");
                 value = Integer.parseInt(sc.next());
-                if (controller.checkInput(value))
+                if (!mafiaController.validInput(value))
+                    System.out.println("Invalid input. \nPlease Try Again.");
+                else if (controller.checkInput(value))
                     break;
                 else
                     System.out.println(" ");
@@ -123,7 +127,7 @@ class Healer extends Player {
 
 class Commoner extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller) {
+    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
         return 0;
     }
 
@@ -137,13 +141,15 @@ class Commoner extends Player {
 
 class Detective extends Player {
     @Override
-    public int fetchInput(Controller<? extends Player> controller) {
+    public int fetchInput(Controller<? extends Player> controller, Controller<Mafia> mafiaController) {
         int value;
         while (true) {
             try {
                 System.out.println("Choose a player to test: ");
                 value = Integer.parseInt(sc.next());
-                if (controller.checkInput(value))
+                if (!mafiaController.validInput(value))
+                    System.out.println("Invalid input. \nPlease Try Again.");
+                else if (controller.checkInput(value))
                     break;
                 else
                     System.out.println("You cannot test a detective.");

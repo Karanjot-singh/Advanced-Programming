@@ -4,7 +4,8 @@ import java.util.*;
 
 public class Game implements SafeInput {
     public final static Scanner sc = new Scanner(System.in);
-    protected final static HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    private final static ArrayList<Integer> eliminatedPlayers = new ArrayList<>();
+    private final static HashMap<Integer, Player> players = new HashMap<Integer, Player>();
     private static int numberPlayers;
     private static int maxMafias;
     private static int maxDetectives;
@@ -27,13 +28,13 @@ public class Game implements SafeInput {
         Player user = players.get(1);
         int inputValue;
         if (choice == 1)
-            inputValue = user.fetchInput(mafiaController);
+            inputValue = user.fetchInput(mafiaController, mafiaController);
         else if (choice == 2)
-            inputValue = user.fetchInput(detectiveController);
+            inputValue = user.fetchInput(detectiveController, mafiaController);
         else if (choice == 3)
-            inputValue = user.fetchInput(healerController);
+            inputValue = user.fetchInput(healerController, mafiaController);
         else
-            inputValue = user.fetchInput(commonerController);
+            inputValue = user.fetchInput(commonerController, mafiaController);
         return inputValue;
     }
 
@@ -81,7 +82,7 @@ public class Game implements SafeInput {
                     check = false;
 //                System.out.println("Test mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                int eliminated =eliminatePlayer(target, healerChoice);
+                eliminatePlayer(target, healerChoice);
                 votingProcess(detectiveChoice, check);
 
             } else if (choice == 1) {
@@ -96,8 +97,8 @@ public class Game implements SafeInput {
                 heal(healerChoice, maxHealers);
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                int eliminated =eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminated);
+                eliminatePlayer(target, healerChoice);
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
                 votingProcess(detectiveChoice, check);
             } else if (choice == 2) {
                 mafiaChoice = mafiaController.getRandom("");
@@ -109,8 +110,8 @@ public class Game implements SafeInput {
                 heal(healerChoice, maxHealers);
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                int eliminated =eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminated);
+                eliminatePlayer(target, healerChoice);
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
                 votingProcess(detectiveChoice, check);
             } else if (choice == 3) {
                 mafiaChoice = mafiaController.getRandom("");
@@ -124,8 +125,8 @@ public class Game implements SafeInput {
                 heal(healerChoice, maxHealers);
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                int eliminated =eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminated);
+                eliminatePlayer(target, healerChoice);
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
                 votingProcess(detectiveChoice, check);
             }
             System.out.println("--End of Round " + count + "--");
@@ -248,6 +249,7 @@ public class Game implements SafeInput {
     }
 
     public static void removeValues(int target) {
+        eliminatedPlayers.add(target);
         int type = players.get(target).getPlayerType();
         Controller<? extends Player> newControl = returnController(type);
         newControl.removeFromList(target);

@@ -1,7 +1,6 @@
 package assignment3;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public interface SafeInput {
@@ -45,17 +44,25 @@ public interface SafeInput {
         return input;
     }
 
-    public static int safeInputElement(String message,int eliminated) {
-        int input;
+    public static int safeInputElement(String message, ArrayList<Integer> eliminatedPlayers, Controller<Mafia> mafiaController) {
+        int input, error = 0;
         while (true) {
             try {
+                error = 0;
                 System.out.println(message);
                 String input1 = sc.next();
                 input = Integer.parseInt(input1);
-                if (input== eliminated) {
+                for (int eliminated :
+                        eliminatedPlayers
+                ) {
+                    if (input == eliminated)
+                        error = 1;
+                }
+                if (error == 1)
                     System.out.println("Invalid input. Please Try Again.");
-                    continue;
-                } else
+                else if (!mafiaController.validInput(input))
+                    System.out.println("Invalid input. \nPlease Try Again.");
+                else
                     return input;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please Try Again.");
