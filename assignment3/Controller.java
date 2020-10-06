@@ -18,25 +18,25 @@ public class Controller<T extends Player> {
         selector = new Random();
     }
 
-    private void mafiaDamage(int targetHp,int count) {
+    private void mafiaDamage(int targetHp, int count) {
         int damage = targetHp / count;
 
         if (count > 1) {
             for (Map.Entry<Integer, T> m : players.entrySet()) {
                 Object p = m.getValue();
                 int hp = ((Player) p).getHp();
-                if (hp <damage){
-                    int temp = damage-hp;
+                if (hp < damage) {
+                    int temp = damage - hp;
                     ((Player) p).setHp(0);
                     count--;
-                    damage+= temp/count;
+                    damage += temp / count;
                 }
             }
             for (Map.Entry<Integer, T> m : players.entrySet()) {
                 Object p = m.getValue();
                 int hp = ((Player) p).getHp();
-                if(hp>0)
-                    ((Player) p).setHp(hp-damage);
+                if (hp > 0)
+                    ((Player) p).setHp(hp - damage);
             }
         }
     }
@@ -60,10 +60,10 @@ public class Controller<T extends Player> {
                     mafiaDamage(target, count);
                     return -1;
                 }
+            } catch (NullPointerException e) {
             }
-            catch(NullPointerException e){}
 
-            }
+        }
         return -1;
     }
 
@@ -82,7 +82,7 @@ public class Controller<T extends Player> {
         ArrayList<Integer> temp = new ArrayList<>(players.keySet());
         for (int i : temp
         ) {
-            System.out.print("check input "+i+" ");
+            System.out.print("check input " + i + " ");
             if (i == value)
                 return false;
         }
@@ -95,15 +95,16 @@ public class Controller<T extends Player> {
         int rand = temp.get(selector.nextInt(players1.size()));
         return rand;
     }
-    public int getRandomVotes( HashMap<Integer, Player> players) {
-        HashMap<Integer, Player> players1= (HashMap<Integer, Player>) players.clone();
-        players1.put(0,null);
+
+    public int getRandomVotes(HashMap<Integer, Player> players) {
+        HashMap<Integer, Player> players1 = (HashMap<Integer, Player>) players.clone();
+        players1.put(0, null);
         ArrayList<Integer> temp = new ArrayList<>(players1.keySet());
         int rand = temp.get(selector.nextInt(players1.size()));
         return rand;
     }
 
-    public void addToList(int index ,Player p) {
+    public void addToList(int index, Player p) {
         try {
             players.put(index, (T) p);
             original.put(index, (T) p);
@@ -129,19 +130,20 @@ public class Controller<T extends Player> {
     public void displayPlayers() {
         for (Map.Entry<Integer, T> m : players.entrySet()) {
             Player p = m.getValue();
-            p.id= m.getKey();
+            p.id = m.getKey();
 //            System.out.print("Player"+p.id+" ");
             System.out.print(p.toString());
         }
         System.out.println();
     }
-    public void showResults(String message){
+
+    public void showResults(String message) {
         System.out.print(message);
         for (Map.Entry<Integer, T> m : original.entrySet()) {
             Player p = m.getValue();
-            p.id= m.getKey();
+            p.id = m.getKey();
 //            System.out.print("Player"+p.id+" ");
-            System.out.print(" "+p.toString());
+            System.out.print(" " + p.toString());
         }
         System.out.println();
 

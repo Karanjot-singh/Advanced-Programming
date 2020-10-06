@@ -30,14 +30,14 @@ public class Game {
     public static int getChoice(int choice) {
         Player user = players.get(1);
         int inputValue;
-        if(choice==1)
-        inputValue = user.fetchInput(mafiaController);
-        else if(choice ==2)
-        inputValue = user.fetchInput(detectiveController);
-        else if(choice ==3)
-        inputValue = user.fetchInput(healerController);
+        if (choice == 1)
+            inputValue = user.fetchInput(mafiaController);
+        else if (choice == 2)
+            inputValue = user.fetchInput(detectiveController);
+        else if (choice == 3)
+            inputValue = user.fetchInput(healerController);
         else
-        inputValue = user.fetchInput(commonerController);
+            inputValue = user.fetchInput(commonerController);
         return inputValue;
     }
 
@@ -64,7 +64,7 @@ public class Game {
                 break;
             }
             System.out.println("number of" + numberPlayers + " M" + maxMafias + " D" + maxDetectives + " H" + maxHealers + " C" + maxCommoners);
-            System.out.println("--Round " + ++count +"--");
+            System.out.println("--Round " + ++count + "--");
             System.out.print(numberPlayers + " Players remaining: ");
             displayAlive();
             System.out.println(" are Alive.");
@@ -79,48 +79,46 @@ public class Game {
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
-
-
-                System.out.println("mc "+mafiaChoice+" dc "+detectiveChoice+" hc "+healerChoice);
+                boolean check = checkMafia(detectiveChoice,choice);
+                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
-                votingProcess(detectiveChoice);
+                votingProcess(detectiveChoice, check);
 
             } else if (choice == 1) {
                 userChoice = getChoice(1);
-                mafiaChoice=userChoice;
+                mafiaChoice = userChoice;
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
+                boolean check = checkMafia(detectiveChoice,choice);
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
-
-                System.out.println("mc "+mafiaChoice+" dc "+detectiveChoice+" hc "+healerChoice);
+                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
                 //test if player is mafia
-                votingProcess(detectiveChoice);
+                votingProcess(detectiveChoice, check);
             } else if (choice == 2) {
-                userChoice = getChoice(2);
                 mafiaChoice = mafiaController.getRandom("");
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
+                userChoice = getChoice(2);
                 detectiveChoice = userChoice;
-                checkMafia(detectiveChoice);
+                boolean check = checkMafia(detectiveChoice,choice);
                 healerChoice = healerController.getRandomAll("Healers have chosen someone to heal.", players);
-
-                System.out.println("mc "+mafiaChoice+" dc "+detectiveChoice+" hc "+healerChoice);
+                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
-                votingProcess(detectiveChoice);
+                votingProcess(detectiveChoice, check);
             } else if (choice == 3) {
-                userChoice = getChoice(3);
                 mafiaChoice = mafiaController.getRandom("");
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
+                boolean check = checkMafia(detectiveChoice,choice);
+                userChoice = getChoice(3);
                 healerChoice = userChoice;
-
-                System.out.println("mc "+mafiaChoice+" dc "+detectiveChoice+" hc "+healerChoice);
+                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
-                votingProcess(detectiveChoice);
+                votingProcess(detectiveChoice, check);
             }
             System.out.println("--End of Round " + count + "--");
         }
@@ -189,16 +187,21 @@ public class Game {
         return choice;
     }
 
-    public static void checkMafia(int detectiveChoice) {
-        if (mafiaController.checkInput(detectiveChoice)) {
-            System.out.println("Player" + detectiveChoice + " is a Mafia.");
-        } else
-            System.out.println("Player" + detectiveChoice + " is not a Mafia.");
-
+    public static boolean checkMafia(int detectiveChoice, int choice) {
+        System.out.println("Check mafia " + detectiveChoice);
+        if (!mafiaController.checkInput(detectiveChoice)) {
+            if (choice == 2)
+                System.out.println("Player" + detectiveChoice + " is a Mafia.");
+            return true;
+        } else {
+            if (choice == 2)
+                System.out.println("Player" + detectiveChoice + " is not a Mafia.");
+            return false;
+        }
     }
 
-    public static void votingProcess(int detectiveChoice) {
-        if (!mafiaController.checkInput(detectiveChoice)) {
+    public static void votingProcess(int detectiveChoice, boolean mafiaCaught) {
+        if (mafiaCaught) {
             System.out.println("Player" + detectiveChoice + " has been voted out.");
             removeValues(detectiveChoice);
             checkUserAlive(detectiveChoice);
@@ -290,7 +293,7 @@ public class Game {
         }
         Collections.shuffle(allocateId);
         int index;
-        int ct=0;
+        int ct = 0;
         for (int i = 0; i < maxMafias; i++) {
             index = allocateId.get(ct);
             ct++;
