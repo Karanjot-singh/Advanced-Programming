@@ -23,20 +23,20 @@ public class Controller<T extends Player> {
 
         if (count > 1) {
             for (Map.Entry<Integer, T> m : players.entrySet()) {
-                Object p = m.getValue();
-                int hp = ((Player) p).getHp();
+                Player p = m.getValue();
+                int hp = p.getHp();
                 if (hp < damage) {
                     int temp = damage - hp;
-                    ((Player) p).setHp(0);
+                    p.setHp(0);
                     count--;
                     damage += temp / count;
                 }
             }
             for (Map.Entry<Integer, T> m : players.entrySet()) {
-                Object p = m.getValue();
-                int hp = ((Player) p).getHp();
+                Player p = m.getValue();
+                int hp = p.getHp();
                 if (hp > 0)
-                    ((Player) p).setHp(hp - damage);
+                    p.setHp(hp - damage);
             }
         }
     }
@@ -47,8 +47,8 @@ public class Controller<T extends Player> {
         System.out.println("Mafias have chosen their target.");
         int hpSum = 0;
         for (Map.Entry<Integer, T> m : players.entrySet()) {
-            Object p = m.getValue();
-            hpSum += ((Player) p).getHp();
+            Player p = m.getValue();
+            hpSum += p.getHp();
             try {
                 Player selected = others.get(target);
                 if (hpSum >= selected.getHp()) {
@@ -60,7 +60,7 @@ public class Controller<T extends Player> {
                     mafiaDamage(target, count);
                     return -1;
                 }
-            } catch (NullPointerException e) {
+            } catch (NullPointerException ignored) {
             }
 
         }
@@ -74,8 +74,7 @@ public class Controller<T extends Player> {
     public int getRandom(String message) {
         System.out.println(message);
         ArrayList<Integer> temp = new ArrayList<>(others.keySet());
-        int rand = temp.get(selector.nextInt(others.size()));
-        return rand;
+        return temp.get(selector.nextInt(others.size()));
     }
 
     public boolean checkInput(int value) {
@@ -92,8 +91,7 @@ public class Controller<T extends Player> {
     public int getRandomAll(String message, HashMap<Integer, Player> players1) {
         System.out.println(message);
         ArrayList<Integer> temp = new ArrayList<>(players1.keySet());
-        int rand = temp.get(selector.nextInt(players1.size()));
-        return rand;
+        return temp.get(selector.nextInt(players1.size()));
     }
 
     public int getRandomVotes(HashMap<Integer, Player> players) {
