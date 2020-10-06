@@ -26,7 +26,8 @@ abstract class Player {
 
     abstract public int fetchInput(Controller<? extends Player> controller);
 
-    public Player() {
+    public Player(int id) {
+        this.id=id;
         players = new HashMap<>();
         sc=new Scanner(System.in);
     }
@@ -48,6 +49,14 @@ abstract class Player {
 
     public int getHp() {
         return hp;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setHp(int hp) {
@@ -90,7 +99,8 @@ class Mafia extends Player {
         return value;
     }
 
-    public Mafia() {
+    public Mafia(int id) {
+        super(id);
         this.hp = 2500;
         this.playerType = 1;
     }
@@ -117,7 +127,8 @@ class Healer extends Player {
         return value;
     }
 
-    public Healer() {
+    public Healer(int id) {
+        super(id);
         this.hp = 800;
         this.playerType = 3;
     }
@@ -129,7 +140,8 @@ class Commoner extends Player {
         return 0;
     }
 
-    public Commoner() {
+    public Commoner(int id) {
+        super(id);
         this.hp = 1000;
         this.playerType = 4;
 
@@ -155,7 +167,8 @@ class Detective extends Player {
         return value;
     }
 
-    public Detective() {
+    public Detective(int id) {
+        super(id);
         this.hp = 800;
         this.playerType = 2;
 

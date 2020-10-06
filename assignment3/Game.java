@@ -141,7 +141,7 @@ public class Game {
     public static int chooseUser(int choice) {
         //tryp
         if (choice == 1) {
-            Player player1 = new Mafia();
+            Player player1 = new Mafia(1);
             player1.setUser(1);
             players.put(1, player1);
             mafiaController.addToList(1, player1);
@@ -151,7 +151,7 @@ public class Game {
             System.out.print("You are a Mafia." + "All Mafias are: ");
             mafiaController.displayPlayers();
         } else if (choice == 2) {
-            Player player1 = new Detective();
+            Player player1 = new Detective(1);
             player1.setUser(1);
             players.put(1, player1);
             detectiveController.addToList(1, player1);
@@ -161,7 +161,7 @@ public class Game {
             System.out.print("You are a Detective." + "All Detectives are :");
             detectiveController.displayPlayers();
         } else if (choice == 3) {
-            Player player1 = new Healer();
+            Player player1 = new Healer(1);
             player1.setUser(1);
             players.put(1, player1);
             healerController.addToList(1, player1);
@@ -171,7 +171,7 @@ public class Game {
             System.out.print("You are a Healer." + "All Healers are:");
             healerController.displayPlayers();
         } else if (choice == 4) {
-            Player player1 = new Commoner();
+            Player player1 = new Commoner(1);
             player1.setUser(1);
             players.put(1, player1);
             maxCommoners -= 1;
@@ -297,7 +297,7 @@ public class Game {
         for (int i = 0; i < maxMafias; i++) {
             index = allocateId.get(ct);
             ct++;
-            Player player = new Mafia();
+            Player player = new Mafia(index);
 //            System.out.println("index=" + index);
             players.put(index, player);
             mafiaController.addToList(index, player);
@@ -305,7 +305,7 @@ public class Game {
         for (int i = 0; i < maxDetectives; i++) {
             index = allocateId.get(ct);
             ct++;
-            Player player = new Detective();
+            Player player = new Detective(index);
 //            System.out.println("index=" + index);
             players.put(index, player);
             detectiveController.addToList(index, player);
@@ -313,7 +313,7 @@ public class Game {
         for (int i = 0; i < maxHealers; i++) {
             index = allocateId.get(ct);
             ct++;
-            Player player = new Healer();
+            Player player = new Healer(index);
 //            System.out.println("index=" + index);
             players.put(index, player);
             healerController.addToList(index, player);
@@ -321,7 +321,7 @@ public class Game {
         for (int i = 0; i < maxCommoners; i++) {
             index = allocateId.get(ct);
             ct++;
-            Player player = new Commoner();
+            Player player = new Commoner(index);
 //            System.out.println("index=" + index);
             players.put(index, player);
             commonerController.addToList(index, player);
