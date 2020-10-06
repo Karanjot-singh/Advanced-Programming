@@ -33,7 +33,7 @@ abstract class Player {
 
     @Override
     public String toString() {
-        return "Player"+ id+" " ;
+        return "Player"+ this.id+" " ;
     }
 
     @Override
@@ -142,12 +142,12 @@ class Detective extends Player {
         int value;
         while (true) {
             try {
-                System.out.println(input);
+                System.out.println("Choose a player to test: ");
                 value = Integer.parseInt(sc.next());
                 if (controller.checkInput(value))
                     break;
                 else
-                    System.out.println(exception);
+                    System.out.println("You cannot test a detective.");
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. \nPlease Try Again.");
             }

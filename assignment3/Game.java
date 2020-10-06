@@ -92,7 +92,7 @@ public class Game {
                 //test if player is mafia
                 votingProcess(detectiveChoice);
             } else if (choice == 2) {
-                userChoice = getChoice(1, "Choose a player to test: ", "You cannot test a detective.");
+                userChoice = getChoice(1, " ", " ");
                 mafiaChoice = mafiaController.getRandom("");
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = userChoice;

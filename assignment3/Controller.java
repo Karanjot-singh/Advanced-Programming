@@ -105,7 +105,7 @@ public class Controller<T extends Player> {
     public void addToList(int index ,Player p) {
         try {
             players.put(index, (T) p);
-            players.put(index, (T) p);
+            original.put(index, (T) p);
 
         } catch (NullPointerException e) {
             System.out.println("error");
@@ -129,14 +129,17 @@ public class Controller<T extends Player> {
         for (Map.Entry<Integer, T> m : players.entrySet()) {
             Player p = m.getValue();
             p.id= m.getKey();
+//            System.out.print("Player"+p.id+" ");
             System.out.print(p.toString());
         }
         System.out.println();
     }
     public void showResults(String message){
+        System.out.print(message);
         for (Map.Entry<Integer, T> m : original.entrySet()) {
             Player p = m.getValue();
-            System.out.print(message);
+            p.id= m.getKey();
+//            System.out.print("Player"+p.id+" ");
             System.out.print(" "+p.toString());
         }
         System.out.println();
