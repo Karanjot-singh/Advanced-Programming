@@ -4,25 +4,21 @@ import java.util.*;
 
 public class Game implements SafeInput {
     public final static Scanner sc = new Scanner(System.in);
-    protected static HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    protected final static HashMap<Integer, Player> players = new HashMap<Integer, Player>();
     private static int numberPlayers;
     private static int maxMafias;
     private static int maxDetectives;
     private static int maxHealers;
     private static int maxCommoners;
     private static int flag;
-    private static Controller<Mafia> mafiaController;
-    private static Controller<Detective> detectiveController;
-    private static Controller<Healer> healerController;
-    private static Controller<Commoner> commonerController;
+    private final static Controller<Mafia> mafiaController = new Controller<Mafia>();
+    private final static Controller<Detective> detectiveController = new Controller<Detective>();
+    private final static Controller<Healer> healerController = new Controller<Healer>();
+    private final static Controller<Commoner> commonerController = new Controller<Commoner>();
 
     Game() {
-        mafiaController = new Controller<Mafia>();
-        detectiveController = new Controller<Detective>();
-        healerController = new Controller<Healer>();
-        commonerController = new Controller<Commoner>();
         flag = 1;
-        int choice = displaymenu();
+        int choice = displayMenu();
         choice = chooseUser(choice); //calls addPlayers
         gameRound(choice);
     }
@@ -85,7 +81,7 @@ public class Game implements SafeInput {
                     check = false;
 //                System.out.println("Test mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                eliminatePlayer(target, healerChoice);
+                int eliminated =eliminatePlayer(target, healerChoice);
                 votingProcess(detectiveChoice, check);
 
             } else if (choice == 1) {
@@ -100,8 +96,8 @@ public class Game implements SafeInput {
                 heal(healerChoice, maxHealers);
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", players.keySet());
+                int eliminated =eliminatePlayer(target, healerChoice);
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminated);
                 votingProcess(detectiveChoice, check);
             } else if (choice == 2) {
                 mafiaChoice = mafiaController.getRandom("");
@@ -113,8 +109,8 @@ public class Game implements SafeInput {
                 heal(healerChoice, maxHealers);
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", players.keySet());
-                eliminatePlayer(target, healerChoice);
+                int eliminated =eliminatePlayer(target, healerChoice);
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminated);
                 votingProcess(detectiveChoice, check);
             } else if (choice == 3) {
                 mafiaChoice = mafiaController.getRandom("");
@@ -128,15 +124,15 @@ public class Game implements SafeInput {
                 heal(healerChoice, maxHealers);
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
-                eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", players.keySet());
+                int eliminated =eliminatePlayer(target, healerChoice);
+                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminated);
                 votingProcess(detectiveChoice, check);
             }
             System.out.println("--End of Round " + count + "--");
         }
     }
 
-    public static int displaymenu() {
+    public static int displayMenu() {
         System.out.println("Welcome to Mafia");
         int numberPlayers = SafeInput.safeInputMin("Enter Number of players:", 6);
         countPlayers(numberPlayers);
@@ -151,7 +147,6 @@ public class Game implements SafeInput {
     }
 
     public static int chooseUser(int choice) {
-        //tryp
         if (choice == 1) {
             Player player1 = new Mafia(1);
             player1.setUser(1);
@@ -238,15 +233,17 @@ public class Game implements SafeInput {
         }
     }
 
-    public static void eliminatePlayer(int target, int healerChoice) {
+    public static int eliminatePlayer(int target, int healerChoice) {
         //Target returns -1 if player hp > combined mafia hp
         if (target == -1 || players.get(target) == (players.get(healerChoice))) {
             System.out.println("No one died.");
+            return Integer.MAX_VALUE;
 
         } else {
             System.out.println("Player" + target + " has died.");
             removeValues(target);
             checkUserAlive(target);
+            return target;
         }
     }
 

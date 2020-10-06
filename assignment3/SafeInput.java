@@ -1,8 +1,8 @@
 package assignment3;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 public interface SafeInput {
     public static Scanner sc = new Scanner(System.in);
@@ -45,26 +45,18 @@ public interface SafeInput {
         return input;
     }
 
-    public static int safeInputElement(String message, Set<Integer> temp1) {
+    public static int safeInputElement(String message,int eliminated) {
         int input;
-        ArrayList<Integer> temp = new ArrayList<>(temp1);
         while (true) {
             try {
                 System.out.println(message);
                 String input1 = sc.next();
-                int flag = 0;
                 input = Integer.parseInt(input1);
-                for (int i : temp)
-                    if (i == input) {
-                        return input;
-                    } else {
-                        flag = 1;
-                        break;
-                    }
-                if (flag == 1) {
+                if (input== eliminated) {
                     System.out.println("Invalid input. Please Try Again.");
                     continue;
-                }
+                } else
+                    return input;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please Try Again.");
             }

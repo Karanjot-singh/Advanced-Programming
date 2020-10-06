@@ -15,14 +15,13 @@ abstract class Player implements Comparable<Player> {
     protected int playerType;
     protected int user;
     protected final int id;
-    public static Scanner sc;
+    public final static Scanner sc=new Scanner(System.in);
 
     abstract public int fetchInput(Controller<? extends Player> controller);
 
     public Player(int id) {
         this.id = id;
         players = new HashMap<>();
-        sc = new Scanner(System.in);
     }
 
     @Override
