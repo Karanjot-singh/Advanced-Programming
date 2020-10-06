@@ -27,10 +27,17 @@ public class Game {
         gameRound(choice);
     }
 
-    public static int getChoice(int choice, String input, String exception) {
-        Controller<? extends Player> newControl = returnController(choice);
+    public static int getChoice(int choice) {
         Player user = players.get(1);
-        int inputValue = user.fetchInput(newControl, input, exception);
+        int inputValue;
+        if(choice==1)
+        inputValue = user.fetchInput(mafiaController);
+        else if(choice ==2)
+        inputValue = user.fetchInput(detectiveController);
+        else if(choice ==3)
+        inputValue = user.fetchInput(healerController);
+        else
+        inputValue = user.fetchInput(commonerController);
         return inputValue;
     }
 
@@ -80,7 +87,7 @@ public class Game {
                 votingProcess(detectiveChoice);
 
             } else if (choice == 1) {
-                userChoice = getChoice(1, "Choose the target: ", "Mafia can't be chosen Target");
+                userChoice = getChoice(1);
                 mafiaChoice=userChoice;
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
@@ -92,7 +99,7 @@ public class Game {
                 //test if player is mafia
                 votingProcess(detectiveChoice);
             } else if (choice == 2) {
-                userChoice = getChoice(1, " ", " ");
+                userChoice = getChoice(2);
                 mafiaChoice = mafiaController.getRandom("");
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = userChoice;
@@ -104,7 +111,7 @@ public class Game {
                 eliminatePlayer(target, healerChoice);
                 votingProcess(detectiveChoice);
             } else if (choice == 3) {
-                userChoice = getChoice(1, "Choose a player to heal: ", "");
+                userChoice = getChoice(3);
                 mafiaChoice = mafiaController.getRandom("");
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");

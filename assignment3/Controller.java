@@ -82,6 +82,7 @@ public class Controller<T extends Player> {
         ArrayList<Integer> temp = new ArrayList<>(players.keySet());
         for (int i : temp
         ) {
+            System.out.print("check input "+i+" ");
             if (i == value)
                 return false;
         }
