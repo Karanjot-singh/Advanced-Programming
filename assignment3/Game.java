@@ -98,7 +98,9 @@ public class Game implements SafeInput {
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
+                if (isAlive())
+                    SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
+
                 votingProcess(detectiveChoice, check);
             } else if (choice == 2) {
                 mafiaChoice = mafiaController.getRandom("");
@@ -111,7 +113,9 @@ public class Game implements SafeInput {
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
+                if (isAlive())
+                    SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
+
                 votingProcess(detectiveChoice, check);
             } else if (choice == 3) {
                 mafiaChoice = mafiaController.getRandom("");
@@ -126,7 +130,9 @@ public class Game implements SafeInput {
 //                System.out.println("mc " + mafiaChoice + " dc " + detectiveChoice + " hc " + healerChoice);
                 System.out.println("--End of actions--");
                 eliminatePlayer(target, healerChoice);
-                int voteUser = SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
+                if (isAlive())
+                    SafeInput.safeInputElement("Select a person to vote out: ", eliminatedPlayers, mafiaController);
+
                 votingProcess(detectiveChoice, check);
             }
             System.out.println("--End of Round " + count + "--");
@@ -344,6 +350,16 @@ public class Game implements SafeInput {
         if (removed == 1) {
             flag = 0;
         }
+    }
+
+    public static boolean isAlive() {
+        ArrayList<Integer> temp = new ArrayList<>(players.keySet());
+        for (int i : temp
+        ) {
+            if (i == 1)
+                return true;
+        }
+        return false;
     }
 
 }

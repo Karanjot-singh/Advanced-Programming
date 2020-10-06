@@ -44,7 +44,7 @@ public interface SafeInput {
         return input;
     }
 
-    public static int safeInputElement(String message, ArrayList<Integer> eliminatedPlayers, Controller<Mafia> mafiaController) {
+    public static void safeInputElement(String message, ArrayList<Integer> eliminatedPlayers, Controller<Mafia> mafiaController) {
         int input, error = 0;
         while (true) {
             try {
@@ -63,7 +63,7 @@ public interface SafeInput {
                 else if (!mafiaController.validInput(input))
                     System.out.println("Invalid input. \nPlease Try Again.");
                 else
-                    return input;
+                    break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please Try Again.");
             }
