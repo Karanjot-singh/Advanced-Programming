@@ -7,21 +7,6 @@ import java.util.Set;
 public interface SafeInput {
     public static Scanner sc = new Scanner(System.in);
 
-    public static int safeInput(String message) {
-        int input;
-        while (true) {
-            try {
-                System.out.println(message);
-                String temp = sc.next();
-                input = Integer.parseInt(temp);
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please Try Again.");
-            }
-        }
-        return input;
-    }
-
     public static int safeInputMin(String message, int min) {
         int input;
         while (true) {
@@ -84,5 +69,20 @@ public interface SafeInput {
                 System.out.println("Invalid input. Please Try Again.");
             }
         }
+    }
+
+    public static int safeInput(String message) {
+        int input;
+        while (true) {
+            try {
+                System.out.println(message);
+                String temp = sc.next();
+                input = Integer.parseInt(temp);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please Try Again.");
+            }
+        }
+        return input;
     }
 }

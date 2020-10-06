@@ -10,10 +10,11 @@ public class Assignment3 {
 }
 
 abstract class Player implements Comparable<Player> {
-    protected HashMap<Integer, Player> players;
-    protected int hp, playerType;
+    protected final HashMap<Integer, Player> players;
+    protected int hp;
+    protected int playerType;
     protected int user;
-    protected int id;
+    protected final int id;
     public static Scanner sc;
 
     abstract public int fetchInput(Controller<? extends Player> controller);

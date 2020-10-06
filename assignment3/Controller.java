@@ -6,16 +6,15 @@ import java.util.Map;
 import java.util.Random;
 
 public class Controller<T extends Player> {
-    private HashMap<Integer, T> players;
-    private HashMap<Integer, T> others;
-    private HashMap<Integer, T> original;
-    public static Random selector;
+    private final HashMap<Integer, T> players;
+    private final HashMap<Integer, T> others;
+    private final HashMap<Integer, T> original;
+    public final static Random selector = new Random();
 
     public Controller() {
         players = new HashMap<>();
         others = new HashMap<>();
         original = new HashMap<>();
-        selector = new Random();
     }
 
     private void mafiaDamage(int targetHp, int count) {

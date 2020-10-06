@@ -3,7 +3,7 @@ package assignment3;
 import java.util.*;
 
 public class Game implements SafeInput {
-    public static Scanner sc = new Scanner(System.in);
+    public final static Scanner sc = new Scanner(System.in);
     protected static HashMap<Integer, Player> players = new HashMap<Integer, Player>();
     private static int numberPlayers;
     private static int maxMafias;
