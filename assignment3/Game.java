@@ -33,8 +33,9 @@ public class Game {
         int inputValue = user.fetchInput(newControl, input, exception);
         return inputValue;
     }
-    public static void results(int status){
-        if(status==1)
+
+    public static void results(int status) {
+        if (status == 1)
             System.out.println("Game Over.\nThe Mafias have won.");
         else
             System.out.println("Game Over.\nThe Mafias have lost.");
@@ -43,9 +44,10 @@ public class Game {
         healerController.showResults("The Healers were: ");
         commonerController.showResults("The Commoners were: ");
     }
+
     public static void gameRound(int choice) {
         int count = 0;
-        boolean game =true;
+        boolean game = true;
         while (game) {
             System.out.println("number of" + numberPlayers + " M" + maxMafias + " D" + maxDetectives + " H" + maxHealers + " C" + maxCommoners);
 
@@ -58,17 +60,15 @@ public class Game {
             healerController.othersList(players);
             commonerController.othersList(players);
             int mafiaChoice, detectiveChoice, userChoice, healerChoice;
-            if(maxMafias >= maxCommoners + maxHealers + maxDetectives)
-            {
+            if (maxMafias >= maxCommoners + maxHealers + maxDetectives) {
                 results(1);
-                game=false;
-            }
-            else if(maxMafias<=0){
+                game = false;
+            } else if (maxMafias <= 0) {
                 results(0);
-                game=false;
+                game = false;
             }
             // User condition
-            if (flag == 0){
+            if (flag == 0) {
                 mafiaChoice = mafiaController.getRandom("");
                 int target = mafiaController.killTarget(mafiaChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
@@ -78,8 +78,7 @@ public class Game {
                 eliminatePlayer(target, healerChoice);
                 votingProcess(detectiveChoice);
 
-            }
-            else if (choice == 1) {
+            } else if (choice == 1) {
                 userChoice = getChoice(1, "Choose the target: ", "Mafia can't be chosen Target");
                 int target = mafiaController.killTarget(userChoice, maxMafias);
                 detectiveChoice = detectiveController.getRandom("Detectives have chosen a player to test.");
@@ -272,35 +271,46 @@ public class Game {
     }
 
     public static void addPlayers() {
-        int count = 2;
+        ArrayList<Integer> allocateId = new ArrayList<>();
+        Random selector = new Random();
+        for (int i = 2; i <= numberPlayers; i++) {
+            allocateId.add(i);
+        }
+        Collections.shuffle(allocateId);
+        int index;
+        int ct=0;
         for (int i = 0; i < maxMafias; i++) {
+            index = allocateId.get(ct);
+            ct++;
             Player player = new Mafia();
-            players.put(count, player);
-            mafiaController.addToList(count, player);
-            count++;
+            System.out.println("index=" + index);
+            players.put(index, player);
+            mafiaController.addToList(index, player);
         }
         for (int i = 0; i < maxDetectives; i++) {
+            index = allocateId.get(ct);
+            ct++;
             Player player = new Detective();
-            players.put(count, player);
-            detectiveController.addToList(count, player);
-            count++;
+            System.out.println("index=" + index);
+            players.put(index, player);
+            detectiveController.addToList(index, player);
         }
         for (int i = 0; i < maxHealers; i++) {
+            index = allocateId.get(ct);
+            ct++;
             Player player = new Healer();
-            players.put(count, player);
-            healerController.addToList(count, player);
-            count++;
-
-//            System.out.println("h");
-
+            System.out.println("index=" + index);
+            players.put(index, player);
+            healerController.addToList(index, player);
         }
         for (int i = 0; i < maxCommoners; i++) {
+            index = allocateId.get(ct);
+            ct++;
             Player player = new Commoner();
-            players.put(count, player);
-            commonerController.addToList(count, player);
-            count++;
+            System.out.println("index=" + index);
+            players.put(index, player);
+            commonerController.addToList(index, player);
         }
-
     }
 
     public static int safeInput(String message) {

@@ -102,11 +102,10 @@ public class Controller<T extends Player> {
         return rand;
     }
 
-    public void addToList(int count ,Player p) {
+    public void addToList(int index ,Player p) {
         try {
-            players.put(count, (T) p);
-            players.put(count, (T) p);
-
+            players.put(index, (T) p);
+            players.put(index, (T) p);
 
         } catch (NullPointerException e) {
             System.out.println("error");
