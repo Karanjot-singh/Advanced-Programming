@@ -144,16 +144,16 @@ public class Controller<T extends Player> {
             System.out.print(" " + p.toString());
         }
         System.out.println();
-
     }
 
     public void specialVote() {
         for (Map.Entry<Integer, T> m : players.entrySet()) {
-            Player p = m.getValue();
-            players.get(1).compareTo(p);
-            getRandomVotes((HashMap<Integer, Player>) players);
+            if (m.getValue() instanceof Player) {
+                Player p = m.getValue();
+                players.get(1).compareTo(p);
+                getRandomVotes((HashMap<Integer, Player>) players);
+            }
         }
-
     }
 
 }

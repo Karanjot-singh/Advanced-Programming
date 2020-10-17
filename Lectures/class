@@ -1,0 +1,42 @@
+course > instructor and >ta s >students
+
+class Course{
+	
+	static int numberOfClasses;
+	static int numberOfLabs;
+
+	int learning;
+	int attendance;
+	int labs;
+
+	Course(){
+	Professor p = new Professor();
+	TA one = new TA();
+
+
+	}
+
+
+}
+
+Class TA{
+	
+}
+
+Class Professor{
+	Professor(){
+	
+	}
+	
+}
+
+class Student{
+
+	Student(){
+	Course c = new Course()
+
+
+	}
+
+
+}
