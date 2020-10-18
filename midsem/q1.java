@@ -12,10 +12,15 @@ class Tournament {
 
 class Game {
     private int ho;
+    public void hello(){}
+
 
 }
 
-class Player {
+class Player extends Game {
+    @Override
+    public void hello(){}
+
     private int ranking;
     private float prize;
 
