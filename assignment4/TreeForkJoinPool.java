@@ -2,9 +2,9 @@ package assignment4;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.*;
 
-
+// Only tasks are created, Tje thread manager maps the task to threads on a greedy approach
 public class TreeForkJoinPool extends RecursiveAction {
 
 	private final TreeNode root;
@@ -31,6 +31,9 @@ public class TreeForkJoinPool extends RecursiveAction {
 		if (this.root == null) {
 			return;
 		}
+//		if(this.searchItemIsFound()) {
+//			pool.shutdownNow();
+//		}
 		this.isNodeToCheck();
 		for (TreeNode child : root.getChildren()) {
 			TreeForkJoinPool pool = new TreeForkJoinPool(child, height + 1, nodesToCheck);

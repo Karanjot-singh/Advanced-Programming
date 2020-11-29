@@ -3,11 +3,13 @@ package assignment4;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ForkJoinPool;
 
 public class Main {
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
+		System.out.println("Enter the number of nodes in the tree: ");
 		Tree tree = new Tree(s.nextInt());
 		long startTime = System.nanoTime();
 		tree.generateTree();
@@ -34,7 +36,14 @@ public class Main {
 				System.out.println("ForkJoinPool");
 				ForkJoinPool pool = new ForkJoinPool(numThreads);
 				TreeForkJoinPool task = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
-				pool.invoke(task);
+				//speculative parallelism thread shutdown
+				try {
+					pool.invoke(task);
+				}
+				catch (CancellationException e){
+					//All threads have found the values abort
+
+				}
 				task.printResult();
 				break;
 			default:

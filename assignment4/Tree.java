@@ -73,7 +73,7 @@ public class Tree {
 
 
 
-	//Old generate function
+// Old generate function
 //	public void generateTree(TreeNode node, int height) {
 //		if (node == null || (numberOfNodes <= 0 && node.getNumberOfChildren() == 0)) {
 //			return;
