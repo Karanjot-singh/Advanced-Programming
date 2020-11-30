@@ -7,6 +7,11 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ForkJoinPool;
 
 public class Main {
+	private static ForkJoinPool pool;
+	public static void shutdownPool(){
+		pool.shutdownNow();
+
+	}
 	public static void main(String[] args) throws InterruptedException {
 		Scanner s = new Scanner(System.in);
 		System.out.println("Enter the number of nodes in the tree: ");
@@ -35,7 +40,7 @@ public class Main {
 				break;
 			case 2:
 				System.out.println("ForkJoinPool");
-				ForkJoinPool pool = new ForkJoinPool(numThreads);
+				pool = new ForkJoinPool(numThreads);
 				//root task created
 				TreeForkJoinPool task = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
 				//speculative parallelism thread shutdown

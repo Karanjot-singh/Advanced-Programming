@@ -7,7 +7,15 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 // Only tasks are created, The thread manager maps the task to threads on a greedy approach
+/*
+synchronise()
+checknodes() update height
+common flag to stop thread
+shutdownNow()
+
+*/
 public class TreeForkJoinPool extends RecursiveAction {
+    private volatile static int NodesFound=0;
     private static int threshold = 10;
     private final TreeNode root;
     private final Integer height;
@@ -18,16 +26,26 @@ public class TreeForkJoinPool extends RecursiveAction {
         this.height = height;
         this.nodesToCheck = nodesToCheck;
     }
+    public synchronized static void incrementCount(){
+        NodesFound++;
+    }
 
     public void isNodeToCheck() {
         for (Map.Entry<Integer, Integer> entry : this.nodesToCheck.entrySet()) {
             if (entry.getKey().equals(root.getData())) {
                 entry.setValue(this.height);
+                incrementCount();
                 return;
             }
         }
     }
-    private void sequentialTraversal(){
+    private void AllNodesFound(){
+        if(this.NodesFound== nodesToCheck.size()) {
+            Main.shutdownPool();
+        }
+    }
+
+    private void sequentialTraversal() {
 
     }
 
@@ -37,31 +55,36 @@ public class TreeForkJoinPool extends RecursiveAction {
             return;
         }
         //modify
-        if(this.height<threshold){
+        if (this.height < threshold) {
             sequentialTraversal();
         }
-//		if(this.searchItemIsFound()) {
-//			pool.shutdownNow();
-//		}
+        AllNodesFound();
         this.isNodeToCheck();
-        for (TreeNode child : root.getChildren()) {
-            TreeForkJoinPool pool = new TreeForkJoinPool(child, height + 1, nodesToCheck);
-            pool.fork();
-        }
+//        for (TreeNode child : root.getChildren()) {
+//            TreeForkJoinPool pool = new TreeForkJoinPool(child, height + 1, nodesToCheck);
+//            pool.fork();
+//        }
         //no context switch
-        int numberOfChildren = root.getChildren().size();
-//		List<TreeForkJoinPool> subtasks = new ArrayList<TreeForkJoinPool>(numberOfChildren);
-        TreeForkJoinPool subtask = null;
-        for (int i = 0; i < numberOfChildren; i++) {
-            TreeNode childNode = root.getChildren().get(i);
-            subtask = new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
-            if (i != numberOfChildren - 1)
-                subtask.fork();
-        }
-        //last task for the current thread
-        subtask.compute();
+        if (root.getChildren() != null && !root.getChildren().isEmpty()) {
+            int numberOfChildren = root.getChildren().size();
+            List<TreeForkJoinPool> subtasks = new ArrayList<TreeForkJoinPool>(numberOfChildren);
+            TreeForkJoinPool subtask = null;
+            for (int i = 0; i < numberOfChildren; i++) {
+                TreeNode childNode = root.getChildren().get(i);
+                subtask = new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
+                if (i != numberOfChildren - 1) {
+                    subtasks.add(subtask);
+                    subtask.fork();
+                }
+            }
+            //last task for the current thread
+            subtask.compute();
 //		invokeAll(subtasks);
-        subtask.helpQuiesce();//correct or not?
+            for (ForkJoinTask otherTasks : subtasks) {
+                otherTasks.join();
+            }
+//        subtask.helpQuiesce();
+        }
     }
 
     public void printResult() {
