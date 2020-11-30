@@ -7,7 +7,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ForkJoinPool;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Scanner s = new Scanner(System.in);
 		System.out.println("Enter the number of nodes in the tree: ");
 		Tree tree = new Tree(s.nextInt());
@@ -21,6 +21,7 @@ public class Main {
 		int numOfNodes = s.nextInt();
 		HashMap<Integer, Integer> nodesToCheck = new HashMap<>(numOfNodes);
 		for(int i = 0; i < numOfNodes; i++){
+			//hashmap of node number and height
 			nodesToCheck.put(s.nextInt(), -1);
 		}
 		System.out.println("Input the technique to check the program:\n1) Explicit Multithreading\n2) ForkJoinPool");
@@ -35,6 +36,7 @@ public class Main {
 			case 2:
 				System.out.println("ForkJoinPool");
 				ForkJoinPool pool = new ForkJoinPool(numThreads);
+				//root task created
 				TreeForkJoinPool task = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
 				//speculative parallelism thread shutdown
 				try {
