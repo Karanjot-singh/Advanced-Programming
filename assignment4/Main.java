@@ -105,8 +105,8 @@ public class Main {
                     speedup2 = timediffs / timediff;
                     pe = speedup / numThreads;
                     pe2 = speedup2 / numThreads;
-                    System.out.println("Speedup v/s T1: " + speedup + " ms" + "| Parallel Efficiency: " + pe + " ms");
-                    System.out.println("Speedup v/s recursive: " + speedup2 + " ms" + "| Parallel Efficiency: " + pe2 + " ms");
+//                    System.out.println("Speedup v/s T=1: " + speedup + " ms" + "| Parallel Efficiency: " + pe + " ms");
+                    System.out.println("Speedup v/s T1: " + speedup2 + " ms" + "| Parallel Efficiency: " + pe2 + " ms");
 
                     break;
                 default:
