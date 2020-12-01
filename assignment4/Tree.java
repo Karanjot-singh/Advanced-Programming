@@ -62,7 +62,7 @@ public class Tree {
 			if (i == numberOfChildren - 1) {
 				nodesOfChild = numberOfNodes;
 			} else {
-				nodesOfChild = getRandomNumber(numberOfNodes);
+				nodesOfChild = getRandomNumber(numberOfNodes); //all recursive subnodes of child
 				numberOfNodes -= nodesOfChild;
 			}
 			TreeNode child = new TreeNode();
