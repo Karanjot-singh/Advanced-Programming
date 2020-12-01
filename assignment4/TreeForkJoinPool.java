@@ -9,7 +9,6 @@ import java.util.concurrent.*;
 // Only tasks are created, The thread manager maps the task to threads on a greedy approach
 /*
 synchronise()
-Design pattern & efficiency
 */
 public class TreeForkJoinPool extends RecursiveAction {
     private volatile static int NodesFound = 0;
@@ -46,7 +45,17 @@ public class TreeForkJoinPool extends RecursiveAction {
     }
 
     private void sequentialTraversal() {
-
+        if (this.root == null) {
+            return;
+        }
+        this.isNodeToCheck();
+        if (root.getChildren() != null && !root.getChildren().isEmpty()) {
+            int numberOfChildren = root.getChildren().size();
+            for (int i = 0; i < numberOfChildren; i++) {
+                TreeNode childNode = root.getChildren().get(i);
+                new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
+            }
+        }
     }
 
     @Override
@@ -75,9 +84,7 @@ public class TreeForkJoinPool extends RecursiveAction {
             }
             //last task for the current thread
             subtask.compute();
-//		invokeAll(subtasks);
             for (ForkJoinTask otherTasks : subtasks) {
-//                otherTasks.join();
                 otherTasks.helpQuiesce();
             }
 

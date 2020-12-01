@@ -9,7 +9,6 @@ import java.util.concurrent.*;
 // Only tasks are created, The thread manager maps the task to threads on a greedy approach
 /*
 synchronise()
-Design pattern & efficiency
 */
 public class SequentialTree{
     private static int NodesFound = 0;
@@ -39,7 +38,6 @@ public class SequentialTree{
     }
     protected void compute() {
         if (this.root == null) {
-            System.out.println("df");
             return;
         }
         this.isNodeToCheck();
