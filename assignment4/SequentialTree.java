@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 synchronise()
 Design pattern & efficiency
 */
-public class SequentialTree {
+public class SequentialTree{
     private static int NodesFound = 0;
     private final TreeNode root;
     private final Integer height;
@@ -37,22 +37,19 @@ public class SequentialTree {
             }
         }
     }
-
-    private void sequentialTraversal() {
-
-    }
-
     protected void compute() {
         if (this.root == null) {
             System.out.println("df");
             return;
         }
         this.isNodeToCheck();
-        int numberOfChildren = root.getChildren().size();
-        for (int i = 0; i < numberOfChildren; i++) {
-            TreeNode childNode = root.getChildren().get(i);
-            System.out.println("w");
-            new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
+        if (root.getChildren() != null && !root.getChildren().isEmpty()) {
+            int numberOfChildren = root.getChildren().size();
+            for (int i = 0; i < numberOfChildren; i++) {
+                TreeNode childNode = root.getChildren().get(i);
+//                System.out.println("df");
+                new SequentialTree(childNode, height + 1, nodesToCheck);
+            }
         }
     }
 
