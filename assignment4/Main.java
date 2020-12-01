@@ -70,20 +70,9 @@ public class Main {
                     endTime = System.nanoTime();
                     timediff = (endTime - startTime) / 1000000.000;
                     System.out.println("Time taken by Explicit threads: " + timediff + " ms");
-
-                    //Single thread
-                    startTime = System.nanoTime();
-                    TreeExplicitMultithreading root2 = new TreeExplicitMultithreading(tree.getRoot(), 0, nodesToCheckExplicit, 1);
-//                root2.printResult();
-                    endTime = System.nanoTime();
-                    timediff2 = (endTime - startTime) / 1000000.000;
-
-                    speedup = timediff2 / timediff;
                     speedup2 = timediffs / timediff;
-                    pe = speedup / numThreads;
                     pe2 = speedup2 / numThreads;
-                    System.out.println("Speedup v/s T1: " + speedup + " ms" + "| Parallel Efficiency: " + pe + " ms");
-                    System.out.println("Speedup v/s recursive: " + speedup2 + " ms" + "| Parallel Efficiency: " + pe2 + " ms");
+                    System.out.println("Speedup v/s T1: " + speedup2 + " ms" + "| Parallel Efficiency: " + pe2 + " ms");
 
                     break;
                 case 2:

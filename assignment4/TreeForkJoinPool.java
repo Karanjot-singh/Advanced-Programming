@@ -9,7 +9,7 @@ import java.util.concurrent.*;
 
 public class TreeForkJoinPool extends RecursiveAction {
     private volatile static int NodesFound = 0;
-    private static int threshold = 10;
+    private static int threshold = 20;
     private final TreeNode root;
     private final Integer height;
     private final HashMap<Integer, Integer> nodesToCheck;
@@ -65,24 +65,22 @@ public class TreeForkJoinPool extends RecursiveAction {
         if (this.root == null) {
             return;
         }
-        //modify
-        if (this.height < threshold) {
+        if (this.height > threshold) {
             sequentialTraversal();
         }
         AllNodesFound();
         this.isNodeToCheck();
-        //no context switch
         if (root.getChildren() != null && !root.getChildren().isEmpty()) {
-            int numberOfChildren = root.getChildren().size();
-            List<TreeForkJoinPool> subtasks = new ArrayList<TreeForkJoinPool>(numberOfChildren);
-            TreeForkJoinPool subtask = null;
-            for (int i = 0; i < numberOfChildren; i++) {
-                TreeNode childNode = root.getChildren().get(i);
-                subtask = new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
-                if (i != numberOfChildren - 1) {
-                    subtasks.add(subtask);
-                    subtask.fork();
-                }
+                int numberOfChildren = root.getChildren().size();
+                List<TreeForkJoinPool> subtasks = new ArrayList<TreeForkJoinPool>(numberOfChildren);
+                TreeForkJoinPool subtask = null;
+                for (int i = 0; i < numberOfChildren; i++) {
+                    TreeNode childNode = root.getChildren().get(i);
+                    subtask = new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
+                    if (i != numberOfChildren - 1) {
+                        subtasks.add(subtask);
+                        subtask.fork();
+                    }
             }
             //last task for the current thread
             subtask.compute();

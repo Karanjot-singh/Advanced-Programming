@@ -47,7 +47,7 @@ public class TreeExplicitMultithreading implements java.lang.Runnable {
             int numberOfChildren = root.getChildren().size();
             List<Thread> threads = new ArrayList<Thread>(numberOfChildren);
             Iterator<TreeNode> itr = root.getChildren().iterator();
-            if(this.numberOfThreads==1){
+            if (this.numberOfThreads == 1) {
                 new SequentialTree(this.root, 0, nodesToCheck);
             }
             if (this.numberOfThreads >= numberOfChildren) {
@@ -60,10 +60,10 @@ public class TreeExplicitMultithreading implements java.lang.Runnable {
                 }
             } else {
                 int remaining = numberOfChildren % numberOfThreads;
-                int times =numberOfChildren / this.numberOfThreads;
-                for (int j = 1; j <= times ; j++) {
+                int times = numberOfChildren / this.numberOfThreads;
+                for (int j = 1; j <= times; j++) {
                     for (int i = 0; i < numberOfThreads; i++) {
-                        TreeNode childNode = root.getChildren().get(i*j);
+                        TreeNode childNode = root.getChildren().get(i * j);
                         TreeExplicitMultithreading child = new TreeExplicitMultithreading(childNode, j, nodesToCheck, this.numberOfThreads);
                         Thread thread = new Thread(child);
                         thread.start();
@@ -71,7 +71,7 @@ public class TreeExplicitMultithreading implements java.lang.Runnable {
                     }
                 }
                 for (int j = 0; j < remaining; j++) {
-                    TreeNode childNode = root.getChildren().get(times*numberOfThreads+j);
+                    TreeNode childNode = root.getChildren().get(times * numberOfThreads + j);
                     new TreeExplicitMultithreading(childNode, j, nodesToCheck, this.numberOfThreads);
                 }
             }
