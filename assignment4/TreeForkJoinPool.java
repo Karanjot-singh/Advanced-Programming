@@ -1,15 +1,12 @@
 package assignment4;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 // Only tasks are created, The thread manager maps the task to threads on a greedy approach
-/*
-synchronise()
-*/
+//Iterator design pattern
+
+
 public class TreeForkJoinPool extends RecursiveAction {
     private volatile static int NodesFound = 0;
     private static int threshold = 10;
@@ -50,11 +47,16 @@ public class TreeForkJoinPool extends RecursiveAction {
         }
         this.isNodeToCheck();
         if (root.getChildren() != null && !root.getChildren().isEmpty()) {
-            int numberOfChildren = root.getChildren().size();
-            for (int i = 0; i < numberOfChildren; i++) {
-                TreeNode childNode = root.getChildren().get(i);
+            //Iterator design Pattern
+            Iterator<TreeNode> itr = root.getChildren().iterator();
+            while(itr.hasNext()) {
+                TreeNode childNode = itr.next();
                 new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
             }
+//            for (int i = 0; i < numberOfChildren; i++) {
+//                TreeNode childNode = root.getChildren().get(i);
+//                new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
+//            }
         }
     }
 

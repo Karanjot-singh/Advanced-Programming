@@ -29,7 +29,7 @@ public class Main {
         tree.generateTree();
         long endTime = System.nanoTime();
         //divide by 1000000 to get milliseconds.
-        System.out.println("Time taken: " + (endTime - startTime)/1000000.000 +" ms");
+        System.out.println("Time taken: " + (endTime - startTime) / 1000000.000 + " ms");
         System.out.println("Height: " + tree.getHeight());
         System.out.print("Input number of nodes to check: ");
         int numOfNodes = s.nextInt();
@@ -42,78 +42,89 @@ public class Main {
             nodesToCheckExplicit.put(index, -1);
         }
         //Sequential Tree search
+        double speedup, speedup2, pe, pe2;
         long seqStartTime = System.nanoTime();
         SequentialTree seq = new SequentialTree(tree.getRoot(), 0, nodesToCheckExplicit);
-        seq.printResult();
+//        seq.printResult();
         long seqEndTime = System.nanoTime();
-        System.out.println("Time taken: " + (seqEndTime - seqStartTime)/1000000.000 +" ms");
+        double timediff, timediff2;
+        double timediffs = (endTime - startTime) / 1000000.000;
+        System.out.println("Sequential Time taken: " + timediffs + " ms");
 
-        System.out.println("Input the technique to check the program:\n1) Explicit Multithreading\n2) ForkJoinPool");
-        int technique = s.nextInt();
         System.out.print("Enter number of threads to be used: ");
         int numThreads = s.nextInt();
-        switch (technique) {
-            case 1:
+
+        int flag =0;
+        while (flag ==0) {
+            System.out.println("\nInput the technique to check the program:\n0) Exit\n1) Explicit Multithreading\n2) ForkJoinPool");
+            int technique = s.nextInt();
+            switch (technique) {
+                case 0:
+                    flag=1;
+                case 1:
 //				explicit multithreading
-                System.out.println("Explicit");
-                TreeExplicitMultithreading root = new TreeExplicitMultithreading(tree.getRoot(), 0, nodesToCheckExplicit);
-                List<Thread> threadList = new ArrayList<>();
+                    System.out.println("Explicit");
+                    startTime = System.nanoTime();
+                    TreeExplicitMultithreading root = new TreeExplicitMultithreading(tree.getRoot(), 0, nodesToCheckExplicit, numThreads);
+                    root.printResult();
+                    endTime = System.nanoTime();
+                    timediff = (endTime - startTime) / 1000000.000;
+                    System.out.println("Time taken by Explicit threads: " + timediff + " ms");
 
-                if (numOfNodes > numThreads) {
-                    for (int i =0 ; i< numThreads; i++){
-                        TreeExplicitMultithreading child = new TreeExplicitMultithreading(tree.getRoot(), 1, nodesToCheckExplicit);
-                        Thread thread = new Thread(child);
-                        thread.start();
-                        threadList.add(thread);
+                    //Single thread
+                    startTime = System.nanoTime();
+                    TreeExplicitMultithreading root2 = new TreeExplicitMultithreading(tree.getRoot(), 0, nodesToCheckExplicit, 1);
+//                root2.printResult();
+                    endTime = System.nanoTime();
+                    timediff2 = (endTime - startTime) / 1000000.000;
+
+                    speedup = timediff2 / timediff;
+                    speedup2 = timediffs / timediff;
+                    pe = speedup / numThreads;
+                    pe2 = speedup2 / numThreads;
+                    System.out.println("Speedup v/s T1: " + speedup + " ms" + "| Parallel Efficiency: " + pe + " ms");
+                    System.out.println("Speedup v/s recursive: " + speedup2 + " ms" + "| Parallel Efficiency: " + pe2 + " ms");
+
+                    break;
+                case 2:
+                    System.out.println("ForkJoinPool");
+                    startTime = System.nanoTime();
+                    pool = new ForkJoinPool(numThreads);
+                    //root task created
+                    TreeForkJoinPool task = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
+                    //speculative parallelism thread shutdown
+                    try {
+                        pool.invoke(task);
+                    } catch (CancellationException e) {
+                        //All threads have found the values abort
                     }
-                    int numberOfChildren = tree.getRoot().getChildren().size();
-                    for (int i = 0; i < numberOfChildren; i++) {
-                        for(int j =0; j<numOfNodes/numThreads+1;j++)
-                        {
+                    task.printResult();
+                    endTime = System.nanoTime();
+                    timediff = (endTime - startTime) / 1000000.000;
+                    System.out.println("Time taken by ForkJoinPool: " + timediff + " ms");
 
-                        }
-                        int remaining = numOfNodes%numberOfChildren;
-                        for(int j=0; j<remaining; j++){
+                    // Single thread
 
-                        }
-//                        for (int i = 0; i < numberOfChildren; i++) {
-//                            TreeNode childNode = root.getChildren().get(i);
-//                            subtask = new TreeForkJoinPool(childNode, height + 1, nodesToCheck);
-//                            if (i != numberOfChildren - 1) {
-//                                subtasks.add(subtask);
-//                                subtask.fork();
-//                            }
-//                        }
+                    startTime = System.nanoTime();
+                    pool = new ForkJoinPool(1);
+                    TreeForkJoinPool task2 = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
+                    try {
+                        pool.invoke(task2);
+                    } catch (CancellationException e) {
                     }
+                    endTime = System.nanoTime();
+                    timediff2 = (endTime - startTime) / 1000000.000;
+                    speedup = timediff2 / timediff;
+                    speedup2 = timediffs / timediff;
+                    pe = speedup / numThreads;
+                    pe2 = speedup2 / numThreads;
+                    System.out.println("Speedup v/s T1: " + speedup + " ms" + "| Parallel Efficiency: " + pe + " ms");
+                    System.out.println("Speedup v/s recursive: " + speedup2 + " ms" + "| Parallel Efficiency: " + pe2 + " ms");
 
-                } else {
-                    for (int i =0 ; i< numThreads; i++){
-                        TreeExplicitMultithreading child = new TreeExplicitMultithreading(tree.getRoot(), 1, nodesToCheckExplicit);
-                        Thread thread = new Thread(child);
-                        thread.start();
-                        threadList.add(thread);
-                    }
-                }
-                root.printResult();
-                break;
-            case 2:
-                System.out.println("ForkJoinPool");
-                startTime = System.nanoTime();
-                pool = new ForkJoinPool(numThreads);
-                //root task created
-                TreeForkJoinPool task = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
-                //speculative parallelism thread shutdown
-                try {
-                    pool.invoke(task);
-                } catch (CancellationException e) {
-                    //All threads have found the values abort
-                }
-                task.printResult();
-                endTime = System.nanoTime();
-                System.out.println("Time taken by ForkJoinPool: " + (endTime - startTime)/1000000.000 +" ms");
-                break;
-            default:
-                System.out.println("Wrong input");
+                    break;
+                default:
+                    System.out.println("Wrong input");
+            }
         }
     }
 }
