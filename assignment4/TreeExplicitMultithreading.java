@@ -16,7 +16,15 @@ public class TreeExplicitMultithreading implements java.lang.Runnable {
     }
 
     public synchronized static void incrementCount() {
-        NodesFound++;
+        setNodesFound(getNodesFound() + 1);
+    }
+
+    public static int getNodesFound() {
+        return NodesFound;
+    }
+
+    public static void setNodesFound(int nodesFound) {
+        NodesFound = nodesFound;
     }
 
     public void isNodeToCheck() {
@@ -31,7 +39,7 @@ public class TreeExplicitMultithreading implements java.lang.Runnable {
     }
 
     private void AllNodesFound() {
-        if (this.NodesFound == nodesToCheck.size()) {
+        if (this.getNodesFound() == nodesToCheck.size()) {
             Main.shutdownPool();
         }
     }

@@ -1,15 +1,8 @@
 package assignment4;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
 
-// Only tasks are created, The thread manager maps the task to threads on a greedy approach
-/*
-synchronise()
-*/
 public class SequentialTree{
     private static int NodesFound = 0;
     private final TreeNode root;

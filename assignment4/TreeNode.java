@@ -7,8 +7,8 @@ public class TreeNode {
 	private ArrayList<TreeNode> children;
 
 	public TreeNode() {
-		this.data = (int) (Math.random() * 1000000 + 1);
-		System.out.println(this.data);
+		this.setData((int) (Math.random() * 1000000 + 1));
+		System.out.println(this.getData());
 		this.children = new ArrayList<>();
 	}
 
@@ -16,20 +16,11 @@ public class TreeNode {
 		return data;
 	}
 
-	public void setData(Integer data) {
-		this.data = data;
-	}
-
 	public ArrayList<TreeNode> getChildren() {
 		return children;
 	}
 
-	public void setChildren(ArrayList<TreeNode> children) {
-		this.children = children;
+	public void setData(Integer data) {
+		this.data = data;
 	}
-
-	public void traverseForkJoinPool(){
-
-	}
-
 }

@@ -1,8 +1,6 @@
 package assignment4;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ForkJoinPool;
@@ -17,7 +15,7 @@ public class Main {
     private static ForkJoinPool pool;
 
     public static void shutdownPool() {
-        pool.shutdownNow();
+        getPool().shutdownNow();
 
     }
 
@@ -78,12 +76,12 @@ public class Main {
                 case 2:
                     System.out.println("ForkJoinPool");
                     startTime = System.nanoTime();
-                    pool = new ForkJoinPool(numThreads);
+                    setPool(new ForkJoinPool(numThreads));
                     //root task created
                     TreeForkJoinPool task = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
                     //speculative parallelism thread shutdown
                     try {
-                        pool.invoke(task);
+                        getPool().invoke(task);
                     } catch (CancellationException e) {
                         //All threads have found the values abort
                     }
@@ -95,10 +93,10 @@ public class Main {
                     // Single thread
 
                     startTime = System.nanoTime();
-                    pool = new ForkJoinPool(1);
+                    setPool(new ForkJoinPool(1));
                     TreeForkJoinPool task2 = new TreeForkJoinPool(tree.getRoot(), 0, nodesToCheck);
                     try {
-                        pool.invoke(task2);
+                        getPool().invoke(task2);
                     } catch (CancellationException e) {
                     }
                     endTime = System.nanoTime();
@@ -115,5 +113,13 @@ public class Main {
                     System.out.println("Wrong input");
             }
         }
+    }
+
+    public static ForkJoinPool getPool() {
+        return pool;
+    }
+
+    public static void setPool(ForkJoinPool pool) {
+        Main.pool = pool;
     }
 }

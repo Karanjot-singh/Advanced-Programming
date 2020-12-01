@@ -12,29 +12,18 @@ public class Tree {
 		this.height = 0;
 	}
 
-	public Integer getNumberOfNodes() {
-		return numberOfNodes;
-	}
-
-	public void setNumberOfNodes(Integer numberOfNodes) {
-		this.numberOfNodes = numberOfNodes;
+	public static Integer getMaxChildren() {
+		return MAX_CHILDREN;
 	}
 
 	public TreeNode getRoot() {
 		return root;
 	}
 
-	public void setRoot(TreeNode root) {
-		this.root = root;
-	}
-
 	public int getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
 
 	public int getRandomNumber(int maxNumber) {
 		if (maxNumber == 0) {
@@ -54,7 +43,7 @@ public class Tree {
 
 		this.height = Math.max(this.height, height);
 
-		int numberOfChildren = Math.min(getRandomNumber(MAX_CHILDREN), numberOfNodes);
+		int numberOfChildren = Math.min(getRandomNumber(getMaxChildren()), numberOfNodes);
 		numberOfNodes -= numberOfChildren;
 
 		for (int i = 0; i < numberOfChildren; i++) {
@@ -70,29 +59,4 @@ public class Tree {
 			generateTree(child, height + 1, nodesOfChild);
 		}
 	}
-
-
-
-// Old generate function
-//	public void generateTree(TreeNode node, int height) {
-//		if (node == null || (numberOfNodes <= 0 && node.getNumberOfChildren() == 0)) {
-//			return;
-//		}
-//
-//		height += 1;
-//		this.height = Math.max(this.height, height);
-//
-//		// distribute number of nodes per child node as well with
-//		int numChildren = node.getNumberOfChildren();
-//		for (int i = 0; i < numChildren; i++) {
-//			int numChildrenOfChild = Math.min(getRandomNumber(MAX_CHILDREN), numberOfNodes);
-//			numberOfNodes -= numChildrenOfChild;
-//			TreeNode currChild = new TreeNode(numChildrenOfChild);
-//			node.getChildren().add(currChild);
-//		}
-//
-//		for (TreeNode child : node.getChildren()) {
-//			generateTree(child, height + 1);
-//		}
-//	}
 }
