@@ -5,7 +5,7 @@ import java.util.*;
 public class TreeExplicitMultithreading implements java.lang.Runnable {
     private volatile static int NodesFound = 0;
     private final TreeNode root;
-    private final Integer height, numberOfThreads;
+    private final Integer height, numberOfThreads; Threads t1=new Threads();
     private final HashMap<Integer, Integer> nodesToCheck;
 
     public TreeExplicitMultithreading(TreeNode root, int height, HashMap<Integer, Integer> nodesToCheck, int numberOfThreads) {
@@ -65,6 +65,7 @@ public class TreeExplicitMultithreading implements java.lang.Runnable {
                     Thread t = new Thread(subthread);
                     threads.add(t);
                     t.start();
+                    t1.join();
                 }
             } else {
                 int remaining = numberOfChildren % numberOfThreads;
@@ -106,4 +107,9 @@ public class TreeExplicitMultithreading implements java.lang.Runnable {
         }
     }
 
+}
+class Threads{
+    void join(){
+
+    }
 }
